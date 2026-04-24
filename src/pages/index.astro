@@ -1,0 +1,32 @@
+---
+import '../styles/global.css'
+---
+
+<html lang="ta" data-lang="ta">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>அறிவியல் போட்டி — Ariviyal Poatti</title>
+    <script is:inline>
+      const saved = localStorage.getItem('lang') || 'ta'
+      document.documentElement.dataset.lang = saved
+      document.documentElement.lang = saved
+    </script>
+  </head>
+  <body>
+    <div class="container" style="padding-top: var(--section-pad);">
+      <h1>
+        <span class="ta">அறிவியல் போட்டி</span>
+        <span class="en">Ariviyal Poatti</span>
+      </h1>
+      <p style="margin-top: 16px;">
+        <span class="ta">பள்ளி மாணவர்களுக்கான அறிவியல் போட்டிகள் — தேடல் இனி எளிது.</span>
+        <span class="en">Science competitions for school students — the search is now easy.</span>
+      </p>
+      <p class="text-muted text-sm" style="margin-top: 8px;">
+        Phase 1 setup complete. Building Phase 2 next.
+      </p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ta">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>அறிவியல் போட்டி · Ariviyal Poatti</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&family=Tiro+Tamil&display=swap" rel="stylesheet"/>
+
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; }
+  body {
+    font-family: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f0eee9;
+    color: #1A1A2E;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  button { font: inherit; color: inherit; }
+  .phone-frame {
+    width: 390px; height: 780px; border-radius: 38px;
+    background: #1A1A2E; padding: 12px;
+    box-shadow: 0 22px 56px rgba(26,26,46,0.22), 0 0 0 1px rgba(26,26,46,0.1);
+  }
+  .phone-screen {
+    width: 100%; height: 100%; border-radius: 28px; overflow: hidden;
+    background: #F5F0E8; position: relative;
+  }
+  .desktop-frame {
+    width: 1240px; height: 780px; border-radius: 10px;
+    background: #fff; overflow: hidden;
+    box-shadow: 0 22px 56px rgba(26,26,46,0.16), 0 0 0 1px rgba(26,26,46,0.08);
+  }
+  .desktop-chrome {
+    height: 32px; background: #ecebe6;
+    border-bottom: 1px solid rgba(26,26,46,0.08);
+    display: flex; align-items: center; padding: 0 14px; gap: 6px;
+  }
+  .desktop-chrome .dot { width: 10px; height: 10px; border-radius: 99px; }
+  .desktop-body { height: calc(100% - 32px); }
+  .fontScale-S { font-size: 15px; }
+  .fontScale-M { font-size: 16px; }
+  .fontScale-L { font-size: 17px; }
+</style>
+</head>
+<body>
+
+<!-- tweakable defaults -->
+<script>
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "defaultLang": "ta",
+    "variant": "A",
+    "fontScale": 1,
+    "cardStyle": "bar"
+  }/*EDITMODE-END*/;
+  window.__TWEAKS = TWEAK_DEFAULTS;
+</script>
+
+<!-- React + Babel (pinned) -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<!-- design canvas host -->
+<script type="text/babel" src="design-canvas.jsx"></script>
+
+<!-- app modules -->
+<script type="text/babel" src="src/content.jsx"></script>
+<script type="text/babel" src="src/shared.jsx"></script>
+<script type="text/babel" src="src/nav.jsx"></script>
+<script type="text/babel" src="src/home.jsx"></script>
+<script type="text/babel" src="src/competitions.jsx"></script>
+<script type="text/babel" src="src/dates.jsx"></script>
+<script type="text/babel" src="src/start.jsx"></script>
+<script type="text/babel" src="src/about.jsx"></script>
+<script type="text/babel" src="src/flow.jsx"></script>
+<script type="text/babel" src="src/app.jsx"></script>
+<script type="text/babel" src="src/tweaks.jsx"></script>
+
+<div id="root"></div>
+
+<script type="text/babel">
+  // Root composition. Wraps two App instances (mobile + desktop) in a
+  // design_canvas and exposes a Tweaks panel.
+
+  function PhoneFrame({ children }) {
+    return (
+      <div className="phone-frame">
+        <div className="phone-screen">{children}</div>
+      </div>
+    );
+  }
+
+  function DesktopFrame({ children }) {
+    return (
+      <div className="desktop-frame">
+        <div className="desktop-chrome">
+          <span className="dot" style={{ background: '#ff5f57' }} />
+          <span className="dot" style={{ background: '#febc2e' }} />
+          <span className="dot" style={{ background: '#28c840' }} />
+          <span style={{ marginLeft: 12, fontSize: 11, color: 'rgba(26,26,46,0.5)', fontFamily: 'ui-monospace, monospace' }}>
+            ariviyalpoatti.in
+          </span>
+        </div>
+        <div className="desktop-body">{children}</div>
+      </div>
+    );
+  }
+
+  function Root() {
+    const [edits, setEdits] = React.useState(window.__TWEAKS);
+
+    // Keep default language in sync when the Tweak is flipped.
+    // Also apply to font scale via root class.
+    React.useEffect(() => {
+      document.body.className = `fontScale-${edits.fontScale < 1 ? 'S' : edits.fontScale > 1 ? 'L' : 'M'}`;
+    }, [edits.fontScale]);
+
+    // Re-mount Apps on variant change so the whole tree reflows.
+    return (
+      <>
+        <DesignCanvas>
+          <DCSection id="overview" title="ariviyalpoatti.in" subtitle="Role-first navigation · Role dashboard">
+            <DCArtboard id="mobile" label="Mobile · Role dashboard" width={420} height={820}>
+              <PhoneFrame>
+                <App key="m" device="mobile" variant="B" />
+              </PhoneFrame>
+            </DCArtboard>
+
+            <DCArtboard id="desktop" label="Desktop · Role dashboard" width={1280} height={820}>
+              <DesktopFrame>
+                <App key="d" device="desktop" variant="B" />
+              </DesktopFrame>
+            </DCArtboard>
+          </DCSection>
+
+          <DCSection id="detail" title="Competition detail" subtitle="Phase-by-phase timeline · Tamil Nadu participation">
+            <DCArtboard id="detail-mobile" label="Mobile · NCSC detail" width={420} height={1400}>
+              <PhoneFrame>
+                <App key="dm" device="mobile" variant="B" initialRoute="comp:ncsc" />
+              </PhoneFrame>
+            </DCArtboard>
+
+            <DCArtboard id="detail-desktop" label="Desktop · NCSC detail" width={1280} height={1200}>
+              <DesktopFrame>
+                <App key="dd" device="desktop" variant="B" initialRoute="comp:ncsc" />
+              </DesktopFrame>
+            </DCArtboard>
+
+            <DCArtboard id="detail-nse" label="Desktop · NSE / INO detail" width={1280} height={1200}>
+              <DesktopFrame>
+                <App key="dnse" device="desktop" variant="B" initialRoute="comp:nse-ino" />
+              </DesktopFrame>
+            </DCArtboard>
+          </DCSection>
+        </DesignCanvas>
+
+        <TweaksPanel edits={edits} onChange={setEdits} />
+      </>
+    );
+  }
+
+  // Wait for Babel to transpile all <script type="text/babel"> tags before mounting.
+  function boot() {
+    if (!window.App || !window.DesignCanvas || !window.TweaksPanel) {
+      return setTimeout(boot, 30);
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<Root />);
+  }
+  boot();
+</script>
+
+</body>
+</html>
