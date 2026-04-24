@@ -1,0 +1,327 @@
+---
+import Motif from './Motif.astro'
+import LanguageToggle from './LanguageToggle.astro'
+
+interface Props {
+  currentRoute?: string
+}
+
+const { currentRoute = '' } = Astro.props
+
+const navItems = [
+  { href: '/competitions', label_ta: 'போட்டிகள்', label_en: 'Competitions' },
+  { href: '/key-dates', label_ta: 'முக்கிய தேதிகள்', label_en: 'Key Dates' },
+  { href: '/why-this-exists', label_ta: 'இது ஏன் இருக்கிறது', label_en: 'Why This Exists' },
+]
+
+const atHome = currentRoute === '/' || currentRoute === ''
+---
+
+<header class="topbar">
+  <div class="topbar__inner">
+    <a href="/" class="topbar__logo">
+      <Motif size={22} color="var(--ivory)" opacity={0.9} />
+      <div class="topbar__brand">
+        <span class="topbar__brand-name ta">அறிவியல் போட்டி</span>
+        <span class="topbar__brand-name en">Ariviyal Poatti</span>
+        <span class="topbar__brand-domain">ariviyalpoatti.in</span>
+      </div>
+    </a>
+
+    {
+      !atHome && (
+        <nav class="topbar__nav">
+          <a href="/" class="topbar__nav-back">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path
+                d="M7.5 2L3.5 6L7.5 10"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span class="ta">மீண்டும் தொடங்கு</span>
+            <span class="en">Start over</span>
+          </a>
+          {navItems.map((item) => (
+            <a
+              href={item.href}
+              class:list={[
+                'topbar__nav-link',
+                { 'topbar__nav-link--active': currentRoute === item.href },
+              ]}
+            >
+              <span class="ta">{item.label_ta}</span>
+              <span class="en">{item.label_en}</span>
+            </a>
+          ))}
+        </nav>
+      )
+    }
+
+    <div class="topbar__actions">
+      <LanguageToggle compact />
+      {
+        !atHome && (
+          <button class="topbar__menu-btn" aria-label="Menu" aria-expanded="false">
+            <svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true">
+              <rect y="0" width="16" height="1.6" fill="currentColor" />
+              <rect y="5" width="16" height="1.6" fill="currentColor" />
+              <rect y="10" width="16" height="1.6" fill="currentColor" />
+            </svg>
+          </button>
+        )
+      }
+    </div>
+  </div>
+
+  {
+    !atHome && (
+      <div class="topbar__mobile-menu" hidden>
+        <a href="/" class="topbar__mobile-link topbar__mobile-back">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path
+              d="M7.5 2L3.5 6L7.5 10"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <span class="ta">மீண்டும் தொடங்கு</span>
+          <span class="en">Start over</span>
+        </a>
+        {navItems.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              'topbar__mobile-link',
+              { 'topbar__mobile-link--active': currentRoute === item.href },
+            ]}
+          >
+            <span class="ta">{item.label_ta}</span>
+            <span class="en">{item.label_en}</span>
+          </a>
+        ))}
+      </div>
+    )
+  }
+</header>
+
+<style>
+  .topbar {
+    background: var(--teal);
+    color: var(--ivory);
+    font-family: var(--font-ui);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .topbar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(245, 240, 232, 0.1);
+  }
+
+  @media (min-width: 768px) {
+    .topbar__inner {
+      padding: 18px 44px;
+    }
+  }
+
+  /* Logo */
+  .topbar__logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+    min-height: auto;
+    min-width: auto;
+  }
+
+  .topbar__brand {
+    line-height: 1;
+  }
+
+  .topbar__brand-name {
+    display: block;
+    font-size: 17px;
+    font-weight: 400;
+  }
+
+  .topbar__brand-name.ta {
+    font-family: var(--font-ta);
+  }
+
+  .topbar__brand-name.en {
+    font-family: var(--font-display);
+    font-size: 18px;
+    letter-spacing: 0.2px;
+  }
+
+  @media (min-width: 768px) {
+    .topbar__brand-name.ta {
+      font-size: 20px;
+    }
+    .topbar__brand-name.en {
+      font-size: 22px;
+    }
+  }
+
+  .topbar__brand-domain {
+    display: block;
+    font-size: 10px;
+    opacity: 0.65;
+    letter-spacing: 1.4px;
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+
+  /* Desktop nav */
+  .topbar__nav {
+    display: none;
+    gap: 24px;
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .topbar__nav {
+      display: flex;
+    }
+  }
+
+  .topbar__nav-back {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.75;
+    font-size: 13px;
+    padding: 4px 2px;
+    min-height: auto;
+    min-width: auto;
+  }
+
+  :global([data-lang='ta']) .topbar__nav-back {
+    font-family: var(--font-ta);
+  }
+
+  .topbar__nav-link {
+    opacity: 0.55;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 4px 2px;
+    border-bottom: 1.5px solid transparent;
+    transition: opacity 0.12s;
+    min-height: auto;
+    min-width: auto;
+  }
+
+  :global([data-lang='ta']) .topbar__nav-link {
+    font-family: var(--font-ta);
+    font-size: 14px;
+  }
+
+  .topbar__nav-link:hover {
+    opacity: 0.85;
+  }
+
+  .topbar__nav-link--active {
+    opacity: 1;
+    border-bottom-color: var(--bronze);
+  }
+
+  /* Actions (toggle + hamburger) */
+  .topbar__actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .topbar__menu-btn {
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(245, 240, 232, 0.22);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--ivory);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    min-width: 34px;
+  }
+
+  .topbar__menu-btn[aria-expanded='true'] {
+    background: rgba(245, 240, 232, 0.14);
+  }
+
+  @media (min-width: 768px) {
+    .topbar__menu-btn {
+      display: none;
+    }
+  }
+
+  /* Mobile menu */
+  .topbar__mobile-menu {
+    background: var(--teal);
+    border-bottom: 1px solid rgba(245, 240, 232, 0.12);
+    padding: 4px 10px 12px;
+  }
+
+  @media (min-width: 768px) {
+    .topbar__mobile-menu {
+      display: none !important;
+    }
+  }
+
+  .topbar__mobile-link {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 12px 10px;
+    opacity: 0.75;
+    font-size: 15px;
+    border-left: 2px solid transparent;
+    min-height: auto;
+    min-width: auto;
+  }
+
+  :global([data-lang='ta']) .topbar__mobile-link {
+    font-family: var(--font-ta);
+    font-size: 16px;
+  }
+
+  .topbar__mobile-link--active {
+    opacity: 1;
+    border-left-color: var(--bronze);
+  }
+
+  .topbar__mobile-back {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.8;
+  }
+</style>
+
+<script>
+  function initMobileMenu() {
+    const btn = document.querySelector('.topbar__menu-btn')
+    const menu = document.querySelector('.topbar__mobile-menu')
+    if (!btn || !menu) return
+
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true'
+      btn.setAttribute('aria-expanded', String(!expanded))
+      menu.hidden = expanded
+    })
+  }
+
+  initMobileMenu()
+
+  document.addEventListener('astro:after-swap', initMobileMenu)
+</script>

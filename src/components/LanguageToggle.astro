@@ -1,0 +1,100 @@
+---
+interface Props {
+  compact?: boolean
+}
+
+const { compact = false } = Astro.props
+---
+
+<div
+  class:list={['lang-toggle', { 'lang-toggle--compact': compact }]}
+  role="group"
+  aria-label="Language"
+>
+  <button class="lang-toggle__btn" data-lang-toggle="ta">
+    <span class="lang-toggle__label">த</span>
+  </button>
+  <button class="lang-toggle__btn" data-lang-toggle="en">
+    <span class="lang-toggle__label">EN</span>
+  </button>
+</div>
+
+<style>
+  .lang-toggle {
+    display: inline-flex;
+    padding: 3px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    align-items: center;
+    height: 34px;
+    line-height: 1;
+  }
+
+  .lang-toggle--compact {
+    height: 30px;
+  }
+
+  .lang-toggle__btn {
+    height: 26px;
+    padding: 0 16px;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    background: transparent;
+    color: rgba(245, 240, 232, 0.8);
+    font-family: var(--font-ui);
+    transition: all 0.16s;
+    min-height: auto;
+    min-width: auto;
+  }
+
+  .lang-toggle--compact .lang-toggle__btn {
+    height: 22px;
+    padding: 0 12px;
+    font-size: 13px;
+  }
+
+  /* Tamil button uses Tamil font */
+  .lang-toggle__btn[data-lang-toggle='ta'] .lang-toggle__label {
+    font-family: var(--font-ta);
+  }
+
+  /* Active states — set via JS */
+  .lang-toggle__btn[aria-pressed='true'] {
+    background: var(--ivory);
+    color: var(--teal);
+  }
+</style>
+
+<script>
+  function initLanguageToggle() {
+    const toggles = document.querySelectorAll('[data-lang-toggle]')
+
+    function updateStates() {
+      const current = document.documentElement.dataset.lang || 'ta'
+      toggles.forEach((btn) => {
+        const isActive = (btn as HTMLButtonElement).dataset.langToggle === current
+        btn.setAttribute('aria-pressed', String(isActive))
+      })
+    }
+
+    toggles.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const lang = (btn as HTMLButtonElement).dataset.langToggle!
+        document.documentElement.dataset.lang = lang
+        document.documentElement.lang = lang
+        localStorage.setItem('lang', lang)
+        updateStates()
+      })
+    })
+
+    updateStates()
+  }
+
+  initLanguageToggle()
+
+  document.addEventListener('astro:after-swap', initLanguageToggle)
+</script>

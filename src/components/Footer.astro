@@ -1,0 +1,82 @@
+---
+const footerItems = [
+  { href: '/', label_ta: 'முகப்பு', label_en: 'Home' },
+  { href: '/competitions', label_ta: 'போட்டிகள்', label_en: 'All competitions' },
+  { href: '/key-dates', label_ta: 'வருடாந்திர காலண்டர்', label_en: 'Annual calendar' },
+  { href: '/tamil-nadu', label_ta: 'தமிழ்நாடு', label_en: 'Tamil Nadu' },
+  { href: '/why-this-exists', label_ta: 'இது ஏன் இருக்கிறது', label_en: 'Why this exists' },
+]
+---
+
+<footer class="footer">
+  <div class="footer__links">
+    {
+      footerItems.map((item) => (
+        <a href={item.href} class="footer__link">
+          <span class="ta">{item.label_ta}</span>
+          <span class="en">{item.label_en}</span>
+        </a>
+      ))
+    }
+  </div>
+  <div class="footer__disclaimer">
+    <span class="ta"
+      >ariviyalpoatti.in · இது ஒரு அரசு தளம் அல்ல. சரிபார்ப்புக்கு எப்போதும் அதிகாரப்பூர்வ மூலத்தைப்
+      பார்க்கவும்.</span
+    >
+    <span class="en"
+      >ariviyalpoatti.in &middot; Not a government site. Always verify with the official source.</span
+    >
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--ink);
+    color: var(--ivory);
+    padding: 28px 22px 32px;
+    font-family: var(--font-ui);
+  }
+
+  @media (min-width: 768px) {
+    .footer {
+      padding: 40px 64px 48px;
+    }
+  }
+
+  .footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  @media (min-width: 768px) {
+    .footer__links {
+      gap: 28px;
+    }
+  }
+
+  .footer__link {
+    opacity: 0.72;
+    font-size: 13px;
+    transition: opacity 0.12s;
+    min-height: auto;
+    min-width: auto;
+  }
+
+  :global([data-lang='ta']) .footer__link {
+    font-family: var(--font-ta);
+  }
+
+  .footer__link:hover {
+    opacity: 1;
+  }
+
+  .footer__disclaimer {
+    font-size: 11px;
+    opacity: 0.45;
+    line-height: 1.6;
+    max-width: 620px;
+  }
+</style>

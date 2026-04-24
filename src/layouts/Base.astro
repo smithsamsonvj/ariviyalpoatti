@@ -1,0 +1,53 @@
+---
+import TopBar from '../components/TopBar.astro'
+import Footer from '../components/Footer.astro'
+import '../styles/global.css'
+
+interface Props {
+  title: string
+  description?: string
+  currentRoute?: string
+  hideFooter?: boolean
+}
+
+const {
+  title,
+  description = 'பள்ளி மாணவர்களுக்கான அறிவியல் போட்டிகள் — தமிழ்நாடு',
+  currentRoute = '',
+  hideFooter = false,
+} = Astro.props
+---
+
+<html lang="ta" data-lang="ta">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+
+    <!-- Prevent flash of wrong language -->
+    <script is:inline>
+      ;(function () {
+        var saved = localStorage.getItem('lang') || 'ta'
+        document.documentElement.dataset.lang = saved
+        document.documentElement.lang = saved
+      })()
+    </script>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">
+      <span class="ta">உள்ளடக்கத்திற்கு செல்</span>
+      <span class="en">Skip to content</span>
+    </a>
+
+    <TopBar currentRoute={currentRoute} />
+
+    <main id="main-content">
+      <slot />
+    </main>
+
+    {!hideFooter && <Footer />}
+  </body>
+</html>
