@@ -1,0 +1,648 @@
+import type { Bilingual } from './types'
+
+// Site-wide freshness — bump when re-verified against official portals
+export const LAST_VERIFIED = '2026-04-15'
+
+// Translation helper: reads {ta, en} bilingual objects
+export function t(obj: Bilingual | string | undefined | null, lang: string): string {
+  if (!obj) return ''
+  if (typeof obj === 'string') return obj
+  return obj[lang as keyof Bilingual] ?? obj.en ?? obj.ta ?? ''
+}
+
+// Count days between now and an ISO date (negative if past)
+export function daysUntil(iso: string): number {
+  const now = new Date()
+  const d = new Date(iso)
+  return Math.ceil((d.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+}
+
+// Format a date per language
+export function fmtDate(iso: string, lang: string): string {
+  const d = new Date(iso)
+  const taMonths = [
+    'ஜனவரி',
+    'பிப்ரவரி',
+    'மார்ச்',
+    'ஏப்ரல்',
+    'மே',
+    'ஜூன்',
+    'ஜூலை',
+    'ஆகஸ்ட்',
+    'செப்டம்பர்',
+    'அக்டோபர்',
+    'நவம்பர்',
+    'டிசம்பர்',
+  ]
+  const enMonths = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ]
+  if (lang === 'ta') return `${d.getDate()} ${taMonths[d.getMonth()]} ${d.getFullYear()}`
+  return `${enMonths[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`
+}
+
+// Academic year month labels (Jun → May)
+export const ACADEMIC_MONTHS = {
+  ta: ['ஜூன்', 'ஜூலை', 'ஆகஸ்ட்', 'செப்', 'அக்', 'நவ', 'டிச', 'ஜன', 'பிப்', 'மார்', 'ஏப்', 'மே'],
+  en: ['Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May'],
+}
+
+// Calendar month index → academic year grid index (Jun=0 .. May=11)
+export function monthToAcademicIndex(calendarMonth: number): number {
+  return calendarMonth >= 5 ? calendarMonth - 5 : calendarMonth + 7
+}
+
+// ─── All UI strings ───
+export const COPY = {
+  brand: {
+    ta: 'அறிவியல் போட்டி',
+    en: 'Ariviyal Poatti',
+  },
+  tagline: {
+    ta: 'இந்தியாவின் பள்ளி அளவிலான அறிவியல் போட்டிகளின் தெளிவான வழிகாட்டி — தமிழ்நாட்டிற்கு.',
+    en: 'A clear guide to India\u2019s school-level science competitions \u2014 focused on Tamil Nadu.',
+  },
+  nav: {
+    home: { ta: 'முகப்பு', en: 'Home' },
+    competitions: { ta: 'போட்டிகள்', en: 'Competitions' },
+    dates: { ta: 'முக்கிய தேதிகள்', en: 'Key Dates' },
+    start: { ta: 'இங்கே தொடங்குங்கள்', en: 'Start Here' },
+    about: { ta: 'இது ஏன் இருக்கிறது', en: 'Why This Exists' },
+    tamilNadu: { ta: 'தமிழ்நாடு', en: 'Tamil Nadu' },
+  },
+  home: {
+    heroKicker: {
+      ta: '12 தேசிய போட்டிகள் · தமிழ்நாட்டிற்கு ஒரே இடத்தில்',
+      en: '12 national competitions \u00b7 curated for Tamil Nadu',
+    },
+    heroTitle: {
+      ta: 'பள்ளி மாணவர்களுக்கான அறிவியல் போட்டிகள் — தேடல் இனி எளிது.',
+      en: 'School science competitions \u2014 finally, in one place.',
+    },
+    heroSub: {
+      ta: 'இந்தியாவில் 14.72 லட்சம் பள்ளிகள், 12 முக்கிய போட்டிகள், ஒவ்வொன்றும் வெவ்வேறு தேதி, தகுதி, நடைமுறை. இங்கே அனைத்தையும் தெளிவாக தொகுத்துள்ளோம்.',
+      en: '14.72 lakh schools, 12 major competitions, each with its own dates, eligibility, and process. All gathered here \u2014 honestly, without fluff.',
+    },
+    audiencePrompt: { ta: 'நீங்கள் யார்?', en: 'Who are you?' },
+    deadlineKicker: { ta: 'அடுத்த முக்கியமான தேதி', en: 'Next important deadline' },
+    urgencyHeadline: {
+      ta: 'INSPIRE\u2013MANAK யோசனை சமர்ப்பணம் \u2014 செப்டம்பர் கடைசி வரை',
+      en: 'INSPIRE\u2013MANAK idea submissions \u2014 open till late September',
+    },
+    urgencyAction: { ta: 'விவரங்களைப் பார்', en: 'See details' },
+    ctaSeeAll: { ta: '12 போட்டிகளையும் பார்', en: 'Browse all 12 competitions' },
+    ctaSeeDates: { ta: 'வருடாந்திர காலண்டர்', en: 'See annual calendar' },
+    footerNote: {
+      ta: 'இது ஒரு அரசு தளம் அல்ல. சரிபார்ப்புக்கு எப்போதும் அதிகாரப்பூர்வ மூலத்தைப் பார்க்கவும்.',
+      en: 'This is not a government site. Always verify with the official source.',
+    },
+  },
+  audiences: {
+    teacher: {
+      label: { ta: 'ஆசிரியர்', en: 'Teacher' },
+      line: { ta: 'இந்த வாரம் என்ன செய்ய வேண்டும்', en: 'What to do this week' },
+      detail: {
+        ta: 'உங்கள் மாணவர்களுக்கான படிவங்கள், காலக்கெடுகள், படிநிலை செயல்கள்.',
+        en: 'Forms, deadlines, and step-by-step actions for your class.',
+      },
+    },
+    principal: {
+      label: { ta: 'முதல்வர்', en: 'Principal' },
+      line: {
+        ta: 'பள்ளிக்கு மதிப்புள்ளதா',
+        en: 'Is this worth the school\u2019s time',
+      },
+      detail: {
+        ta: 'பங்கேற்பின் விளைவுகள், முந்தைய வெற்றிகள், தேவையான ஆதாரங்கள்.',
+        en: 'Outcomes, past results, resources your school will need.',
+      },
+    },
+    parent: {
+      label: { ta: 'பெற்றோர்', en: 'Parent' },
+      line: {
+        ta: 'என் குழந்தைக்கு என்ன வாய்ப்புகள்',
+        en: 'Opportunities for my child',
+      },
+      detail: {
+        ta: 'உங்கள் குழந்தையின் வயதுக்குப் பொருத்தமான போட்டிகள், பயன்கள், எப்படி ஆதரவளிக்கலாம்.',
+        en: 'Age-appropriate competitions, benefits, and how to support them.',
+      },
+    },
+  },
+  startHere: {
+    title: { ta: 'உங்கள் வழி', en: 'Your path' },
+    intro: {
+      ta: 'ஒரு பாத்திரத்தைத் தேர்ந்தெடுங்கள். அடுத்த படி சொல்கிறோம்.',
+      en: 'Pick a role. We\u2019ll tell you the next step.',
+    },
+    teacher: [
+      {
+        ta: 'உங்கள் பள்ளியில் INSPIRE நோடல் ஆசிரியர் அல்லது SCERT தொடர்பாளர் இருக்கிறாரா எனப் பார்க்கவும்.',
+        en: 'Check whether your school has an INSPIRE nodal teacher or SCERT contact.',
+      },
+      {
+        ta: 'ஒரே ஒரு போட்டியைத் தேர்ந்தெடுங்கள் \u2014 INSPIRE\u2013MANAK எளிதாகத் தொடங்கலாம், முற்றிலும் இலவசம்.',
+        en: 'Pick one competition to start. INSPIRE\u2013MANAK is the easiest on-ramp \u2014 zero fee, zero infrastructure.',
+      },
+      {
+        ta: 'உங்கள் வகுப்பில் இருந்து 5 மாணவர்களை நாமினேட் செய்யுங்கள் \u2014 ஆண்டுக்கு 10 லட்சம் யோசனைகள் இலக்கு.',
+        en: 'Nominate 5 students from your class \u2014 the national target is 10 lakh ideas a year.',
+      },
+      {
+        ta: 'இந்த பக்கத்தை WhatsApp-ல் சக ஆசிரியர்களுக்கு அனுப்புங்கள்.',
+        en: 'Share this page with fellow teachers on WhatsApp.',
+      },
+      {
+        ta: 'நவம்பர்\u2013ஜனவரி நெரிசலான காலம் \u2014 உங்கள் மாணவர்கள் ஒரு வாரம் முன்னதாக தயாராக உதவுங்கள்.',
+        en: 'November\u2013January is the crowded window \u2014 help your students prepare a week ahead.',
+      },
+    ],
+    principal: [
+      {
+        ta: 'உங்கள் பள்ளியின் கடந்த ஆண்டு பங்கேற்பை மதிப்பிடுங்கள் \u2014 INSPIRE, RBVP, NCSC எவற்றிலாவது பதிவு செய்யப்பட்டதா?',
+        en: 'Review last year\u2019s record \u2014 did your school register for INSPIRE, RBVP, or NCSC?',
+      },
+      {
+        ta: 'ஒரு ஆசிரியரை அறிவியல் போட்டிகளுக்கான ஒருங்கிணைப்பாளராக நியமிக்கவும். ஒரு நபர், ஒரு பொறுப்பு.',
+        en: 'Appoint one teacher as Science Competitions Coordinator. One person, one mandate.',
+      },
+      {
+        ta: 'ATL ஆய்வகம் இருந்தால், ATL Marathon-ல் குழுவை பதிவு செய்யுங்கள் \u2014 அரசு ஆதரவு உள்ளது.',
+        en: 'If you have an Atal Tinkering Lab, register a team for the ATL Marathon \u2014 it is fully government-backed.',
+      },
+      {
+        ta: 'நவம்பர்\u2013ஜனவரி போட்டிகள் மோதக்கூடும். பள்ளி கேலெண்டரில் முன்கூட்டியே குறிக்கவும்.',
+        en: 'November\u2013January collision zone is real. Pencil dates into the school calendar early.',
+      },
+      {
+        ta: 'வெற்றி பெறும் மாணவர்களை பள்ளியின் முன்வெளியில் கௌரவியுங்கள் \u2014 அடுத்த ஆண்டு பல மடங்கு மாணவர்கள் முயற்சி செய்வார்கள்.',
+        en: 'Celebrate winners publicly at school \u2014 the next year sees many more students try.',
+      },
+    ],
+    parent: [
+      {
+        ta: 'உங்கள் குழந்தையின் வகுப்பிற்கு பொருத்தமான போட்டிகளை வடிகட்டுங்கள் \u2014 1ம் வகுப்பில் கூட Olympiads உள்ளன.',
+        en: 'Filter by class \u2014 there are Olympiads even for Class 1 students.',
+      },
+      {
+        ta: 'பள்ளி ஒருங்கிணைப்பாளரிடம் சமர்ப்பிக்க ஒரு குறிப்பை எழுதிக் கொள்ளுங்கள். பள்ளி வழியாகத்தான் பதிவு நடக்கிறது.',
+        en: 'Write a short note for the school coordinator \u2014 most registrations happen only through the school.',
+      },
+      {
+        ta: 'செலவு தடை உள்ளதா என்று சரிபார்க்கவும் \u2014 INSPIRE, RBVP, NCSC முற்றிலும் இலவசம். WRO, FLL விலை அதிகம்.',
+        en: 'Check the fee \u2014 INSPIRE, RBVP, NCSC are free. WRO and FLL carry real cost barriers.',
+      },
+      {
+        ta: 'முந்தைய ஆண்டு கேள்வித்தாள்களை இலவசமாக பயிற்சி செய்யுங்கள்.',
+        en: 'Practice with past-year papers \u2014 they are free online.',
+      },
+      {
+        ta: 'ஒரு வெற்றியும், ஒரு தோல்வியும் \u2014 இரண்டும் மதிப்புள்ளவை என்பதை சொல்லுங்கள். போட்டியின் முயற்சி முக்கியம்.',
+        en: 'Remind them: a win and a loss both matter. The attempt is what counts.',
+      },
+    ],
+  },
+  dates: {
+    title: { ta: 'முக்கிய தேதிகள்', en: 'Key Dates' },
+    sub: {
+      ta: '2025\u201326 கல்வியாண்டு \u00b7 12 போட்டிகளின் வருடாந்திர காலண்டர். WhatsApp-ல் பகிரலாம்.',
+      en: '2025\u201326 academic year \u00b7 annual calendar of all 12 competitions. Share on WhatsApp.',
+    },
+    shareWhatsapp: { ta: 'WhatsApp-ல் பகிர்', en: 'Share on WhatsApp' },
+    statusOpen: { ta: 'பதிவு திறந்துள்ளது', en: 'Registration open' },
+    statusSoon: { ta: 'விரைவில் மூடப்படும்', en: 'Closing soon' },
+    statusUpcoming: { ta: 'வரவிருக்கிறது', en: 'Upcoming' },
+    statusClosed: { ta: 'முடிந்தது', en: 'Closed' },
+    collisionNote: {
+      ta: 'நவம்பர்\u2013ஜனவரி மிக நெரிசலான காலம் \u2014 NSE, SOF நிலை 1, CBSE பிராந்திய, IRIS திரையிடல், WRO மற்றும் NCSC அனைத்தும் ஒரே நேரத்தில்.',
+      en: 'November\u2013January is the collision zone \u2014 NSE, SOF Level 1, CBSE regionals, IRIS screening, WRO, and NCSC all converge here.',
+    },
+  },
+  about: {
+    title: { ta: 'இது ஏன் இருக்கிறது', en: 'Why this exists' },
+    body: [
+      {
+        ta: 'இது ஒரு அரசு தளம் அல்ல. ஒரு NGO-வும் அல்ல. ஒரு தொடக்க நிறுவனமும் அல்ல.',
+        en: 'This is not a government portal. Not an NGO. Not a startup.',
+      },
+      {
+        ta: 'இந்தியாவில் 14.72 லட்சம் பள்ளிகள், 12 முக்கிய தேசிய அறிவியல் போட்டிகள் உள்ளன. ஆனால் ஒவ்வொரு போட்டியின் தகவலும் வெவ்வேறு தளங்களில் சிதறியுள்ளது.',
+        en: 'India has 14.72 lakh schools and 12 major national science competitions. But the information for each is scattered across different sites.',
+      },
+      {
+        ta: 'தமிழ்நாட்டில் 57,935 பள்ளிகள். IRIS 2024 தேசிய இறுதி 101 மாணவர்களில் \u2014 தமிழ்நாட்டிலிருந்து வெறும் 3 பேர். அவர்கள் மூவரும் சென்னை மற்றும் கோயம்புத்தூரிலுள்ள தனியார் பள்ளிகளில். அரசு பள்ளி மாணவர் ஒருவரும் இல்லை.',
+        en: 'Tamil Nadu has 57,935 schools. Out of 101 national IRIS 2024 finalists \u2014 only 3 were from Tamil Nadu, all from private schools in Chennai and Coimbatore. Not a single government school student.',
+      },
+      {
+        ta: 'வானவில் மன்றம் 25 லட்சம் அரசு பள்ளி மாணவர்களை சென்றடைகிறது. ஆனால் அது எந்த தேசிய போட்டியுடனும் இணைக்கப்படவில்லை. இது மாற்றப்பட வேண்டும்.',
+        en: 'Vaanavil Mandram reaches 25 lakh government school students \u2014 but isn\u2019t connected to any national competition pipeline. That has to change.',
+      },
+      {
+        ta: 'எனவே தகவலை ஒரே இடத்தில், இரண்டு மொழிகளில், நேர்மையாக ஒன்று சேர்த்திருக்கிறோம். இது ஒரு நண்பனின் வேலை \u2014 ஆராய்ச்சியை முடித்து, தெளிவாக உங்களுக்குத் தருகிறது.',
+        en: 'So we put the information in one place, in two languages, honestly. Think of this as a friend who has done the research and laid it out for you clearly.',
+      },
+      {
+        ta: 'தவறு இருந்தால் \u2014 தயவு செய்து எங்களுக்குத் தெரிவியுங்கள். நாங்கள் திருத்துவோம்.',
+        en: 'If something is wrong \u2014 please tell us. We\u2019ll fix it.',
+      },
+    ],
+    sources: { ta: 'ஆதாரம்', en: 'Sources' },
+    sourcesText: {
+      ta: 'UDISE+ 2023\u201324, 2024\u201325 \u00b7 HBCSE \u00b7 NCERT \u00b7 DST \u00b7 AIM/NITI Aayog \u00b7 IARCS \u00b7 TN SEP 2025 \u00b7 TN பட்ஜெட் 2025\u201326',
+      en: 'UDISE+ 2023\u201324, 2024\u201325 \u00b7 HBCSE \u00b7 NCERT \u00b7 DST \u00b7 AIM/NITI Aayog \u00b7 IARCS \u00b7 TN SEP 2025 \u00b7 TN Budget 2025\u201326',
+    },
+    contact: { ta: 'தொடர்பு', en: 'Contact' },
+    tnTitle: { ta: 'தமிழ்நாடு \u2014 எண்களில்', en: 'Tamil Nadu \u2014 the numbers' },
+    tnFacts: [
+      {
+        ta: '57,935 பள்ளிகள் \u00b7 1.25 கோடி மாணவர்கள்',
+        en: '57,935 schools \u00b7 1.25 crore students',
+      },
+      {
+        ta: '1,197 INSPIRE தேர்வுகள் (2024\u201325)',
+        en: '1,197 INSPIRE selections (2024\u201325)',
+      },
+      { ta: 'IRIS 2024: 101-ல் 3 பதிவுகள் மட்டுமே', en: 'IRIS 2024: only 3 of 101 finalists' },
+      { ta: 'வானவில் மன்றம்: 25 லட்சம் மாணவர்கள்', en: 'Vaanavil Mandram: 25 lakh students' },
+    ],
+  },
+  common: {
+    register: { ta: 'அதிகாரப்பூர்வ தளத்தை பார்', en: 'Go to official site' },
+    learnMore: { ta: 'மேலும் அறிய', en: 'Learn more' },
+    eligibility: { ta: 'தகுதி', en: 'Eligibility' },
+    deadline: { ta: 'முக்கிய தேதி', en: 'Key deadline' },
+    process: { ta: 'நடைமுறை', en: 'Process' },
+    fee: { ta: 'கட்டணம்', en: 'Fee' },
+    free: { ta: 'இலவசம்', en: 'Free' },
+    official: { ta: 'அதிகாரப்பூர்வ இணையதளம்', en: 'Official site' },
+    back: { ta: '\u2190 திரும்பு', en: '\u2190 Back' },
+    all: { ta: 'அனைத்தும்', en: 'All' },
+    daysLeft: { ta: 'நாட்கள் மீதம்', en: 'days left' },
+    organiser: { ta: 'ஆயோஜகர்', en: 'Organiser' },
+    since: { ta: 'தொடக்கம்', en: 'Since' },
+    reach: { ta: 'பள்ளி எட்டுதல்', en: 'School reach' },
+    intlPath: { ta: 'சர்வதேச பாதை', en: 'International pathway' },
+    schoolType: { ta: 'பள்ளி வகை', en: 'School type' },
+    verified: { ta: 'சரிபார்க்கப்பட்டது', en: 'Verified' },
+    lastVerified: { ta: 'கடைசி சரிபார்ப்பு', en: 'Last cross-checked' },
+  },
+  categories: {
+    all: { ta: 'அனைத்தும்', en: 'All' },
+    govt: { ta: 'அரசு', en: 'Government' },
+    ngo: { ta: 'NGO/Research', en: 'NGO / Research' },
+    olympiad: { ta: 'ஒலிம்பியாட்', en: 'Olympiad' },
+    private: { ta: 'தனியார்', en: 'Private' },
+    robotics: { ta: 'ரோபோட்டிக்ஸ்', en: 'Robotics' },
+    state: { ta: 'மாநிலம்', en: 'State' },
+  },
+}
+
+// ─── India's School Education Landscape (UDISE+ 2023–24) ───
+export const INDIA_EDUCATION_LANDSCAPE = {
+  totalSchools: '14,72,000',
+  totalStudents: '24.8 கோடி (248 million)',
+  totalTeachers: '~1 கோடி (10 million)',
+  breakdowns: [
+    {
+      label: { ta: 'அரசு பள்ளிகள்', en: 'Government schools' },
+      count: '~10.16 லட்சம்',
+      percent: '69%',
+    },
+    {
+      label: { ta: 'தனியார் உதவியில்லா பள்ளிகள்', en: 'Private unaided schools' },
+      count: '~3.31 லட்சம்',
+      percent: '22.5%',
+    },
+    {
+      label: { ta: 'உதவி பெறும் மற்றும் பிற பள்ளிகள்', en: 'Aided & other schools' },
+      count: '~1.25 லட்சம்',
+      percent: '8.5%',
+    },
+  ],
+  source: { ta: 'UDISE+ 2023\u201324', en: 'UDISE+ 2023\u201324' },
+}
+
+// ─── Key Observations (editorial) ───
+export const KEY_OBSERVATIONS: Array<{
+  id: string
+  title: Bilingual
+  body: Bilingual[]
+}> = [
+  {
+    id: 'coverage-gap',
+    title: {
+      ta: 'பங்கேற்பு இடைவெளி — அரசு vs தனியார்',
+      en: 'The Coverage Gap \u2014 Government vs Private Schools',
+    },
+    body: [
+      {
+        ta: 'இந்தியாவில் 14.72 லட்சம் பள்ளிகள். 69% அரசு நிர்வாகம். ஆனால் பெரிய மூன்று அரசு திட்டங்களுக்கு (INSPIRE, RBVP, NCSC) அப்பால், பெரும்பாலான போட்டிகளை தனியார் பள்ளி மாணவர்கள் அணுகுகிறார்கள்.',
+        en: 'India has 14.72 lakh schools. 69% are government-managed. Yet beyond the big three government schemes (INSPIRE, RBVP, NCSC), most competitions are primarily accessed by private school students.',
+      },
+      {
+        ta: 'ரோபோட்டிக்ஸ் போட்டிகள் (WRO, FLL) குழுவிற்கு ₹6,000\u201318,000+ கட்டணம் கொண்டுள்ளன — அரசு பள்ளி மாணவர்களை விலக்குகின்றன.',
+        en: 'Robotics competitions (WRO, FLL) carry fee barriers of \u20b96,000\u201318,000+ per team, effectively excluding most government school students.',
+      },
+    ],
+  },
+  {
+    id: 'collision-zone',
+    title: {
+      ta: 'நவம்பர்\u2013ஜனவரி நெரிசல் மண்டலம்',
+      en: 'The November\u2013January Collision Zone',
+    },
+    body: [
+      {
+        ta: 'NSE தேர்வுகள், SOF ஒலிம்பியாட் நிலை 1, CBSE பிராந்திய கண்காட்சிகள், IRIS திரையிடல், WRO மெய்நிகர் சுற்றுகள், NCSC தேசிய நிகழ்வு \u2014 அனைத்தும் நவம்பர்\u2013ஜனவரியில் ஒன்று சேர்கின்றன.',
+        en: 'NSE exams, SOF Olympiad Level 1, CBSE regional exhibitions, IRIS screening, WRO virtual rounds, and NCSC national event \u2014 all converge in November\u2013January.',
+      },
+    ],
+  },
+  {
+    id: 'isef-pathway',
+    title: { ta: 'ISEF பாதை \u2014 மூன்று வழிகள்', en: 'The ISEF Pathway \u2014 Three Routes' },
+    body: [
+      {
+        ta: 'வழி 1: IRIS National Fair (முதன்மை நுழைவாயில்). வழி 2: RBVP வெற்றியாளர்கள் → IRIS. வழி 3: CBSE Science Exhibition → IRIS (5 பதிவுகள்).',
+        en: 'Route 1: IRIS National Fair (primary gateway). Route 2: RBVP winners \u2192 IRIS. Route 3: CBSE Science Exhibition \u2192 IRIS (5 entries).',
+      },
+    ],
+  },
+  {
+    id: 'olympiad-distinction',
+    title: { ta: 'ஒலிம்பியாட் வேறுபாடு', en: 'The Olympiad Distinction' },
+    body: [
+      {
+        ta: 'அதிகாரப்பூர்வ ஒலிம்பியாட்கள்: NSE/INO (HBCSE/IAPT) \u2014 அரசு, கடினமான, IPhO/IChO/IBO/IOAA/IJSO. வணிக ஒலிம்பியாட்கள்: SOF NSO \u2014 தனியார், கட்டணம், அதிக பங்கேற்பு ஆனால் சர்வதேச நிகழ்வுகளுக்கு இல்லை.',
+        en: 'Official Olympiads: NSE/INO (HBCSE/IAPT) \u2014 government-run, rigorous, culminates at IPhO/IChO/IBO/IOAA/IJSO. Commercial Olympiads: SOF NSO \u2014 private, fee-based, high volume but no international stage.',
+      },
+    ],
+  },
+  {
+    id: 'inspire-kvpy-merger',
+    title: { ta: 'INSPIRE\u2013KVPY இணைப்பு (2022)', en: 'The INSPIRE\u2013KVPY Merger (2022)' },
+    body: [
+      {
+        ta: 'KVPY (1999 முதல்) 2022ல் INSPIRE திட்டத்தில் இணைக்கப்பட்டது. புதிய KVPY தேர்வுகள் நடத்தப்படவில்லை. மாணவர்கள் இப்போது INSPIRE SHE வழியாக செல்கிறார்கள்.',
+        en: 'KVPY (running since 1999) was merged into INSPIRE in 2022. No new KVPY aptitude tests are conducted. Students now go through INSPIRE SHE (Scholarship for Higher Education).',
+      },
+    ],
+  },
+]
+
+// ─── Quick Reference Card ───
+export const QUICK_REFERENCE: Array<{
+  condition: Bilingual
+  bestFit: string[]
+  cost: Bilingual
+  benefit: Bilingual
+}> = [
+  {
+    condition: { ta: 'எந்த பள்ளியும், 6\u201312 வகுப்பு', en: 'Any school, Classes 6\u201312' },
+    bestFit: ['inspire-manak'],
+    cost: { ta: 'இலவசம்', en: 'Zero' },
+    benefit: {
+      ta: '₹10,000 விருது; வெகுஜன பங்கேற்பு',
+      en: '\u20b910,000 award per selected idea; mass participation',
+    },
+  },
+  {
+    condition: { ta: 'எந்த பள்ளியும், 6\u201312 வகுப்பு', en: 'Any school, Classes 6\u201312' },
+    bestFit: ['rbvp'],
+    cost: { ta: 'இலவசம்', en: 'Zero' },
+    benefit: {
+      ta: 'மிகப் பழமையான, கட்டமைக்கப்பட்ட; ஒவ்வொரு மாவட்டமும் உள்ளடக்கியது',
+      en: 'Oldest, most structured; covers every district in India',
+    },
+  },
+  {
+    condition: { ta: 'சமூக/கிராமப்புற சூழல்', en: 'Community/rural context' },
+    bestFit: ['ncsc'],
+    cost: { ta: 'இலவசம்', en: 'Zero' },
+    benefit: {
+      ta: 'பள்ளிக்கு வெளியே உள்ள குழந்தைகளுக்கும் திறந்தது',
+      en: 'Open to non-school children too; local problem focus',
+    },
+  },
+  {
+    condition: { ta: 'CBSE-இணைப்பு பள்ளி', en: 'CBSE-affiliated' },
+    bestFit: ['cbse-expo'],
+    cost: { ta: 'இலவசம்', en: 'Zero' },
+    benefit: { ta: 'IRIS மற்றும் ISEF-க்கு நேரடி ஊட்டு', en: 'Direct feeder to IRIS and ISEF' },
+  },
+  {
+    condition: { ta: 'புதுமை கவனம்', en: 'Innovation focus' },
+    bestFit: ['atl-marathon'],
+    cost: { ta: 'இலவசம் (ATL ஆய்வக பள்ளிக்கு)', en: 'Zero (if ATL lab) / Minimal' },
+    benefit: {
+      ta: 'அரசு ஆதரவு; முன்மாதிரி; Internship',
+      en: 'Government backing; prototype development; internships',
+    },
+  },
+  {
+    condition: {
+      ta: 'ஆராய்ச்சி சார்ந்த, 5\u201312',
+      en: 'Research-focused students, Cl 5\u201312',
+    },
+    bestFit: ['iris'],
+    cost: { ta: 'இலவசம்', en: 'Zero (application)' },
+    benefit: {
+      ta: 'ISEF நுழைவாயில்; மிக மதிப்புள்ள அறிவியல் விழா',
+      en: 'Gateway to ISEF; most prestigious science fair in India',
+    },
+  },
+  {
+    condition: { ta: 'அதிக கல்வி திறன், 9\u201312', en: 'High academic ability, Cl 9\u201312' },
+    bestFit: ['nse-ino'],
+    cost: { ta: 'குறைந்த தேர்வு கட்டணம்', en: 'Minimal (exam fee)' },
+    benefit: {
+      ta: 'IPhO/IChO/IBO/IJSO-க்கு ஒரே வழி',
+      en: 'Only path to IPhO/IChO/IBO/IJSO \u2014 globally respected',
+    },
+  },
+  {
+    condition: {
+      ta: 'சுற்றுச்சூழல் கவனம், 4\u201310',
+      en: 'Environment focus, Cl 4\u201310',
+    },
+    bestFit: ['teri-green'],
+    cost: { ta: 'குறைந்தது (₹60\u2013100/மாணவர்)', en: 'Low (\u20b960\u2013100/student)' },
+    benefit: {
+      ta: 'எழுத்து தேர்வு; வலுவான சுற்றுச்சூழல் அறிவியல்',
+      en: 'Written exam; strong environmental science content',
+    },
+  },
+  {
+    condition: { ta: 'ரோபோட்டிக்ஸ் திட்டம்', en: 'Robotics programme' },
+    bestFit: ['wro'],
+    cost: { ta: 'நடுத்தரம் (₹6K\u201318K/குழு)', en: 'Medium (\u20b96K\u201318K/team)' },
+    benefit: {
+      ta: 'சர்வதேச போட்டி; வலுவான STEM',
+      en: 'International competition; strong STEM skill-building',
+    },
+  },
+  {
+    condition: { ta: 'பிரீமியம் பள்ளி, 9\u201316', en: 'Premium school, ages 9\u201316' },
+    bestFit: ['fll'],
+    cost: { ta: 'அதிகம் (கிட்கள் + கட்டணம்)', en: 'High (kits + fees)' },
+    benefit: {
+      ta: 'உலகளாவிய மதிப்பு; World Festival USA',
+      en: 'Global prestige; World Festival in USA',
+    },
+  },
+]
+
+// ─── TN State Context ───
+export const TN_STATE_CONTEXT = {
+  baseline: {
+    totalSchools: '57,935',
+    totalStudents: '1.25 கோடி (12.5 million)',
+    totalTeachers: '5.49 லட்சம்',
+    percentOfIndia: '~3.9%',
+    source: { ta: 'UDISE+ 2024\u201325', en: 'UDISE+ 2024\u201325' },
+  },
+  educationPolicy: {
+    title: {
+      ta: 'தமிழ்நாடு மாநிலக் கல்வி கொள்கை 2025',
+      en: 'Tamil Nadu State Education Policy 2025',
+    },
+    commitments: [
+      {
+        ta: 'வானவில் மன்றம் 100 மொபைல் STEM ஆய்வகங்கள் விரிவாக்கம்',
+        en: 'Expansion of 100 Vaanavil Mandram mobile STEM labs',
+      },
+      {
+        ta: 'TN-SPARK: நடுநிலைப் பள்ளியில் இருந்து AI, குறியீட்டு, தரவு கல்வி',
+        en: 'TN-SPARK: coding, AI, data literacy from middle school onwards',
+      },
+      {
+        ta: '38 மாதிரி பள்ளிகள் (ஒவ்வொரு மாவட்டத்திலும் ஒன்று) + 313 வேற்றி பள்ளிகள்',
+        en: '38 Model Schools (one per district) + 313 Vetri Palligal (one per block)',
+      },
+      {
+        ta: 'அனைத்து அரசு பள்ளிகளிலும் அறிவியல், சுற்றுச்சூழல், இலக்கிய மன்றங்கள் (மகிழ் மன்றம்)',
+        en: 'Science, eco, and literary clubs (Magizh Mandram) across all government schools',
+      },
+    ],
+  },
+  budget: {
+    total: '₹46,767 கோடி',
+    lineItems: [
+      {
+        label: {
+          ta: 'பேராசிரியர் அன்பழகன் உள்கட்டமைப்பு திட்டம்',
+          en: 'Perasiriyar Anbazhagan Infrastructure Scheme',
+        },
+        amount: '₹1,000 கோடி',
+      },
+      {
+        label: { ta: 'ICT ஆய்வக மேம்பாடு', en: 'ICT lab upgradation' },
+        amount: '₹160 கோடி',
+      },
+      {
+        label: {
+          ta: 'ஸ்மார்ட் வகுப்பறைகள் / Hi-tech ஆய்வகங்கள்',
+          en: 'Smart classrooms / Hi-tech labs',
+        },
+        amount: '₹56\u201365 கோடி',
+      },
+      {
+        label: { ta: 'சமக்ர சிக்ஷா (மாநில + மத்திய)', en: 'Samagra Shiksha (state + central)' },
+        amount: '₹4,150 கோடி',
+      },
+    ],
+    caveat: {
+      ta: 'இந்த பட்ஜெட் வரிகளில் எதுவும் குறிப்பாக அறிவியல் போட்டி பங்கேற்பை நிதியளிக்கவில்லை.',
+      en: 'None of these budget lines specifically fund science competition participation.',
+    },
+  },
+  opportunities: [
+    {
+      title: {
+        ta: 'வானவில் மன்றம் → INSPIRE குழாய்',
+        en: 'Vaanavil Mandram \u2192 INSPIRE pipeline',
+      },
+      body: [
+        {
+          ta: 'வானவில் மன்றம் ஆண்டுதோறும் 48,000+ மாணவர்களை எட்டும் உள் போட்டிகளை நடத்துகிறது. INSPIRE செப்டம்பர் வரை நாமினேஷன்களை ஏற்கிறது. செலவு இல்லாமல் குழாயை உருவாக்கலாம்.',
+          en: 'Vaanavil Mandram runs internal competitions reaching 48,000+ students annually. INSPIRE accepts nominations until September. A formal guidance protocol would cost zero and require no new infrastructure.',
+        },
+      ],
+    },
+    {
+      title: {
+        ta: 'STEM வளப் பணியாளர் → போட்டி வழிகாட்டி',
+        en: 'STEM Resource Person as competition guide',
+      },
+      body: [
+        {
+          ta: '710 பயிற்சி பெற்ற STEM வளப் பணியாளர்கள் ஒவ்வொரு அரசு பள்ளியையும் பார்வையிடுகிறார்கள். இவர்களுக்கு ஒரு அரை நாள் நோக்குநிலை அதை மாற்றும்.',
+          en: '710 trained STEM Resource Persons already visit every government school. A single half-day orientation for these 710 people could change that.',
+        },
+      ],
+    },
+    {
+      title: {
+        ta: 'ஓய்வுபெற்ற அறிவியல் ஆசிரியர் வலைப்பின்னல்',
+        en: 'Retired science teacher network',
+      },
+      body: [
+        {
+          ta: 'பல்லாயிரக்கணக்கான ஓய்வுபெற்ற அறிவியல் ஆசிரியர்கள் \u2014 போட்டி திட்ட தயாரிப்புக்கான ஒருங்கிணைக்கப்படாத தன்னார்வ வளம்.',
+          en: 'Tens of thousands of retired science teachers \u2014 an unmobilised volunteer resource for mentoring students on competition project preparation.',
+        },
+      ],
+    },
+    {
+      title: {
+        ta: 'ஒரு தமிழ்நாடு மாநில அறிவியல் விழா',
+        en: 'A Tamil Nadu state science fair',
+      },
+      body: [
+        {
+          ta: 'தற்போது TN-குறிப்பிட்ட ISEF-இணைக்கப்பட்ட அறிவியல் விழா இல்லை. வானவில் மன்றம் மற்றும் தேசிய IRIS நிலைக்கு இடையே ஒரு புதிய ஏணிப் படியை உருவாக்கும்.',
+          en: 'No TN-specific ISEF-affiliated science fair currently exists. One regional fair would create a new ladder rung between Vaanavil Mandram and the national IRIS stage.',
+        },
+      ],
+    },
+  ],
+  internationalBenchmarks: [
+    {
+      model: 'edinburgh',
+      title: {
+        ta: 'எடின்பரோ மாதிரி \u2014 பொது கலாச்சாரமாக அறிவியல்',
+        en: 'The Edinburgh Model \u2014 Science as Public Culture',
+      },
+      description: [
+        {
+          ta: 'Generation Science: ஆண்டு முழுவதும் பள்ளிகளுக்கு சென்று நிகழ்ச்சிகள் நடத்தும் திட்டம். பின்தங்கிய பகுதிகளுக்கு முன்னுரிமை. வானவில் மன்றத்தின் 710 STEM வளப் பணியாளர்கள் இதே மாதிரியை பின்பற்றுகிறார்கள்.',
+          en: 'Generation Science: a year-round touring schools programme that prioritises schools in remote regions and areas of economic disadvantage. Vaanavil Mandram\u2019s 710 STEM Resource Persons mirror this model.',
+        },
+      ],
+    },
+    {
+      model: 'isef-global',
+      title: {
+        ta: 'ISEF உலகளாவிய மாதிரி \u2014 உள்ளூர் விழாக்கள் நுழைவாயிலாக',
+        en: 'The ISEF Global Model \u2014 Local Fairs as Gateways',
+      },
+      description: [
+        {
+          ta: 'உலகளவில் 70 லட்சம் மாணவர்கள் ISEF-இணைக்கப்பட்ட உள்ளூர் விழாக்களில் பங்கேற்கிறார்கள். இந்தியாவின் முழு குழாயும் ஒரே தேசிய சாலையாக \u2014 IRIS \u2014 செல்கிறது.',
+          en: 'An estimated 7 million students globally participate in ISEF-affiliated local fairs. India\u2019s entire pipeline runs through a single national bottleneck \u2014 IRIS.',
+        },
+      ],
+    },
+  ],
+}
