@@ -1,0 +1,474 @@
+---
+import FreshnessBadge from './FreshnessBadge.astro'
+import { LAST_VERIFIED, t, fmtDate } from '../data/content'
+import type { TNParticipation } from '../data/types'
+
+interface Props {
+  data: TNParticipation
+}
+
+const { data } = Astro.props
+if (!data) return
+
+const initialCount = 3
+const hasMore = data.examples.length > initialCount
+---
+
+<section class="tn-block">
+  <!-- Header -->
+  <header class="tn-block__header">
+    <div class="tn-block__header-left">
+      <svg width="20" height="20" viewBox="0 0 20 20" class="tn-block__icon" aria-hidden="true">
+        <path
+          d="M10 2C6.5 2 4 4.5 4 7.8c0 4.4 6 10 6 10s6-5.6 6-10C16 4.5 13.5 2 10 2z"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.4"
+          stroke-linejoin="round"></path>
+        <circle cx="10" cy="8" r="2" fill="none" stroke="currentColor" stroke-width="1.4"></circle>
+      </svg>
+      <div>
+        <div class="tn-block__label">
+          <span class="ta">தமிழ்நாட்டில்</span>
+          <span class="en">In Tamil Nadu</span>
+        </div>
+        <div class="tn-block__year">
+          <span class="ta">2024–25 கல்வியாண்டு</span>
+          <span class="en">2024–25 academic year</span>
+        </div>
+      </div>
+    </div>
+    <FreshnessBadge size="sm" />
+  </header>
+
+  <!-- Stats row -->
+  <div class="tn-block__stats">
+    <div class="tn-block__stat">
+      <div class="tn-block__stat-value">{data.schools}</div>
+      <div class="tn-block__stat-label">
+        <span class="ta">பள்ளிகள்</span>
+        <span class="en">Schools</span>
+      </div>
+    </div>
+    <div class="tn-block__stat">
+      <div class="tn-block__stat-value">{data.districts}/38</div>
+      <div class="tn-block__stat-label">
+        <span class="ta">மாவட்டங்கள்</span>
+        <span class="en">Districts</span>
+      </div>
+    </div>
+    <div class="tn-block__stat tn-block__stat--last">
+      <div class="tn-block__stat-value">{data.students}</div>
+      <div class="tn-block__stat-label">
+        <span class="ta">மாணவர்கள்</span>
+        <span class="en">Students</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Note -->
+  {
+    data.note && (
+      <div class="tn-block__note">
+        <span class="tn-block__note-dot">&middot;</span>
+        <span class="ta">{t(data.note, 'ta')}</span>
+        <span class="en">{t(data.note, 'en')}</span>
+      </div>
+    )
+  }
+
+  <!-- Districts -->
+  <div class="tn-block__districts">
+    <div class="tn-block__districts-label">
+      <span class="ta">கடந்த ஆண்டு பங்கேற்ற பள்ளிகள் — எடுத்துக்காட்டுகள்</span>
+      <span class="en">Schools participating last year — selected examples</span>
+    </div>
+
+    <div class="tn-block__districts-grid" data-tn-districts>
+      {
+        data.examples.map((d, i) => (
+          <div
+            class:list={['tn-block__district', { 'tn-block__district--hidden': i >= initialCount }]}
+          >
+            <div class="tn-block__district-name">
+              <span class="tn-block__district-dot" />
+              <span class="ta">{t(d.district, 'ta')}</span>
+              <span class="en">{t(d.district, 'en')}</span>
+              <span class="tn-block__district-count">{d.schools.length}</span>
+            </div>
+            <ul class="tn-block__schools">
+              {d.schools.map((s) => (
+                <li class="tn-block__school">{s}</li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    {
+      hasMore && (
+        <button class="tn-block__expand" data-tn-expand>
+          <span class="ta">
+            + மேலும் {data.examples.length - initialCount} மாவட்டங்களைக் காட்டு
+          </span>
+          <span class="en">
+            + Show {data.examples.length - initialCount} more district
+            {data.examples.length - initialCount > 1 ? 's' : ''}
+          </span>
+        </button>
+      )
+    }
+
+    {
+      hasMore && (
+        <button class="tn-block__collapse" data-tn-collapse hidden>
+          <span class="ta">— சுருக்கு</span>
+          <span class="en">— Show less</span>
+        </button>
+      )
+    }
+  </div>
+
+  <!-- Source footer -->
+  <footer class="tn-block__footer">
+    <span>
+      <span class="tn-block__footer-source-label">
+        <span class="ta">மூலம்</span><span class="en">Source</span>:
+      </span>
+      <span class="ta">{t(data.sourceLabel, 'ta')}</span>
+      <span class="en">{t(data.sourceLabel, 'en')}</span>
+    </span>
+    <span class="tn-block__footer-verified">
+      <span class="ta">சரிபார்க்கப்பட்டது &middot; {fmtDate(LAST_VERIFIED, 'ta')}</span>
+      <span class="en">Verified &middot; {fmtDate(LAST_VERIFIED, 'en')}</span>
+    </span>
+  </footer>
+</section>
+
+<style>
+  .tn-block {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .tn-block__header {
+    padding: 18px 18px 14px;
+    background: var(--teal-soft);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  @media (min-width: 768px) {
+    .tn-block__header {
+      padding: 22px 26px 18px;
+    }
+  }
+
+  .tn-block__header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .tn-block__icon {
+    color: var(--teal);
+    flex-shrink: 0;
+  }
+
+  .tn-block__label {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--teal);
+    font-weight: 700;
+  }
+
+  .tn-block__year {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  :global([data-lang='ta']) .tn-block__year {
+    font-family: var(--font-ta);
+  }
+
+  .tn-block__stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .tn-block__stat {
+    padding: 16px 10px;
+    border-right: 1px solid var(--line-soft);
+    text-align: left;
+  }
+
+  @media (min-width: 768px) {
+    .tn-block__stat {
+      padding: 22px 20px;
+    }
+  }
+
+  .tn-block__stat--last {
+    border-right: none;
+  }
+
+  .tn-block__stat-value {
+    font-family: var(--font-display);
+    font-size: 22px;
+    color: var(--ink);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 6px;
+  }
+
+  @media (min-width: 768px) {
+    .tn-block__stat-value {
+      font-size: 30px;
+    }
+  }
+
+  .tn-block__stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+
+  :global([data-lang='ta']) .tn-block__stat-label {
+    font-family: var(--font-ta);
+  }
+
+  .tn-block__note {
+    padding: 14px 18px;
+    background: var(--ivory);
+    border-bottom: 1px solid var(--line-soft);
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+
+  @media (min-width: 768px) {
+    .tn-block__note {
+      padding: 16px 26px;
+      font-size: 14px;
+    }
+  }
+
+  :global([data-lang='ta']) .tn-block__note {
+    font-family: var(--font-ta);
+  }
+
+  .tn-block__note-dot {
+    color: var(--bronze);
+    margin-right: 8px;
+    font-weight: 600;
+  }
+
+  .tn-block__districts {
+    padding: 18px 18px 4px;
+  }
+
+  @media (min-width: 768px) {
+    .tn-block__districts {
+      padding: 22px 26px 8px;
+    }
+  }
+
+  .tn-block__districts-label {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--sage);
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+
+  .tn-block__districts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  @media (min-width: 768px) {
+    .tn-block__districts-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+  }
+
+  .tn-block__district {
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 12px 14px 14px;
+    background: var(--ivory);
+  }
+
+  .tn-block__district--hidden {
+    display: none;
+  }
+
+  .tn-block__district-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--teal);
+    letter-spacing: 0.3px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  :global([data-lang='ta']) .tn-block__district-name {
+    font-family: var(--font-ta);
+  }
+
+  .tn-block__district-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 99px;
+    background: var(--teal);
+    flex-shrink: 0;
+  }
+
+  .tn-block__district-count {
+    margin-left: auto;
+    color: var(--muted);
+    font-weight: 500;
+    font-size: 11px;
+  }
+
+  .tn-block__schools {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .tn-block__school {
+    font-family: var(--font-ui);
+    font-size: 12.5px;
+    color: var(--ink);
+    line-height: 1.4;
+    padding-left: 10px;
+    position: relative;
+  }
+
+  .tn-block__school::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 3px;
+    height: 3px;
+    border-radius: 99px;
+    background: var(--sage);
+    opacity: 0.6;
+  }
+
+  .tn-block__expand,
+  .tn-block__collapse {
+    margin-top: 14px;
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    min-height: auto;
+    min-width: auto;
+  }
+
+  .tn-block__expand {
+    background: transparent;
+    border: 1px dashed var(--line);
+    color: var(--teal);
+  }
+
+  :global([data-lang='ta']) .tn-block__expand {
+    font-family: var(--font-ta);
+  }
+
+  .tn-block__collapse {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-size: 12px;
+    padding: 8px 14px;
+  }
+
+  :global([data-lang='ta']) .tn-block__collapse {
+    font-family: var(--font-ta);
+  }
+
+  .tn-block__footer {
+    padding: 12px 18px 16px;
+    border-top: 1px solid var(--line-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  @media (min-width: 768px) {
+    .tn-block__footer {
+      padding: 14px 26px 18px;
+    }
+  }
+
+  .tn-block__footer-source-label {
+    font-weight: 600;
+    color: var(--ink);
+    opacity: 0.7;
+  }
+
+  .tn-block__footer-verified {
+    opacity: 0.8;
+  }
+</style>
+
+<script>
+  function initTNBlock() {
+    document.querySelectorAll('[data-tn-expand]').forEach((expandBtn) => {
+      const block = expandBtn.closest('.tn-block__districts')
+      if (!block) return
+      const collapseBtn = block.querySelector('[data-tn-collapse]') as HTMLElement
+      const hidden = block.querySelectorAll('.tn-block__district--hidden')
+
+      expandBtn.addEventListener('click', () => {
+        hidden.forEach((el) => el.classList.remove('tn-block__district--hidden'))
+        ;(expandBtn as HTMLElement).hidden = true
+        if (collapseBtn) collapseBtn.hidden = false
+      })
+
+      if (collapseBtn) {
+        collapseBtn.addEventListener('click', () => {
+          hidden.forEach((el) => el.classList.add('tn-block__district--hidden'))
+          ;(expandBtn as HTMLElement).hidden = false
+          collapseBtn.hidden = true
+        })
+      }
+    })
+  }
+
+  initTNBlock()
+  document.addEventListener('astro:after-swap', initTNBlock)
+</script>

@@ -1,0 +1,56 @@
+---
+import { COPY, t } from '../data/content'
+
+interface Props {
+  status: 'open' | 'upcoming' | 'soon' | 'closed'
+  size?: 'sm' | 'md'
+}
+
+const { status, size = 'md' } = Astro.props
+
+const statusMap = {
+  open: { bg: 'rgba(92,124,111,0.14)', fg: 'var(--sage)', label: COPY.dates.statusOpen },
+  soon: { bg: 'rgba(181,96,58,0.12)', fg: 'var(--bronze)', label: COPY.dates.statusSoon },
+  upcoming: { bg: 'rgba(13,92,99,0.10)', fg: 'var(--teal)', label: COPY.dates.statusUpcoming },
+  closed: { bg: 'rgba(26,26,46,0.06)', fg: 'var(--muted)', label: COPY.dates.statusClosed },
+}
+
+const v = statusMap[status] || statusMap.upcoming
+---
+
+<span
+  class:list={['status-pill', `status-pill--${size}`]}
+  style={`background: ${v.bg}; color: ${v.fg};`}
+>
+  <span class="status-pill__dot" style={`background: ${v.fg};`}></span>
+  <span class="ta">{t(v.label, 'ta')}</span>
+  <span class="en">{t(v.label, 'en')}</span>
+</span>
+
+<style>
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    font-family: var(--font-ui);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .status-pill--sm {
+    padding: 2px 7px;
+    font-size: 10px;
+  }
+
+  .status-pill__dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 99px;
+    flex-shrink: 0;
+  }
+</style>

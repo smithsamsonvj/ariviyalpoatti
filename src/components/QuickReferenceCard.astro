@@ -1,0 +1,166 @@
+---
+import { QUICK_REFERENCE, t } from '../data/content'
+---
+
+<div class="qrc">
+  <div class="qrc__header">
+    <h3 class="qrc__title">
+      <span class="ta">எந்த போட்டி உங்களுக்கு சரி?</span>
+      <span class="en">Which competition fits your school?</span>
+    </h3>
+    <p class="qrc__subtitle">
+      <span class="ta">உங்கள் பள்ளியின் சூழலைத் தேர்ந்தெடுங்கள்.</span>
+      <span class="en">Match your school&rsquo;s context to the best-fit competition.</span>
+    </p>
+  </div>
+
+  <div class="qrc__table-wrap">
+    <table class="qrc__table">
+      <thead>
+        <tr>
+          <th>
+            <span class="ta">உங்கள் பள்ளி</span>
+            <span class="en">If your school is&hellip;</span>
+          </th>
+          <th>
+            <span class="ta">சிறந்த போட்டி</span>
+            <span class="en">Best fit</span>
+          </th>
+          <th>
+            <span class="ta">செலவு</span>
+            <span class="en">Cost</span>
+          </th>
+          <th>
+            <span class="ta">முக்கிய பயன்</span>
+            <span class="en">Key benefit</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          QUICK_REFERENCE.map((row) => (
+            <tr>
+              <td>
+                <span class="ta">{t(row.condition, 'ta')}</span>
+                <span class="en">{t(row.condition, 'en')}</span>
+              </td>
+              <td>
+                {row.bestFit.map((id) => (
+                  <a href={`/competitions/${id}`} class="qrc__link">
+                    {id}
+                  </a>
+                ))}
+              </td>
+              <td>
+                <span class="ta">{t(row.cost, 'ta')}</span>
+                <span class="en">{t(row.cost, 'en')}</span>
+              </td>
+              <td>
+                <span class="ta">{t(row.benefit, 'ta')}</span>
+                <span class="en">{t(row.benefit, 'en')}</span>
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<style>
+  .qrc {
+    margin-top: var(--section-pad);
+    padding-top: var(--section-pad);
+    border-top: 1px solid var(--line);
+  }
+
+  .qrc__header {
+    margin-bottom: 20px;
+  }
+
+  .qrc__title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  :global([data-lang='ta']) .qrc__title {
+    font-family: var(--font-ta);
+    font-size: 18px;
+  }
+
+  :global([data-lang='en']) .qrc__title {
+    font-family: var(--font-display);
+  }
+
+  .qrc__subtitle {
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  :global([data-lang='ta']) .qrc__subtitle {
+    font-family: var(--font-ta);
+  }
+
+  .qrc__table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+
+  .qrc__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    min-width: 560px;
+  }
+
+  :global([data-lang='ta']) .qrc__table {
+    font-family: var(--font-ta);
+  }
+
+  thead {
+    background: var(--teal-soft);
+  }
+
+  th {
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--teal);
+    font-weight: 700;
+    font-family: var(--font-ui);
+    border-bottom: 1px solid var(--line);
+  }
+
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--line-soft);
+    color: var(--ink);
+    vertical-align: top;
+    line-height: 1.45;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  .qrc__link {
+    color: var(--teal);
+    font-weight: 500;
+    font-family: var(--font-ui);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-height: auto;
+    min-width: auto;
+  }
+
+  .qrc__link:hover {
+    text-decoration: underline;
+  }
+</style>

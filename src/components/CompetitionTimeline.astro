@@ -1,0 +1,319 @@
+---
+import { t, ACADEMIC_MONTHS, monthToAcademicIndex } from '../data/content'
+import type { Phase } from '../data/types'
+
+interface Props {
+  phases: Phase[]
+}
+
+const { phases } = Astro.props
+if (!phases || phases.length === 0) return
+
+const levelStyle: Record<string, { color: string; labelTa: string; labelEn: string }> = {
+  registration: { color: 'var(--sage)', labelTa: 'பதிவு', labelEn: 'Registration' },
+  district: { color: 'var(--teal)', labelTa: 'மாவட்டம்', labelEn: 'District' },
+  state: { color: 'var(--teal)', labelTa: 'மாநிலம்', labelEn: 'State' },
+  national: { color: 'var(--bronze)', labelTa: 'தேசியம்', labelEn: 'National' },
+  international: { color: '#7B4F34', labelTa: 'சர்வதேசம்', labelEn: 'International' },
+}
+
+const nowGridIdx = monthToAcademicIndex(new Date().getMonth())
+
+const usedLevels = [...new Set(phases.map((p) => p.level))]
+
+const phaseRows = phases.map((p) => {
+  const gridCells = p.months.map(monthToAcademicIndex).sort((a, b) => a - b)
+  const startCol = gridCells[0]
+  const endCol = gridCells[gridCells.length - 1]
+  const style = levelStyle[p.level] || levelStyle.district
+  return { ...p, startCol, endCol, style }
+})
+---
+
+<section class="timeline">
+  <div class="timeline__header">
+    <div>
+      <div class="timeline__kicker">
+        <span class="ta">கட்ட-வாரியான காலவரிசை</span>
+        <span class="en">Phase-by-phase timeline</span>
+      </div>
+      <div class="timeline__title">
+        <span class="ta">2025–26 கல்வியாண்டு · ஜூன் → மே</span>
+        <span class="en">Academic year 2025–26 · Jun → May</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Month header -->
+  <div class="timeline__months">
+    {
+      ACADEMIC_MONTHS.en.map((_, i) => (
+        <div class:list={['timeline__month', { 'timeline__month--now': i === nowGridIdx }]}>
+          <span class="ta">{ACADEMIC_MONTHS.ta[i]}</span>
+          <span class="en">{ACADEMIC_MONTHS.en[i]}</span>
+        </div>
+      ))
+    }
+  </div>
+
+  <!-- Phase rows -->
+  <div class="timeline__rows">
+    {
+      phaseRows.map((p) => (
+        <div class="timeline__row">
+          {[...Array(12)].map((_, c) => (
+            <div class:list={['timeline__cell', { 'timeline__cell--now': c === nowGridIdx }]} />
+          ))}
+          <div
+            class="timeline__bar"
+            style={`left: ${(p.startCol / 12) * 100}%; width: ${((p.endCol - p.startCol + 1) / 12) * 100}%; background: ${p.style.color};`}
+          >
+            <div class="timeline__bar-title">
+              <span class="ta">{t(p.title, 'ta')}</span>
+              <span class="en">{t(p.title, 'en')}</span>
+            </div>
+            {p.note && (
+              <div class="timeline__bar-note">
+                <span class="ta">{t(p.note, 'ta')}</span>
+                <span class="en">{t(p.note, 'en')}</span>
+              </div>
+            )}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <!-- Legend -->
+  <div class="timeline__legend">
+    {
+      usedLevels.map((k) => {
+        const v = levelStyle[k]
+        return (
+          <div class="timeline__legend-item">
+            <span class="timeline__legend-swatch" style={`background: ${v.color};`} />
+            <span class="ta">{v.labelTa}</span>
+            <span class="en">{v.labelEn}</span>
+          </div>
+        )
+      })
+    }
+    <div class="timeline__legend-item timeline__legend-now">
+      <span class="timeline__legend-line"></span>
+      <span class="ta">இன்று</span>
+      <span class="en">Today</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .timeline {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px 16px 18px;
+    margin-bottom: 20px;
+  }
+
+  @media (min-width: 768px) {
+    .timeline {
+      padding: 26px 28px 22px;
+    }
+  }
+
+  .timeline__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+
+  .timeline__kicker {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--bronze);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .timeline__title {
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+
+  :global([data-lang='ta']) .timeline__title {
+    font-family: var(--font-ta);
+  }
+
+  :global([data-lang='en']) .timeline__title {
+    font-family: var(--font-display);
+  }
+
+  @media (min-width: 768px) {
+    .timeline__title {
+      font-size: 20px;
+    }
+  }
+
+  .timeline__months {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2px;
+    margin-bottom: 6px;
+    font-family: var(--font-ui);
+  }
+
+  .timeline__month {
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    text-align: center;
+    color: var(--muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    padding: 2px 0;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .timeline__month--now {
+    color: var(--bronze);
+    font-weight: 700;
+    border-top: 2px solid var(--bronze);
+  }
+
+  .timeline__rows {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .timeline__row {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2px;
+    position: relative;
+    min-height: 44px;
+  }
+
+  .timeline__cell {
+    background: var(--ivory);
+    border-radius: 2px;
+    height: 44px;
+  }
+
+  .timeline__cell--now {
+    background: rgba(181, 96, 58, 0.06);
+  }
+
+  .timeline__bar {
+    position: absolute;
+    top: 0;
+    height: 44px;
+    border-radius: 3px;
+    padding: 6px 8px;
+    color: #fff;
+    font-family: var(--font-ui);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  @media (min-width: 768px) {
+    .timeline__bar {
+      padding: 6px 10px;
+    }
+  }
+
+  .timeline__bar-title {
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.15;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  :global([data-lang='ta']) .timeline__bar-title {
+    font-family: var(--font-ta);
+  }
+
+  @media (min-width: 768px) {
+    .timeline__bar-title {
+      font-size: 11.5px;
+    }
+  }
+
+  .timeline__bar-note {
+    font-size: 10px;
+    opacity: 0.85;
+    line-height: 1.2;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin-top: 1px;
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .timeline__bar-note {
+      display: block;
+    }
+  }
+
+  :global([data-lang='ta']) .timeline__bar-note {
+    font-family: var(--font-ta);
+  }
+
+  .timeline__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line-soft);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  @media (min-width: 768px) {
+    .timeline__legend {
+      gap: 18px;
+    }
+  }
+
+  .timeline__legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  :global([data-lang='ta']) .timeline__legend-item {
+    font-family: var(--font-ta);
+  }
+
+  .timeline__legend-swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .timeline__legend-now {
+    margin-left: auto;
+    opacity: 0.85;
+  }
+
+  .timeline__legend-line {
+    width: 10px;
+    height: 2px;
+    background: var(--bronze);
+    display: inline-block;
+  }
+</style>

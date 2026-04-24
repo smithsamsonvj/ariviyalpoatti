@@ -1,0 +1,215 @@
+---
+import StatusPill from './StatusPill.astro'
+import { COPY, LAST_VERIFIED, t, daysUntil, fmtDate } from '../data/content'
+import type { Bilingual, CompetitionCategory, CompetitionStatus } from '../data/types'
+
+interface Props {
+  id: string
+  category: CompetitionCategory
+  status: CompetitionStatus
+  name: Bilingual
+  shortName: Bilingual
+  eligibility: Bilingual
+  deadline: string
+  deadlineLabel: Bilingual
+}
+
+const { id, category, status, name, shortName, eligibility, deadline, deadlineLabel } = Astro.props
+
+const days = daysUntil(deadline)
+---
+
+<a href={`/competitions/${id}`} class="comp-card" data-category={category}>
+  <div class="comp-card__meta">
+    <span class="comp-card__category">
+      <span class="ta">{t(COPY.categories[category as keyof typeof COPY.categories], 'ta')}</span>
+      <span class="en">{t(COPY.categories[category as keyof typeof COPY.categories], 'en')}</span>
+    </span>
+    <span class="comp-card__sep">&middot;</span>
+    <StatusPill status={status} size="sm" />
+  </div>
+
+  <h3 class="comp-card__title">
+    <span class="ta">{t(name, 'ta')}</span>
+    <span class="en">{t(name, 'en')}</span>
+  </h3>
+
+  {
+    shortName && (
+      <div class="comp-card__short">
+        <span class="ta">{t(shortName, 'ta')}</span>
+        <span class="en">{t(shortName, 'en')}</span>
+      </div>
+    )
+  }
+
+  <div class="comp-card__eligibility">
+    <span class="ta">{t(eligibility, 'ta')}</span>
+    <span class="en">{t(eligibility, 'en')}</span>
+  </div>
+
+  <div class="comp-card__footer">
+    <span class="comp-card__deadline">
+      <span class="ta">{t(deadlineLabel, 'ta')}: {fmtDate(deadline, 'ta')}</span>
+      <span class="en">{t(deadlineLabel, 'en')}: {fmtDate(deadline, 'en')}</span>
+    </span>
+    <span
+      class:list={[
+        'comp-card__days',
+        { 'comp-card__days--urgent': days >= 0 && days < 30 },
+        { 'comp-card__days--closed': days < 0 },
+      ]}
+    >
+      {
+        days < 0 ? (
+          <>
+            <span class="ta">முடிந்தது</span>
+            <span class="en">closed</span>
+          </>
+        ) : (
+          <>
+            <span class="ta">{days} நாட்கள்</span>
+            <span class="en">{days} days</span>
+          </>
+        )
+      }
+    </span>
+  </div>
+
+  <div class="comp-card__verified">
+    <span class="comp-card__verified-dot"></span>
+    <span class="ta">சரிபார்க்கப்பட்டது &middot; {fmtDate(LAST_VERIFIED, 'ta')}</span>
+    <span class="en">Verified &middot; {fmtDate(LAST_VERIFIED, 'en')}</span>
+  </div>
+</a>
+
+<style>
+  .comp-card {
+    text-align: left;
+    background: var(--ivory);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px 20px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition:
+      border-color 0.15s,
+      transform 0.15s,
+      box-shadow 0.15s;
+    font-family: var(--font-ui);
+    color: var(--ink);
+    min-height: auto;
+    min-width: auto;
+  }
+
+  .comp-card:hover {
+    border-color: var(--teal);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(26, 26, 46, 0.08);
+  }
+
+  .comp-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .comp-card__category {
+    font-size: 10px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--sage);
+    font-weight: 600;
+  }
+
+  .comp-card__sep {
+    color: var(--line);
+  }
+
+  .comp-card__title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+
+  :global([data-lang='ta']) .comp-card__title {
+    font-family: var(--font-ta);
+    font-size: 18px;
+  }
+
+  :global([data-lang='en']) .comp-card__title {
+    font-family: var(--font-display);
+  }
+
+  .comp-card__short {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.4px;
+  }
+
+  .comp-card__eligibility {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  :global([data-lang='ta']) .comp-card__eligibility {
+    font-family: var(--font-ta);
+  }
+
+  .comp-card__footer {
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid var(--line-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--ink);
+  }
+
+  .comp-card__deadline {
+    opacity: 0.72;
+  }
+
+  :global([data-lang='ta']) .comp-card__deadline {
+    font-family: var(--font-ta);
+  }
+
+  .comp-card__days {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--sage);
+  }
+
+  .comp-card__days--urgent {
+    color: var(--bronze);
+  }
+
+  .comp-card__days--closed {
+    color: var(--muted);
+  }
+
+  .comp-card__verified {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.4px;
+    font-family: var(--font-ui);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 2px;
+  }
+
+  .comp-card__verified-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 99px;
+    background: var(--teal);
+    opacity: 0.6;
+  }
+</style>

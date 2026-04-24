@@ -1,0 +1,75 @@
+---
+interface Props {
+  href: string
+  titleTa: string
+  titleEn: string
+  subtitleTa: string
+  subtitleEn: string
+}
+
+const { href, titleTa, titleEn, subtitleTa, subtitleEn } = Astro.props
+---
+
+<a href={href} class="escape-link">
+  <div class="escape-link__title">
+    <span class="ta">{titleTa}</span>
+    <span class="en">{titleEn}</span>
+  </div>
+  <div class="escape-link__subtitle">
+    <span class="ta">{subtitleTa}</span>
+    <span class="en">{subtitleEn}</span>
+  </div>
+  <span class="escape-link__arrow">&rarr;</span>
+</a>
+
+<style>
+  .escape-link {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 18px;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    transition:
+      border-color 0.15s,
+      transform 0.15s;
+    position: relative;
+    min-height: auto;
+    min-width: auto;
+  }
+
+  .escape-link:hover {
+    border-color: var(--teal);
+    transform: translateY(-1px);
+  }
+
+  .escape-link__title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  :global([data-lang='ta']) .escape-link__title {
+    font-family: var(--font-ta);
+  }
+
+  .escape-link__subtitle {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  :global([data-lang='ta']) .escape-link__subtitle {
+    font-family: var(--font-ta);
+  }
+
+  .escape-link__arrow {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: var(--sage);
+    opacity: 0.6;
+  }
+</style>

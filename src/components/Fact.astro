@@ -1,0 +1,58 @@
+---
+interface Props {
+  labelTa: string
+  labelEn: string
+  valueTa: string
+  valueEn: string
+  highlight?: boolean
+}
+
+const { labelTa, labelEn, valueTa, valueEn, highlight = false } = Astro.props
+---
+
+<div class:list={['fact', { 'fact--highlight': highlight }]}>
+  <div class="fact__label">
+    <span class="ta">{labelTa}</span>
+    <span class="en">{labelEn}</span>
+  </div>
+  <div class="fact__value">
+    <span class="ta">{valueTa}</span>
+    <span class="en">{valueEn}</span>
+  </div>
+</div>
+
+<style>
+  .fact {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .fact:last-child {
+    border-bottom: none;
+  }
+
+  .fact__label {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--sage);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .fact__value {
+    font-size: 15px;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+
+  :global([data-lang='ta']) .fact__value {
+    font-family: var(--font-ta);
+  }
+
+  .fact--highlight .fact__value {
+    color: var(--bronze);
+    font-weight: 600;
+  }
+</style>

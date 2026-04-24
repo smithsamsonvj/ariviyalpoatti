@@ -1,0 +1,136 @@
+---
+interface Props {
+  role: 'teacher' | 'principal' | 'parent'
+  labelTa: string
+  labelEn: string
+  lineTa: string
+  lineEn: string
+  detailTa: string
+  detailEn: string
+}
+
+const { role, labelTa, labelEn, lineTa, lineEn, detailTa, detailEn } = Astro.props
+
+const colorMap = {
+  teacher: 'var(--teal)',
+  principal: 'var(--bronze)',
+  parent: 'var(--sage)',
+}
+const color = colorMap[role]
+---
+
+<a href={`/dashboard/${role}`} class="audience-card" style={`--card-color: ${color};`}>
+  <div class="audience-card__kicker">
+    <span class="ta">நான் ஒரு</span>
+    <span class="en">I&rsquo;m a</span>
+  </div>
+  <div class="audience-card__role">
+    <span class="ta">{labelTa}</span>
+    <span class="en">{labelEn}</span>
+  </div>
+  <div class="audience-card__detail">
+    <span class="ta">{detailTa}</span>
+    <span class="en">{detailEn}</span>
+  </div>
+  <div class="audience-card__cta">
+    <span class="audience-card__cta-line"></span>
+    <span>
+      <span class="ta">என் பாதையைக் காட்டு</span>
+      <span class="en">Show me my path</span>
+    </span>
+    <span class="audience-card__arrow">&rarr;</span>
+  </div>
+</a>
+
+<style>
+  .audience-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--card-color);
+    color: var(--ivory);
+    border-radius: var(--radius);
+    padding: 24px 22px 20px;
+    transition:
+      transform 0.15s,
+      box-shadow 0.15s;
+    min-height: auto;
+    min-width: auto;
+  }
+
+  .audience-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(26, 26, 46, 0.15);
+  }
+
+  .audience-card__kicker {
+    font-size: 10px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    opacity: 0.7;
+    font-family: var(--font-ui);
+    margin-bottom: 8px;
+  }
+
+  .audience-card__role {
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+
+  :global([data-lang='ta']) .audience-card__role {
+    font-family: var(--font-ta);
+    font-size: 24px;
+  }
+
+  :global([data-lang='en']) .audience-card__role {
+    font-family: var(--font-display);
+  }
+
+  @media (min-width: 768px) {
+    .audience-card__role {
+      font-size: 36px;
+    }
+
+    :global([data-lang='ta']) .audience-card__role {
+      font-size: 30px;
+    }
+  }
+
+  .audience-card__detail {
+    font-size: 14px;
+    line-height: 1.5;
+    opacity: 0.85;
+    flex: 1;
+    margin-bottom: 20px;
+  }
+
+  :global([data-lang='ta']) .audience-card__detail {
+    font-family: var(--font-ta);
+  }
+
+  .audience-card__cta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(245, 240, 232, 0.2);
+    font-size: 13px;
+    font-weight: 500;
+    font-family: var(--font-ui);
+  }
+
+  :global([data-lang='ta']) .audience-card__cta {
+    font-family: var(--font-ta);
+    font-size: 14px;
+  }
+
+  .audience-card__cta-line {
+    display: none;
+  }
+
+  .audience-card__arrow {
+    margin-left: auto;
+    font-size: 16px;
+  }
+</style>

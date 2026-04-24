@@ -1,0 +1,138 @@
+---
+import type { Bilingual } from '../data/types'
+import { t } from '../data/content'
+
+interface Row {
+  competitionId: string
+  name: Bilingual
+  tnParticipation: Bilingual
+  govtSchools: Bilingual
+  gap: Bilingual
+}
+
+interface Props {
+  rows: Row[]
+}
+
+const { rows } = Astro.props
+---
+
+<div class="gap-table-wrap">
+  <table class="gap-table">
+    <thead>
+      <tr>
+        <th>
+          <span class="ta">போட்டி</span>
+          <span class="en">Competition</span>
+        </th>
+        <th>
+          <span class="ta">TN பங்கேற்பு</span>
+          <span class="en">TN Participation</span>
+        </th>
+        <th>
+          <span class="ta">அரசு பள்ளிகள்</span>
+          <span class="en">Govt Schools</span>
+        </th>
+        <th>
+          <span class="ta">இடைவெளி</span>
+          <span class="en">Gap</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((row) => (
+          <tr>
+            <td>
+              <a href={`/competitions/${row.competitionId}`} class="gap-table__link">
+                <span class="ta">{t(row.name, 'ta')}</span>
+                <span class="en">{t(row.name, 'en')}</span>
+              </a>
+            </td>
+            <td>
+              <span class="ta">{t(row.tnParticipation, 'ta')}</span>
+              <span class="en">{t(row.tnParticipation, 'en')}</span>
+            </td>
+            <td>
+              <span class="ta">{t(row.govtSchools, 'ta')}</span>
+              <span class="en">{t(row.govtSchools, 'en')}</span>
+            </td>
+            <td class="gap-table__gap">
+              <span class="ta">{t(row.gap, 'ta')}</span>
+              <span class="en">{t(row.gap, 'en')}</span>
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .gap-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+
+  .gap-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    min-width: 600px;
+  }
+
+  :global([data-lang='ta']) .gap-table {
+    font-family: var(--font-ta);
+  }
+
+  thead {
+    background: var(--teal-soft);
+  }
+
+  th {
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--teal);
+    font-weight: 700;
+    font-family: var(--font-ui);
+    border-bottom: 1px solid var(--line);
+  }
+
+  td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--line-soft);
+    color: var(--ink);
+    vertical-align: top;
+    line-height: 1.4;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  tr:hover td {
+    background: var(--teal-soft);
+  }
+
+  .gap-table__link {
+    color: var(--teal);
+    font-weight: 500;
+    min-height: auto;
+    min-width: auto;
+  }
+
+  .gap-table__link:hover {
+    text-decoration: underline;
+  }
+
+  .gap-table__gap {
+    color: var(--muted);
+    font-size: 12px;
+  }
+</style>

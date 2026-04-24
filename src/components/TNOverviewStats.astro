@@ -1,0 +1,97 @@
+---
+import { TN_STATE_CONTEXT } from '../data/content'
+
+const baseline = TN_STATE_CONTEXT.baseline
+---
+
+<div class="tn-stats">
+  <div class="tn-stats__item">
+    <div class="tn-stats__value">{baseline.totalSchools}</div>
+    <div class="tn-stats__label">
+      <span class="ta">பள்ளிகள்</span>
+      <span class="en">Schools</span>
+    </div>
+  </div>
+  <div class="tn-stats__item">
+    <div class="tn-stats__value">
+      <span class="ta">1.25 கோடி</span>
+      <span class="en">12.5M</span>
+    </div>
+    <div class="tn-stats__label">
+      <span class="ta">மாணவர்கள்</span>
+      <span class="en">Students</span>
+    </div>
+  </div>
+  <div class="tn-stats__item">
+    <div class="tn-stats__value">
+      <span class="ta">5.49 லட்சம்</span>
+      <span class="en">549K</span>
+    </div>
+    <div class="tn-stats__label">
+      <span class="ta">ஆசிரியர்கள்</span>
+      <span class="en">Teachers</span>
+    </div>
+  </div>
+  <div class="tn-stats__item">
+    <div class="tn-stats__value">{baseline.percentOfIndia}</div>
+    <div class="tn-stats__label">
+      <span class="ta">இந்தியாவின் பள்ளிகளில்</span>
+      <span class="en">of India's schools</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .tn-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  @media (min-width: 768px) {
+    .tn-stats {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .tn-stats__item {
+    padding: 20px 16px;
+    background: var(--cream);
+  }
+
+  @media (min-width: 768px) {
+    .tn-stats__item {
+      padding: 24px 20px;
+    }
+  }
+
+  .tn-stats__value {
+    font-family: var(--font-display);
+    font-size: 26px;
+    color: var(--teal);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 6px;
+  }
+
+  @media (min-width: 768px) {
+    .tn-stats__value {
+      font-size: 32px;
+    }
+  }
+
+  .tn-stats__label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  :global([data-lang='ta']) .tn-stats__label {
+    font-family: var(--font-ta);
+  }
+</style>

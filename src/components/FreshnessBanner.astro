@@ -1,0 +1,84 @@
+---
+import { LAST_VERIFIED, fmtDate } from '../data/content'
+
+interface Props {
+  compact?: boolean
+}
+
+const { compact = false } = Astro.props
+---
+
+<div class:list={['freshness-banner', { 'freshness-banner--compact': compact }]}>
+  <svg width="16" height="16" viewBox="0 0 16 16" class="freshness-banner__icon" aria-hidden="true">
+    <circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.3"></circle>
+    <path
+      d="M5 8.3l2.1 2.1L11 6.4"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.4"
+      stroke-linecap="round"
+      stroke-linejoin="round"></path>
+  </svg>
+  <div>
+    <div class="freshness-banner__title">
+      <span class="ta">கடைசியாக சரிபார்க்கப்பட்டது — {fmtDate(LAST_VERIFIED, 'ta')}</span>
+      <span class="en"
+        >Last cross-checked against official sources &middot; {fmtDate(LAST_VERIFIED, 'en')}</span
+      >
+    </div>
+    <div class="freshness-banner__body">
+      <span class="ta"
+        >ஒவ்வொரு போட்டியின் அதிகாரப்பூர்வ தொடர்பு உங்களுக்கு கீழே உள்ளது. விண்ணப்பிக்கும் முன்
+        எப்போதும் ஒருமுறை பார்க்கவும்.</span
+      >
+      <span class="en"
+        >Each entry links to its official source below. Always verify once before you apply.</span
+      >
+    </div>
+  </div>
+</div>
+
+<style>
+  .freshness-banner {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 14px 18px;
+    background: var(--teal-soft);
+    border-left: 2px solid var(--teal);
+    border-radius: 3px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  .freshness-banner--compact {
+    padding: 12px 14px;
+    font-size: 12px;
+  }
+
+  :global([data-lang='ta']) .freshness-banner {
+    font-family: var(--font-ta);
+  }
+
+  .freshness-banner__icon {
+    flex-shrink: 0;
+    margin-top: 1px;
+    color: var(--teal);
+  }
+
+  .freshness-banner__title {
+    font-weight: 600;
+    color: var(--teal);
+    margin-bottom: 2px;
+  }
+
+  .freshness-banner__body {
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .freshness-banner--compact .freshness-banner__body {
+    font-size: 11px;
+  }
+</style>

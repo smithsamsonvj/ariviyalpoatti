@@ -1,0 +1,67 @@
+---
+import { LAST_VERIFIED, fmtDate } from '../data/content'
+
+interface Props {
+  size?: 'sm' | 'md'
+}
+
+const { size = 'md' } = Astro.props
+---
+
+<span class:list={['freshness-badge', `freshness-badge--${size}`]}>
+  <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
+    <circle cx="5" cy="5" r="4" fill="none" stroke="currentColor" stroke-width="1.3"></circle>
+    <path
+      d="M3 5.2l1.4 1.4L7.2 3.8"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.3"
+      stroke-linecap="round"
+      stroke-linejoin="round"></path>
+  </svg>
+  <span class="freshness-badge__label">
+    <span class="ta">சரிபார்க்கப்பட்டது</span>
+    <span class="en">Verified</span>
+  </span>
+  <span class="freshness-badge__sep">&middot;</span>
+  <span class="freshness-badge__date">
+    <span class="ta">{fmtDate(LAST_VERIFIED, 'ta')}</span>
+    <span class="en">{fmtDate(LAST_VERIFIED, 'en')}</span>
+  </span>
+</span>
+
+<style>
+  .freshness-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--teal-soft);
+    color: var(--teal);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    font-family: var(--font-ui);
+    white-space: nowrap;
+  }
+
+  .freshness-badge--sm {
+    padding: 3px 8px;
+    font-size: 10px;
+  }
+
+  .freshness-badge__label {
+    text-transform: uppercase;
+  }
+
+  .freshness-badge__sep {
+    opacity: 0.65;
+    font-weight: 500;
+  }
+
+  .freshness-badge__date {
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+  }
+</style>

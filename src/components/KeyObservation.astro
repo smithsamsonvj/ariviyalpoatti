@@ -1,0 +1,109 @@
+---
+import type { Bilingual } from '../data/types'
+import { t } from '../data/content'
+
+interface Props {
+  title: Bilingual
+  body: Bilingual[]
+  id: string
+}
+
+const { title, body, id } = Astro.props
+---
+
+<details class="key-obs" id={`obs-${id}`}>
+  <summary class="key-obs__summary">
+    <span class="key-obs__title">
+      <span class="ta">{t(title, 'ta')}</span>
+      <span class="en">{t(title, 'en')}</span>
+    </span>
+    <span class="key-obs__chevron" aria-hidden="true">
+      <svg width="14" height="14" viewBox="0 0 14 14">
+        <path
+          d="M4 5.5l3 3 3-3"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg>
+    </span>
+  </summary>
+  <div class="key-obs__body">
+    {
+      body.map((para) => (
+        <p>
+          <span class="ta">{t(para, 'ta')}</span>
+          <span class="en">{t(para, 'en')}</span>
+        </p>
+      ))
+    }
+  </div>
+</details>
+
+<style>
+  .key-obs {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--cream);
+    overflow: hidden;
+  }
+
+  .key-obs[open] .key-obs__chevron {
+    transform: rotate(180deg);
+  }
+
+  .key-obs__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 18px;
+    cursor: pointer;
+    list-style: none;
+    min-height: 44px;
+  }
+
+  .key-obs__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .key-obs__title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  :global([data-lang='ta']) .key-obs__title {
+    font-family: var(--font-ta);
+  }
+
+  :global([data-lang='en']) .key-obs__title {
+    font-family: var(--font-display);
+  }
+
+  .key-obs__chevron {
+    color: var(--sage);
+    flex-shrink: 0;
+    transition: transform 0.15s;
+  }
+
+  .key-obs__body {
+    padding: 0 18px 16px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  :global([data-lang='ta']) .key-obs__body {
+    font-family: var(--font-ta);
+  }
+
+  .key-obs__body p {
+    margin-bottom: 10px;
+  }
+
+  .key-obs__body p:last-child {
+    margin-bottom: 0;
+  }
+</style>
