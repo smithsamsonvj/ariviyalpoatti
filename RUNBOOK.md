@@ -1,4 +1,4 @@
-# Runbook — ariviyalpottai.in
+# Runbook — ariviyalpoatti.in
 
 ## Quick Reference
 
@@ -63,13 +63,13 @@ src/
 ## Deploying to Netlify
 
 1. Go to [app.netlify.com](https://app.netlify.com) and click "Add new site" > "Import an existing project"
-2. Connect to GitHub and select `smithsamsonvj/ariviyalpottai`
+2. Connect to GitHub and select `smithsamsonvj/ariviyalpoatti`
 3. Netlify auto-detects settings from `netlify.toml`:
    - Build command: `npm run build`
    - Publish directory: `dist`
    - Node version: 22
 4. Click "Deploy site"
-5. Set custom domain: Site settings > Domain management > Add custom domain > `ariviyalpottai.in`
+5. Set custom domain: Site settings > Domain management > Add custom domain > `ariviyalpoatti.in`
 6. Netlify provisions SSL automatically
 
 ## Running Lighthouse Locally
@@ -104,6 +104,6 @@ Thresholds (in `lighthouserc.json`): Performance >= 90, Accessibility >= 95, Bes
 
 ## Repo
 
-- **GitHub**: https://github.com/smithsamsonvj/ariviyalpottai (private)
+- **GitHub**: https://github.com/smithsamsonvj/ariviyalpoatti (private)
 - **Stack**: Astro 6 + TypeScript + vanilla CSS
 - **Hosting**: Netlify (to be configured)
