@@ -1,0 +1,291 @@
+---
+import { t } from '../data/content'
+import type { FlowStep } from '../data/content'
+
+interface Props {
+  step: FlowStep
+  index: number
+  role: string
+  roleColor: string
+  isLast: boolean
+}
+
+const { step, index, role, roleColor, isLast } = Astro.props
+---
+
+<article
+  class:list={['dash-step', { 'dash-step--first': index === 0, 'dash-step--last': isLast }]}
+  id={`step-${role}-${index}`}
+  style={`--role-color: ${roleColor};`}
+>
+  <div class="dash-step__header">
+    <div class="dash-step__num">{index + 1}</div>
+    <div class="dash-step__kicker">
+      <span class="ta">{t(step.kicker, 'ta')}</span>
+      <span class="en">{t(step.kicker, 'en')}</span>
+    </div>
+  </div>
+
+  <h2 class="dash-step__title">
+    <span class="ta">{t(step.title, 'ta')}</span>
+    <span class="en">{t(step.title, 'en')}</span>
+  </h2>
+
+  <p class="dash-step__body">
+    <span class="ta">{t(step.body, 'ta')}</span>
+    <span class="en">{t(step.body, 'en')}</span>
+  </p>
+
+  <!-- Competition highlight -->
+  {
+    step.competitionId && (
+      <a href={`/competitions/${step.competitionId}`} class="dash-step__comp-highlight">
+        <div class="dash-step__comp-label">
+          <span class="ta">பரிந்துரைக்கப்பட்டது</span>
+          <span class="en">Recommended</span>
+        </div>
+        <div class="dash-step__comp-id">{step.competitionId}</div>
+      </a>
+    )
+  }
+
+  <!-- Facts -->
+  {
+    step.facts && step.facts.length > 0 && (
+      <div class="dash-step__facts">
+        {step.facts.map((fact) => (
+          <div class="dash-step__fact">
+            <span class="ta">{t(fact, 'ta')}</span>
+            <span class="en">{t(fact, 'en')}</span>
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  <!-- Actions -->
+  {
+    step.actions && step.actions.length > 0 && (
+      <div class="dash-step__actions">
+        {step.actions.map((action) => (
+          <a
+            href={action.href || '#'}
+            class:list={['dash-step__action', `dash-step__action--${action.kind}`]}
+            target={action.external ? '_blank' : undefined}
+            rel={action.external ? 'noopener noreferrer' : undefined}
+          >
+            <span class="ta">{t(action.label, 'ta')}</span>
+            <span class="en">{t(action.label, 'en')}</span>
+            {action.kind === 'primary' && <span> →</span>}
+          </a>
+        ))}
+      </div>
+    )
+  }
+</article>
+
+<style>
+  .dash-step {
+    padding-top: 52px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--line);
+    scroll-margin-top: 80px;
+  }
+
+  .dash-step--first {
+    padding-top: 0;
+  }
+
+  .dash-step--last {
+    border-bottom: none;
+  }
+
+  @media (max-width: 767px) {
+    .dash-step {
+      padding-top: 36px;
+      padding-bottom: 28px;
+    }
+  }
+
+  .dash-step__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .dash-step__num {
+    width: 28px;
+    height: 28px;
+    border-radius: 99px;
+    background: var(--role-color);
+    color: var(--ivory);
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .dash-step__kicker {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--role-color);
+    font-weight: 600;
+  }
+
+  .dash-step__title {
+    font-size: 26px;
+    font-weight: 400;
+    margin: 0 0 14px;
+    line-height: 1.15;
+  }
+
+  :global([data-lang='ta']) .dash-step__title {
+    font-family: var(--font-ta);
+    font-size: 22px;
+  }
+
+  :global([data-lang='en']) .dash-step__title {
+    font-family: var(--font-display);
+  }
+
+  @media (min-width: 768px) {
+    .dash-step__title {
+      font-size: 34px;
+    }
+
+    :global([data-lang='ta']) .dash-step__title {
+      font-size: 30px;
+    }
+  }
+
+  .dash-step__body {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 640px;
+    margin-bottom: 20px;
+  }
+
+  :global([data-lang='ta']) .dash-step__body {
+    font-family: var(--font-ta);
+  }
+
+  @media (min-width: 768px) {
+    .dash-step__body {
+      font-size: 16px;
+    }
+  }
+
+  /* Competition highlight */
+  .dash-step__comp-highlight {
+    display: block;
+    padding: 16px 18px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--role-color);
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+    transition:
+      border-color 0.12s,
+      transform 0.12s;
+    min-height: auto;
+    min-width: auto;
+  }
+
+  .dash-step__comp-highlight:hover {
+    border-color: var(--role-color);
+    transform: translateY(-1px);
+  }
+
+  .dash-step__comp-label {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--role-color);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .dash-step__comp-id {
+    font-family: var(--font-ui);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Facts */
+  .dash-step__facts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  @media (min-width: 768px) {
+    .dash-step__facts {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .dash-step__fact {
+    padding: 12px 14px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--role-color);
+    text-align: center;
+  }
+
+  :global([data-lang='ta']) .dash-step__fact {
+    font-family: var(--font-ta);
+  }
+
+  /* Actions */
+  .dash-step__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .dash-step__action {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 500;
+    min-height: 44px;
+    min-width: auto;
+    transition: opacity 0.12s;
+  }
+
+  :global([data-lang='ta']) .dash-step__action {
+    font-family: var(--font-ta);
+  }
+
+  .dash-step__action:hover {
+    opacity: 0.9;
+  }
+
+  .dash-step__action--primary {
+    background: var(--role-color);
+    color: var(--ivory);
+  }
+
+  .dash-step__action--secondary {
+    background: transparent;
+    border: 1px solid var(--role-color);
+    color: var(--role-color);
+  }
+</style>

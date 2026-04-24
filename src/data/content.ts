@@ -646,3 +646,263 @@ export const TN_STATE_CONTEXT = {
     },
   ],
 }
+
+// ─── Flow Steps (Role Dashboard Data) ───
+
+export interface FlowStep {
+  kicker: Bilingual
+  title: Bilingual
+  body: Bilingual
+  actions?: Array<{
+    label: Bilingual
+    kind: 'primary' | 'secondary'
+    href?: string
+    external?: boolean
+  }>
+  competitionId?: string
+  facts?: Bilingual[]
+}
+
+export function getFlowSteps(role: 'teacher' | 'principal' | 'parent'): FlowStep[] {
+  if (role === 'teacher') {
+    return [
+      {
+        kicker: { ta: 'படி 1', en: 'Step 1' },
+        title: {
+          ta: 'ஒரே ஒரு போட்டியுடன் தொடங்குங்கள்',
+          en: 'Start with one competition.',
+        },
+        body: {
+          ta: 'பத்து போட்டிகளையும் ஒரே நேரத்தில் தொடங்க வேண்டாம். INSPIRE\u2013MANAK \u2014 முற்றிலும் இலவசம், பள்ளி உள்கட்டமைப்பு எதுவும் தேவையில்லை, 10 லட்சம் பிள்ளைகள் ஆண்டுதோறும் பங்கேற்கின்றனர். இதிலிருந்து தொடங்குங்கள்.',
+          en: 'Don\u2019t try all twelve at once. INSPIRE\u2013MANAK is free, needs no school infrastructure, and already reaches 10 lakh students a year. Start here.',
+        },
+        competitionId: 'inspire-manak',
+        actions: [
+          {
+            label: { ta: 'INSPIRE\u2013MANAK விவரம்', en: 'See INSPIRE\u2013MANAK' },
+            kind: 'primary',
+            href: '/competitions/inspire-manak',
+          },
+        ],
+      },
+      {
+        kicker: { ta: 'படி 2', en: 'Step 2' },
+        title: {
+          ta: 'உங்கள் பள்ளியின் INSPIRE நோடல் ஆசிரியர் யார்?',
+          en: 'Find out who your school\u2019s INSPIRE nodal teacher is.',
+        },
+        body: {
+          ta: 'ஒவ்வொரு பள்ளியிலும் ஒருவர் INSPIRE போர்ட்டலில் பதிவு செய்ய அதிகாரம் பெற்றுள்ளார். முதல்வரிடம் கேளுங்கள், அல்லது SCERT-ஐ தொடர்பு கொள்ளுங்கள். இதை இந்த வாரம் செய்யுங்கள்.',
+          en: 'One teacher at every school is authorised to submit to the INSPIRE portal. Ask your principal, or contact SCERT. Do this this week \u2014 nothing else happens until this is sorted.',
+        },
+      },
+      {
+        kicker: { ta: 'படி 3', en: 'Step 3' },
+        title: {
+          ta: 'உங்கள் வகுப்பிலிருந்து 5 மாணவர்களை தேர்ந்தெடுங்கள்',
+          en: 'Nominate 5 students from your class.',
+        },
+        body: {
+          ta: 'INSPIRE-ன் இலக்கு \u2014 ஆண்டுக்கு 10 லட்சம் யோசனைகள். ஆர்வமுள்ள பிள்ளைகளை மட்டும் தேர்ந்தெடுக்காதீர்கள். முதலில் தயங்கியவர்களை நாமினேட் செய்யுங்கள். \u20b910,000 நேரடியாக அவர்களது வங்கிக் கணக்கிற்கு வரும்.',
+          en: 'INSPIRE\u2019s goal is 10 lakh ideas a year. Don\u2019t just pick the obvious students \u2014 nominate the quieter ones who hesitated first. \u20b910,000 lands directly in their bank account.',
+        },
+        facts: [
+          { ta: '\u20b910,000 / மாணவர்', en: '\u20b910,000 per student' },
+          { ta: 'DBT நேரடி பரிமாற்றம்', en: 'Direct bank transfer' },
+          { ta: 'கட்டணம் இல்லை', en: 'Zero fee' },
+        ],
+      },
+      {
+        kicker: { ta: 'படி 4', en: 'Step 4' },
+        title: { ta: 'காலண்டர் உங்கள் தோழர்', en: 'The calendar is your friend.' },
+        body: {
+          ta: 'நவம்பர்\u2013ஜனவரி மிகவும் நெரிசலான காலம். INSPIRE, NSE, SOF, IRIS எல்லாம் ஒரே சமயத்தில். ஒரு வாரம் முன்னதாக உங்கள் மாணவர்கள் தயாராக இருக்க வேண்டும். முழு காலண்டரையும் பார்த்துக் கொள்ளுங்கள்.',
+          en: 'November to January is the collision zone \u2014 INSPIRE, NSE, SOF, IRIS all converge. Your students should be ready a week early. See the full calendar and pencil dates into your class diary.',
+        },
+        actions: [
+          {
+            label: { ta: 'வருடாந்திர காலண்டர் பார்', en: 'See annual calendar' },
+            kind: 'primary',
+            href: '/key-dates',
+          },
+        ],
+      },
+      {
+        kicker: { ta: 'படி 5', en: 'Step 5' },
+        title: {
+          ta: 'பகிர்ந்து கொள்ளுங்கள். ஒரு ஆசிரியர் மட்டும் போதாது.',
+          en: 'Share this. One teacher isn\u2019t enough.',
+        },
+        body: {
+          ta: 'தமிழ்நாட்டில் 57,935 பள்ளிகள். உங்கள் அண்டை பள்ளி ஆசிரியர்களுக்கு WhatsApp-ல் இந்த பக்கத்தை அனுப்புங்கள்.',
+          en: 'Tamil Nadu has 57,935 schools. Share this page on WhatsApp with teachers in neighbouring schools.',
+        },
+        actions: [
+          {
+            label: { ta: '12 போட்டிகளையும் பார்', en: 'Browse all 12' },
+            kind: 'secondary',
+            href: '/competitions',
+          },
+        ],
+      },
+    ]
+  }
+
+  if (role === 'principal') {
+    return [
+      {
+        kicker: { ta: 'படி 1', en: 'Step 1' },
+        title: {
+          ta: 'கடந்த ஆண்டு உங்கள் பள்ளியின் பதிவை மதிப்பிடுங்கள்',
+          en: 'Audit last year\u2019s record \u2014 honestly.',
+        },
+        body: {
+          ta: 'INSPIRE, RBVP, NCSC \u2014 இவற்றில் எவையேனும் உங்கள் பள்ளி பங்கேற்றதா? எத்தனை மாணவர்கள்? யார் ஒருங்கிணைத்தனர்? பதில் "யாரும் இல்லை" என்றால், இது தான் தொடக்கப் புள்ளி.',
+          en: 'Did your school enter INSPIRE, RBVP, or NCSC? How many students? Who coordinated? If the answer is "nobody" \u2014 that\u2019s your baseline.',
+        },
+        facts: [
+          { ta: 'IRIS 2024: தமிழ்நாடு 101-ல் 3', en: 'IRIS 2024: 3 of 101 from TN' },
+          { ta: 'அனைத்தும் தனியார் பள்ளிகள்', en: 'All private schools' },
+          { ta: 'அரசு பள்ளி: 0', en: 'Government schools: 0' },
+        ],
+      },
+      {
+        kicker: { ta: 'படி 2', en: 'Step 2' },
+        title: {
+          ta: 'ஒரு ஒருங்கிணைப்பாளரை நியமியுங்கள். ஒருவர் மட்டும்.',
+          en: 'Appoint one Science Competitions Coordinator. One person.',
+        },
+        body: {
+          ta: 'ஒரு பொறுப்பு, ஒருவர். பதினைந்து ஆசிரியர்களிடையே பகிர்ந்தால், ஒன்றும் நடக்காது. INSPIRE நோடல் ஆசிரியர் என்பது அரசு கட்டாயமாக்கிய பதவி \u2014 அதை சரியான நபருக்கு கொடுங்கள்.',
+          en: 'One mandate, one person. Split it across fifteen teachers and nothing moves. The INSPIRE nodal teacher role is already government-mandated \u2014 give it to the right person.',
+        },
+      },
+      {
+        kicker: { ta: 'படி 3', en: 'Step 3' },
+        title: {
+          ta: 'ATL ஆய்வகம் இருக்கிறதா? அதை பயன்படுத்துங்கள்.',
+          en: 'Got an Atal Tinkering Lab? Use it.',
+        },
+        body: {
+          ta: 'ATL Marathon 2024-ல் 54,000+ பள்ளிகள் பங்கேற்றன. உங்களுடைய பள்ளியில் ATL இருந்தும் பங்கேற்கவில்லை என்றால், அது வெறும் சாதனங்கள் வைக்கும் அறை. குழுவை பதிவு செய்யுங்கள்.',
+          en: '54,000+ schools joined the ATL Marathon in 2024. If you have an ATL but aren\u2019t entering, it\u2019s just a room with kit. Register a team.',
+        },
+        competitionId: 'atl-marathon',
+        actions: [
+          {
+            label: { ta: 'ATL Marathon விவரம்', en: 'See ATL Marathon' },
+            kind: 'primary',
+            href: '/competitions/atl-marathon',
+          },
+        ],
+      },
+      {
+        kicker: { ta: 'படி 4', en: 'Step 4' },
+        title: {
+          ta: 'நவம்பர்\u2013ஜனவரி பள்ளி நாட்காட்டியில் முன்கூட்டியே குறிக்கவும்',
+          en: 'Pencil November to January into the school calendar \u2014 early.',
+        },
+        body: {
+          ta: 'மாவட்ட கண்காட்சி, NSE, SOF நிலை 1, CBSE பிராந்திய, IRIS திரையிடல், WRO, NCSC \u2014 அனைத்தும் இந்த மூன்று மாதங்களில். ஆசிரியர்கள் தனியாக மீட்கப்படுவதற்கு முன் இதை பள்ளி கேலெண்டரில் சேர்க்கவும்.',
+          en: 'District fair, NSE, SOF Level 1, CBSE regionals, IRIS screening, WRO, NCSC \u2014 all within these three months. Put it in the school calendar before your teachers have to scramble.',
+        },
+        actions: [
+          {
+            label: { ta: 'காலண்டரை பார்', en: 'See the calendar' },
+            kind: 'primary',
+            href: '/key-dates',
+          },
+        ],
+      },
+      {
+        kicker: { ta: 'படி 5', en: 'Step 5' },
+        title: {
+          ta: 'வெற்றி பெற்றவர்களை பள்ளி முன்வெளியில் கௌரவியுங்கள்',
+          en: 'Celebrate your winners publicly. It compounds.',
+        },
+        body: {
+          ta: 'ஒரு மாணவரின் வெற்றி \u2014 பள்ளி முன்வெளியில் கௌரவிக்கப்பட்டால் \u2014 அடுத்த ஆண்டு பத்து மாணவர்களை தயாராக ஆக்கும். இது மலிவான, மிகச் சக்திவாய்ந்த விஷயம்.',
+          en: 'One student\u2019s win, publicly celebrated, creates ten who try next year. It\u2019s the cheapest, most powerful thing you can do.',
+        },
+      },
+    ]
+  }
+
+  // parent
+  return [
+    {
+      kicker: { ta: 'படி 1', en: 'Step 1' },
+      title: {
+        ta: 'உங்கள் குழந்தையின் வகுப்பு என்ன?',
+        en: 'What class is your child in?',
+      },
+      body: {
+        ta: '1ம் வகுப்பிலிருந்தே ஒலிம்பியாட்கள் உள்ளன. 6ம் வகுப்பு முதல் INSPIRE\u2013MANAK. ஒவ்வொரு வகுப்பிற்கும் பொருத்தமான போட்டிகள் வேறுபடும்.',
+        en: 'There are Olympiads from Class 1 onwards. INSPIRE\u2013MANAK opens at Class 6. The right competition depends on the class.',
+      },
+    },
+    {
+      kicker: { ta: 'படி 2', en: 'Step 2' },
+      title: {
+        ta: 'செலவு இருக்கிறதா? அரசு போட்டிகள் முற்றிலும் இலவசம்.',
+        en: 'Worried about cost? The government ones are completely free.',
+      },
+      body: {
+        ta: 'INSPIRE, NCSC, RBVP, ATL \u2014 ரூபாய் கூட கட்டணம் இல்லை. SOF போன்ற தனியார் ரூ.125 வசூலிக்கின்றன. WRO, FLL \u2014 ரூ.6,000\u201318,000. பெரிய மூன்று அரசு போட்டிகளிலிருந்து தொடங்குங்கள்.',
+        en: 'INSPIRE, NCSC, RBVP, ATL \u2014 zero fees. Private ones like SOF charge ~\u20b9125. WRO and FLL are \u20b96,000\u201318,000. Start with the big three government ones.',
+      },
+      facts: [
+        { ta: '4 அரசு: இலவசம்', en: '4 govt: Free' },
+        { ta: 'SOF: ~\u20b9125', en: 'SOF: ~\u20b9125' },
+        { ta: 'WRO/FLL: \u20b96k+', en: 'WRO/FLL: \u20b96k+' },
+      ],
+    },
+    {
+      kicker: { ta: 'படி 3', en: 'Step 3' },
+      title: {
+        ta: 'பள்ளி வழியாக மட்டும் பதிவு',
+        en: 'Most registrations happen only through the school.',
+      },
+      body: {
+        ta: 'நீங்கள் நேரடியாக INSPIRE-ல் பதிவு செய்ய முடியாது. பள்ளி ஒருங்கிணைப்பாளர் பதிவு செய்ய வேண்டும். உங்கள் பள்ளி முதல்வருடன் பேச ஒரு சிறிய குறிப்பை எடுத்துச் செல்லுங்கள்.',
+        en: 'You can\u2019t register directly \u2014 the school coordinator does it. Bring a short note to your principal.',
+      },
+    },
+    {
+      kicker: { ta: 'படி 4', en: 'Step 4' },
+      title: {
+        ta: 'முந்தைய ஆண்டு கேள்வித்தாள்கள் \u2014 இலவசமாக',
+        en: 'Past-year question papers \u2014 free online.',
+      },
+      body: {
+        ta: 'HBCSE (ஒலிம்பியாட்), NCERT (RBVP) \u2014 எல்லாமே பழைய கேள்வித்தாள்கள் வழங்குகின்றன. கோச்சிங் வகுப்பு எடுப்பதற்கு முன் உங்கள் குழந்தைக்கு இவற்றை கொடுத்துப் பாருங்கள்.',
+        en: 'HBCSE (Olympiad) and NCERT (RBVP) publish past papers for free. Let your child try these before you pay for any coaching.',
+      },
+      actions: [
+        {
+          label: { ta: 'ஒலிம்பியாட் பக்கம்', en: 'See Olympiad page' },
+          kind: 'secondary',
+          href: '/competitions/nse-ino',
+        },
+      ],
+    },
+    {
+      kicker: { ta: 'படி 5', en: 'Step 5' },
+      title: {
+        ta: 'ஒரு வெற்றியும், ஒரு தோல்வியும் \u2014 இரண்டுமே மதிப்புள்ளவை',
+        en: 'A win and a loss both matter.',
+      },
+      body: {
+        ta: 'போட்டி முடிவு முக்கியமில்லை \u2014 முயற்சி முக்கியம். உங்கள் குழந்தை முதல் முறை தோற்றால், அதை கொண்டாடுங்கள். அடுத்த முறை சிறப்பாக வரும்.',
+        en: 'The result isn\u2019t what matters \u2014 the attempt is. If your child loses the first time, celebrate the attempt. The next one will go further.',
+      },
+      actions: [
+        {
+          label: { ta: '12 போட்டிகளையும் பார்', en: 'Browse all 12' },
+          kind: 'primary',
+          href: '/competitions',
+        },
+      ],
+    },
+  ]
+}

@@ -1,0 +1,102 @@
+---
+import { t } from '../data/content'
+import type { Bilingual } from '../data/types'
+
+interface SidebarStep {
+  kicker: Bilingual
+  title: Bilingual
+}
+
+interface Props {
+  role: string
+  steps: SidebarStep[]
+  roleColor: string
+}
+
+const { role, steps, roleColor } = Astro.props
+---
+
+<aside class="dash-sidebar" style={`--role-color: ${roleColor};`}>
+  <div class="dash-sidebar__label">
+    <span class="ta">உங்கள் படிகள்</span>
+    <span class="en">Your steps</span>
+  </div>
+  {
+    steps.map((s, idx) => (
+      <a href={`#step-${role}-${idx}`} class="dash-sidebar__link">
+        <div class="dash-sidebar__link-kicker">
+          <span class="ta">{t(s.kicker, 'ta')}</span>
+          <span class="en">{t(s.kicker, 'en')}</span>
+        </div>
+        <div class="dash-sidebar__link-title">
+          <span class="ta">{t(s.title, 'ta').slice(0, 52)}</span>
+          <span class="en">{t(s.title, 'en').slice(0, 52)}</span>
+        </div>
+      </a>
+    ))
+  }
+</aside>
+
+<style>
+  .dash-sidebar {
+    position: sticky;
+    top: 80px;
+    font-family: var(--font-ui);
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .dash-sidebar {
+      display: block;
+    }
+  }
+
+  .dash-sidebar__label {
+    font-size: 10px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+
+  .dash-sidebar__link {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 10px 14px;
+    border-left: 2px solid var(--line);
+    color: var(--ink);
+    font-size: 13px;
+    line-height: 1.4;
+    transition:
+      border-color 0.15s,
+      color 0.15s;
+    min-height: auto;
+    min-width: auto;
+  }
+
+  :global([data-lang='ta']) .dash-sidebar__link {
+    font-family: var(--font-ta);
+  }
+
+  .dash-sidebar__link:hover {
+    border-left-color: var(--role-color);
+    color: var(--role-color);
+  }
+
+  .dash-sidebar__link-kicker {
+    font-size: 10px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 3px;
+    font-family: var(--font-ui);
+  }
+
+  .dash-sidebar__link-title {
+    font-size: 13px;
+    font-weight: 500;
+  }
+</style>

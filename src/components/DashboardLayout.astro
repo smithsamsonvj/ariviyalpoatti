@@ -1,0 +1,177 @@
+---
+import DashboardSidebar from './DashboardSidebar.astro'
+import DashboardStep from './DashboardStep.astro'
+import { COPY, t, getFlowSteps } from '../data/content'
+import type { Bilingual } from '../data/types'
+
+interface Props {
+  role: 'teacher' | 'principal' | 'parent'
+  roleColor: string
+}
+
+const { role, roleColor } = Astro.props
+const steps = getFlowSteps(role)
+const audience = COPY.audiences[role]
+---
+
+<!-- Role banner -->
+<section class="dash-banner" style={`background: ${roleColor};`}>
+  <div class="dash-banner__top">
+    <div class="dash-banner__label">
+      <span class="ta">உங்கள் பலகை ·</span>
+      <span class="en">Your dashboard &middot;</span>
+      <span class="ta">{audience.label.ta}</span>
+      <span class="en">{audience.label.en}</span>
+    </div>
+    <a href="/" class="dash-banner__change">
+      <span class="ta">பாத்திரம் மாற்று</span>
+      <span class="en">Change role</span>
+    </a>
+  </div>
+  <h1 class="dash-banner__title">
+    <span class="ta">{audience.line.ta}</span>
+    <span class="en">{audience.line.en}</span>
+  </h1>
+  <p class="dash-banner__desc">
+    <span class="ta">{audience.detail.ta}</span>
+    <span class="en">{audience.detail.en}</span>
+  </p>
+</section>
+
+<!-- Two-column: sidebar + steps -->
+<section class="dash-content">
+  <DashboardSidebar role={role} steps={steps} roleColor={roleColor} />
+
+  <div class="dash-content__main">
+    {
+      steps.map((step, idx) => (
+        <DashboardStep
+          step={step}
+          index={idx}
+          role={role}
+          roleColor={roleColor}
+          isLast={idx === steps.length - 1}
+        />
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .dash-banner {
+    color: var(--ivory);
+    padding: 26px var(--gutter) 28px;
+  }
+
+  @media (min-width: 768px) {
+    .dash-banner {
+      padding: 40px var(--gutter) 44px;
+    }
+  }
+
+  .dash-banner__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+
+  .dash-banner__label {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.78;
+    font-weight: 600;
+  }
+
+  .dash-banner__change {
+    background: transparent;
+    color: var(--ivory);
+    border: 1px solid rgba(245, 240, 232, 0.4);
+    border-radius: 99px;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-family: var(--font-ui);
+    min-height: auto;
+    min-width: auto;
+    transition: background 0.12s;
+  }
+
+  :global([data-lang='ta']) .dash-banner__change {
+    font-family: var(--font-ta);
+  }
+
+  .dash-banner__change:hover {
+    background: rgba(245, 240, 232, 0.12);
+  }
+
+  .dash-banner__title {
+    font-size: 30px;
+    font-weight: 400;
+    margin: 0;
+    line-height: 1.12;
+    max-width: 720px;
+  }
+
+  :global([data-lang='ta']) .dash-banner__title {
+    font-family: var(--font-ta);
+    font-size: 26px;
+  }
+
+  :global([data-lang='en']) .dash-banner__title {
+    font-family: var(--font-display);
+  }
+
+  @media (min-width: 768px) {
+    .dash-banner__title {
+      font-size: 48px;
+    }
+
+    :global([data-lang='ta']) .dash-banner__title {
+      font-size: 40px;
+    }
+  }
+
+  .dash-banner__desc {
+    font-size: 14px;
+    line-height: 1.55;
+    opacity: 0.82;
+    margin-top: 14px;
+    margin-bottom: 0;
+    max-width: 600px;
+  }
+
+  :global([data-lang='ta']) .dash-banner__desc {
+    font-family: var(--font-ta);
+  }
+
+  @media (min-width: 768px) {
+    .dash-banner__desc {
+      font-size: 16px;
+    }
+  }
+
+  /* Two-column layout */
+  .dash-content {
+    padding: 28px var(--gutter);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    align-items: start;
+  }
+
+  @media (min-width: 768px) {
+    .dash-content {
+      padding: 48px var(--gutter) 64px;
+      grid-template-columns: 220px 1fr;
+      gap: 48px;
+    }
+  }
+
+  .dash-content__main {
+    max-width: 720px;
+  }
+</style>
