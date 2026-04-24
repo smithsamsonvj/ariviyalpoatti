@@ -1,0 +1,289 @@
+---
+import Base from '../layouts/Base.astro'
+import Motif from '../components/Motif.astro'
+import KeyObservation from '../components/KeyObservation.astro'
+import { COPY, KEY_OBSERVATIONS } from '../data/content'
+---
+
+<Base title="இது ஏன் இருக்கிறது — Why This Exists" currentRoute="/why-this-exists">
+  <div class="about-page">
+    <!-- Header -->
+    <div class="about-page__header">
+      <div class="about-page__kicker">
+        <Motif size={16} color="var(--bronze)" opacity={0.7} />
+        <span>
+          <span class="ta">இது ஏன் இருக்கிறது</span>
+          <span class="en">About</span>
+        </span>
+      </div>
+      <h1 class="about-page__title">
+        <span class="ta">{COPY.about.title.ta}</span>
+        <span class="en">{COPY.about.title.en}</span>
+      </h1>
+    </div>
+
+    <!-- Body -->
+    <div class="about-page__body">
+      {
+        COPY.about.body.map((para, i) => (
+          <p class:list={['about-page__para', { 'about-page__para--bold': i === 0 }]}>
+            <span class="ta">{para.ta}</span>
+            <span class="en">{para.en}</span>
+          </p>
+        ))
+      }
+    </div>
+
+    <!-- TN Facts -->
+    <div class="about-page__facts">
+      <div class="about-page__facts-label">
+        <span class="ta">தமிழ்நாடு — எண்களில்</span>
+        <span class="en">Tamil Nadu — the numbers</span>
+      </div>
+      <div class="about-page__facts-grid">
+        {
+          COPY.about.tnFacts.map((fact) => (
+            <div class="about-page__fact">
+              <span class="ta">{fact.ta}</span>
+              <span class="en">{fact.en}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Key Observations -->
+    <div class="about-page__observations">
+      <h2 class="about-page__obs-title">
+        <span class="ta">நாங்கள் கண்டறிந்தவை</span>
+        <span class="en">What we found</span>
+      </h2>
+      <div class="about-page__obs-list">
+        {
+          KEY_OBSERVATIONS.map((obs) => (
+            <KeyObservation id={obs.id} title={obs.title} body={obs.body} />
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Sources -->
+    <div class="about-page__sources">
+      <div class="about-page__sources-label">
+        <span class="ta">{COPY.about.sources.ta}</span>
+        <span class="en">{COPY.about.sources.en}</span>
+      </div>
+      <div class="about-page__sources-text">
+        <span class="ta">{COPY.about.sourcesText.ta}</span>
+        <span class="en">{COPY.about.sourcesText.en}</span>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="about-page__contact">
+      <div class="about-page__contact-label">
+        <span class="ta">{COPY.about.contact.ta}</span>
+        <span class="en">{COPY.about.contact.en}</span>
+      </div>
+      <a href="mailto:hello@ariviyalpottai.in" class="about-page__email">hello@ariviyalpottai.in</a>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .about-page {
+    padding: var(--section-pad) var(--gutter);
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .about-page__header {
+    margin-bottom: 32px;
+  }
+
+  .about-page__kicker {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--sage);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .about-page__title {
+    font-size: 32px;
+    font-weight: 400;
+    margin: 0;
+    line-height: 1.15;
+  }
+
+  :global([data-lang='ta']) .about-page__title {
+    font-family: var(--font-ta);
+    font-size: 26px;
+  }
+
+  :global([data-lang='en']) .about-page__title {
+    font-family: var(--font-display);
+  }
+
+  @media (min-width: 768px) {
+    .about-page__title {
+      font-size: 48px;
+    }
+
+    :global([data-lang='ta']) .about-page__title {
+      font-size: 36px;
+    }
+  }
+
+  /* Body */
+  .about-page__body {
+    margin-bottom: 40px;
+  }
+
+  .about-page__para {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+
+  :global([data-lang='ta']) .about-page__para {
+    font-family: var(--font-ta);
+  }
+
+  @media (min-width: 768px) {
+    .about-page__para {
+      font-size: 16px;
+    }
+  }
+
+  .about-page__para--bold {
+    font-weight: 500;
+  }
+
+  /* TN Facts */
+  .about-page__facts {
+    border-left: 3px solid var(--bronze);
+    padding: 20px 22px;
+    margin-bottom: 40px;
+    background: var(--cream);
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+
+  .about-page__facts-label {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--bronze);
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  .about-page__facts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  @media (min-width: 768px) {
+    .about-page__facts-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .about-page__fact {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink);
+    padding-left: 12px;
+    border-left: 1px solid var(--line);
+  }
+
+  :global([data-lang='ta']) .about-page__fact {
+    font-family: var(--font-ta);
+  }
+
+  /* Observations */
+  .about-page__observations {
+    margin-bottom: 40px;
+  }
+
+  .about-page__obs-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  :global([data-lang='ta']) .about-page__obs-title {
+    font-family: var(--font-ta);
+    font-size: 18px;
+  }
+
+  :global([data-lang='en']) .about-page__obs-title {
+    font-family: var(--font-display);
+  }
+
+  .about-page__obs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Sources */
+  .about-page__sources {
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    margin-bottom: 24px;
+  }
+
+  .about-page__sources-label {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--sage);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .about-page__sources-text {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* Contact */
+  .about-page__contact {
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+
+  .about-page__contact-label {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--sage);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .about-page__email {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 14px;
+    color: var(--bronze);
+    min-height: auto;
+    min-width: auto;
+  }
+
+  .about-page__email:hover {
+    text-decoration: underline;
+  }
+</style>

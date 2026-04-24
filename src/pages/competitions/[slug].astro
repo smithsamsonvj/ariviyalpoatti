@@ -1,0 +1,346 @@
+---
+import Base from '../../layouts/Base.astro'
+import StatusPill from '../../components/StatusPill.astro'
+import FreshnessBadge from '../../components/FreshnessBadge.astro'
+import CompetitionTimeline from '../../components/CompetitionTimeline.astro'
+import TNParticipationBlock from '../../components/TNParticipationBlock.astro'
+import SectionHead from '../../components/SectionHead.astro'
+import Fact from '../../components/Fact.astro'
+import { getCollection } from 'astro:content'
+import { COPY, t, daysUntil, fmtDate } from '../../data/content'
+
+export async function getStaticPaths() {
+  const comps = await getCollection('competitions')
+  return comps.map((c) => ({
+    params: { slug: c.id },
+    props: { comp: c },
+  }))
+}
+
+const { comp } = Astro.props
+const d = comp.data
+const days = daysUntil(d.deadline)
+---
+
+<Base title={`${d.name.en} — ${d.name.ta}`} description={d.summary.en} currentRoute="/competitions">
+  <div class="detail">
+    <!-- Breadcrumb -->
+    <a href="/competitions" class="detail__back">
+      <span class="ta">← திரும்பு போட்டிகள்</span>
+      <span class="en">← Back to Competitions</span>
+    </a>
+
+    <!-- Header -->
+    <header class="detail__header">
+      <div class="detail__meta">
+        <span class="detail__category">
+          <span class="ta"
+            >{t(COPY.categories[d.category as keyof typeof COPY.categories], 'ta')}</span
+          >
+          <span class="en"
+            >{t(COPY.categories[d.category as keyof typeof COPY.categories], 'en')}</span
+          >
+        </span>
+        <StatusPill status={d.status} />
+        <FreshnessBadge size="sm" />
+      </div>
+      <h1 class="detail__title">
+        <span class="ta">{d.name.ta}</span>
+        <span class="en">{d.name.en}</span>
+      </h1>
+      <p class="detail__summary">
+        <span class="ta">{d.summary.ta}</span>
+        <span class="en">{d.summary.en}</span>
+      </p>
+    </header>
+
+    <!-- Timeline -->
+    <CompetitionTimeline phases={d.phases} />
+
+    <!-- TN Participation -->
+    {d.tn && <TNParticipationBlock data={d.tn} />}
+
+    <!-- Two-column body -->
+    <div class="detail__body">
+      <!-- Left: Process -->
+      <div class="detail__main">
+        <SectionHead titleTa={COPY.common.process.ta} titleEn={COPY.common.process.en} />
+        <ol class="detail__process">
+          {
+            d.process.map((step, i) => (
+              <li class="detail__step">
+                <span class="detail__step-num">{String(i + 1).padStart(2, '0')}</span>
+                <span class="detail__step-text">
+                  <span class="ta">{step.ta}</span>
+                  <span class="en">{step.en}</span>
+                </span>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+
+      <!-- Right: Sidebar -->
+      <aside class="detail__sidebar">
+        <Fact
+          labelTa={COPY.common.eligibility.ta}
+          labelEn={COPY.common.eligibility.en}
+          valueTa={d.eligibility.ta}
+          valueEn={d.eligibility.en}
+        />
+        <Fact
+          labelTa={COPY.common.deadline.ta}
+          labelEn={COPY.common.deadline.en}
+          valueTa={`${d.deadlineLabel.ta}: ${fmtDate(d.deadline, 'ta')} — ${days >= 0 ? `${days} நாட்கள் மீதம்` : 'முடிந்தது'}`}
+          valueEn={`${d.deadlineLabel.en}: ${fmtDate(d.deadline, 'en')} — ${days >= 0 ? `${days} days left` : 'closed'}`}
+          highlight={days >= 0 && days < 30}
+        />
+        <Fact
+          labelTa={COPY.common.fee.ta}
+          labelEn={COPY.common.fee.en}
+          valueTa={d.fee.ta}
+          valueEn={d.fee.en}
+        />
+        <Fact
+          labelTa={COPY.common.organiser.ta}
+          labelEn={COPY.common.organiser.en}
+          valueTa={d.organiser.ta}
+          valueEn={d.organiser.en}
+        />
+        <Fact
+          labelTa={COPY.common.since.ta}
+          labelEn={COPY.common.since.en}
+          valueTa={d.since}
+          valueEn={d.since}
+        />
+        <Fact
+          labelTa={COPY.common.reach.ta}
+          labelEn={COPY.common.reach.en}
+          valueTa={d.reach.label.ta}
+          valueEn={d.reach.label.en}
+        />
+        <Fact
+          labelTa={COPY.common.schoolType.ta}
+          labelEn={COPY.common.schoolType.en}
+          valueTa={d.schoolType.ta}
+          valueEn={d.schoolType.en}
+        />
+        <Fact
+          labelTa={COPY.common.intlPath.ta}
+          labelEn={COPY.common.intlPath.en}
+          valueTa={d.intlPath.ta}
+          valueEn={d.intlPath.en}
+        />
+        <Fact
+          labelTa={COPY.common.official.ta}
+          labelEn={COPY.common.official.en}
+          valueTa={d.official}
+          valueEn={d.official}
+        />
+
+        <!-- CTA -->
+        <a
+          href={`https://${d.official}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="detail__cta"
+        >
+          <span class="ta">{COPY.common.register.ta} →</span>
+          <span class="en">{COPY.common.register.en} →</span>
+        </a>
+      </aside>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .detail {
+    padding: var(--section-pad) var(--gutter);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .detail__back {
+    display: inline-flex;
+    align-items: center;
+    font-size: 13px;
+    color: var(--sage);
+    margin-bottom: 20px;
+    min-height: auto;
+    min-width: auto;
+  }
+
+  :global([data-lang='ta']) .detail__back {
+    font-family: var(--font-ta);
+  }
+
+  .detail__back:hover {
+    color: var(--teal);
+  }
+
+  .detail__header {
+    margin-bottom: 28px;
+  }
+
+  .detail__meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  .detail__category {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--sage);
+    font-weight: 600;
+  }
+
+  .detail__title {
+    font-size: 32px;
+    font-weight: 400;
+    margin: 0 0 14px;
+    line-height: 1.15;
+  }
+
+  :global([data-lang='ta']) .detail__title {
+    font-family: var(--font-ta);
+    font-size: 26px;
+    line-height: 1.3;
+  }
+
+  :global([data-lang='en']) .detail__title {
+    font-family: var(--font-display);
+  }
+
+  @media (min-width: 768px) {
+    .detail__title {
+      font-size: 44px;
+    }
+
+    :global([data-lang='ta']) .detail__title {
+      font-size: 34px;
+    }
+  }
+
+  .detail__summary {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 700px;
+  }
+
+  :global([data-lang='ta']) .detail__summary {
+    font-family: var(--font-ta);
+  }
+
+  @media (min-width: 768px) {
+    .detail__summary {
+      font-size: 16px;
+    }
+  }
+
+  /* Two-column body */
+  .detail__body {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-top: 32px;
+  }
+
+  @media (min-width: 768px) {
+    .detail__body {
+      grid-template-columns: 1fr 320px;
+      gap: 48px;
+    }
+  }
+
+  /* Process steps */
+  .detail__process {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .detail__step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .detail__step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--teal-soft);
+    color: var(--teal);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .detail__step-text {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  :global([data-lang='ta']) .detail__step-text {
+    font-family: var(--font-ta);
+  }
+
+  /* Sidebar */
+  .detail__sidebar {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 4px 20px 20px;
+  }
+
+  @media (min-width: 768px) {
+    .detail__sidebar {
+      position: sticky;
+      top: 80px;
+      align-self: start;
+    }
+  }
+
+  .detail__cta {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    margin-top: 20px;
+    background: var(--bronze);
+    color: var(--ivory);
+    border-radius: var(--radius);
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    transition:
+      background 0.12s,
+      transform 0.12s;
+    min-height: 44px;
+    min-width: auto;
+  }
+
+  :global([data-lang='ta']) .detail__cta {
+    font-family: var(--font-ta);
+    font-size: 15px;
+  }
+
+  .detail__cta:hover {
+    background: #9a4f2e;
+    transform: translateY(-1px);
+  }
+</style>

@@ -1,19 +1,300 @@
 ---
 import Base from '../../layouts/Base.astro'
+import Motif from '../../components/Motif.astro'
+import FreshnessBanner from '../../components/FreshnessBanner.astro'
+import CompetitionCard from '../../components/CompetitionCard.astro'
+import { getCollection } from 'astro:content'
+import { COPY } from '../../data/content'
+
+const allComps = await getCollection('competitions')
+const national = allComps
+  .filter((c) => c.data.category !== 'state')
+  .sort((a, b) => (a.data.sortOrder ?? 99) - (b.data.sortOrder ?? 99))
+const stateComps = allComps.filter((c) => c.data.category === 'state')
+
+const categories = ['all', 'govt', 'olympiad', 'ngo', 'robotics', 'private'] as const
 ---
 
 <Base title="போட்டிகள் — Competitions" currentRoute="/competitions">
-  <div
-    class="container"
-    style="padding-top: var(--section-pad); padding-bottom: var(--section-pad);"
-  >
-    <h1>
-      <span class="ta">போட்டிகள்</span>
-      <span class="en">Competitions</span>
-    </h1>
-    <p style="margin-top: 16px;">
-      <span class="ta">போட்டி பட்டியல் விரைவில் வரும்.</span>
-      <span class="en">Competition listing coming soon.</span>
-    </p>
+  <div class="comp-page">
+    <!-- Header -->
+    <div class="comp-page__header">
+      <div class="comp-page__kicker">
+        <Motif size={16} color="var(--bronze)" opacity={0.7} />
+        <span>
+          <span class="ta">போட்டிகள்</span>
+          <span class="en">Competitions</span>
+        </span>
+      </div>
+      <h1 class="comp-page__title">
+        <span class="ta">உங்கள் மாணவர்கள் இப்போது பங்கேற்கக்கூடிய போட்டிகள்</span>
+        <span class="en">Competitions your students can enter right now</span>
+      </h1>
+      <p class="comp-page__sub">
+        <span class="ta"
+          >ஒவ்வொரு கார்டிலும் என்ன, யாருக்கு தகுதி, நடைமுறை, காலக்கெடு, அதிகாரப்பூர்வ இணைப்பு.</span
+        >
+        <span class="en">Each card has what, who's eligible, process, deadline, official link.</span
+        >
+      </p>
+      <div class="comp-page__banner">
+        <FreshnessBanner />
+      </div>
+    </div>
+
+    <!-- Category filters -->
+    <div class="comp-page__filters">
+      {
+        categories.map((cat) => {
+          const count =
+            cat === 'all' ? national.length : national.filter((c) => c.data.category === cat).length
+          return (
+            <button
+              class:list={['comp-page__filter', { 'comp-page__filter--active': cat === 'all' }]}
+              data-filter={cat}
+            >
+              <span class="ta">{COPY.categories[cat as keyof typeof COPY.categories].ta}</span>
+              <span class="en">{COPY.categories[cat as keyof typeof COPY.categories].en}</span>
+              <span class="comp-page__filter-count">{count}</span>
+            </button>
+          )
+        })
+      }
+    </div>
+
+    <!-- Competition grid -->
+    <div class="comp-page__grid" data-comp-grid>
+      {
+        national.map((c) => (
+          <CompetitionCard
+            id={c.data.id}
+            category={c.data.category}
+            status={c.data.status}
+            name={c.data.name}
+            shortName={c.data.shortName}
+            eligibility={c.data.eligibility}
+            deadline={c.data.deadline}
+            deadlineLabel={c.data.deadlineLabel}
+          />
+        ))
+      }
+    </div>
+
+    <!-- State programme section -->
+    {
+      stateComps.length > 0 && (
+        <div class="comp-page__state">
+          <div class="comp-page__state-label">
+            <span class="comp-page__state-line" />
+            <span>
+              <span class="ta">தமிழ்நாடு மாநிலத் திட்டம்</span>
+              <span class="en">Tamil Nadu State Programme</span>
+            </span>
+          </div>
+          <div class="comp-page__grid">
+            {stateComps.map((c) => (
+              <CompetitionCard
+                id={c.data.id}
+                category={c.data.category}
+                status={c.data.status}
+                name={c.data.name}
+                shortName={c.data.shortName}
+                eligibility={c.data.eligibility}
+                deadline={c.data.deadline}
+                deadlineLabel={c.data.deadlineLabel}
+              />
+            ))}
+          </div>
+        </div>
+      )
+    }
   </div>
 </Base>
+
+<style>
+  .comp-page {
+    padding: var(--section-pad) var(--gutter);
+  }
+
+  .comp-page__header {
+    margin-bottom: 28px;
+  }
+
+  .comp-page__kicker {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--sage);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .comp-page__title {
+    font-size: 28px;
+    font-weight: 400;
+    margin: 0 0 12px;
+    max-width: 700px;
+    line-height: 1.15;
+  }
+
+  :global([data-lang='ta']) .comp-page__title {
+    font-family: var(--font-ta);
+    font-size: 24px;
+    line-height: 1.3;
+  }
+
+  :global([data-lang='en']) .comp-page__title {
+    font-family: var(--font-display);
+  }
+
+  @media (min-width: 768px) {
+    .comp-page__title {
+      font-size: 40px;
+    }
+
+    :global([data-lang='ta']) .comp-page__title {
+      font-size: 32px;
+    }
+  }
+
+  .comp-page__sub {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.55;
+    margin-bottom: 20px;
+  }
+
+  :global([data-lang='ta']) .comp-page__sub {
+    font-family: var(--font-ta);
+  }
+
+  .comp-page__banner {
+    margin-bottom: 24px;
+    max-width: 700px;
+  }
+
+  /* Filters */
+  .comp-page__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .comp-page__filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.12s;
+    min-height: 36px;
+    min-width: auto;
+  }
+
+  :global([data-lang='ta']) .comp-page__filter {
+    font-family: var(--font-ta);
+  }
+
+  .comp-page__filter:hover {
+    border-color: var(--teal);
+    color: var(--teal);
+  }
+
+  .comp-page__filter--active {
+    background: var(--teal);
+    color: var(--ivory);
+    border-color: var(--teal);
+  }
+
+  .comp-page__filter-count {
+    font-size: 11px;
+    opacity: 0.7;
+    font-family: var(--font-ui);
+  }
+
+  /* Grid */
+  .comp-page__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  @media (min-width: 600px) {
+    .comp-page__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .comp-page__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* State section */
+  .comp-page__state {
+    margin-top: 48px;
+  }
+
+  .comp-page__state-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--sage);
+    font-weight: 600;
+  }
+
+  .comp-page__state-line {
+    width: 24px;
+    height: 1px;
+    background: var(--sage);
+  }
+</style>
+
+<script>
+  function initFilters() {
+    const filters = document.querySelectorAll('[data-filter]')
+    const grid = document.querySelector('[data-comp-grid]')
+    if (!filters.length || !grid) return
+
+    const cards = grid.querySelectorAll('[data-category]')
+
+    filters.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const cat = (btn as HTMLElement).dataset.filter
+
+        filters.forEach((f) => f.classList.remove('comp-page__filter--active'))
+        btn.classList.add('comp-page__filter--active')
+
+        cards.forEach((card) => {
+          const el = card as HTMLElement
+          if (cat === 'all' || el.dataset.category === cat) {
+            el.style.display = ''
+          } else {
+            el.style.display = 'none'
+          }
+        })
+      })
+    })
+  }
+
+  initFilters()
+  document.addEventListener('astro:after-swap', initFilters)
+</script>

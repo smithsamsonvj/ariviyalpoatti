@@ -1,0 +1,427 @@
+---
+import Base from '../layouts/Base.astro'
+import Motif from '../components/Motif.astro'
+import TNOverviewStats from '../components/TNOverviewStats.astro'
+import SectionHead from '../components/SectionHead.astro'
+import { TN_STATE_CONTEXT, t } from '../data/content'
+---
+
+<Base title="தமிழ்நாடு — Tamil Nadu" currentRoute="/tamil-nadu">
+  <div class="tn-page">
+    <!-- Header -->
+    <div class="tn-page__header">
+      <div class="tn-page__kicker">
+        <Motif size={16} color="var(--bronze)" opacity={0.7} />
+        <span>
+          <span class="ta">தமிழ்நாடு</span>
+          <span class="en">Tamil Nadu</span>
+        </span>
+      </div>
+      <h1 class="tn-page__title">
+        <span class="ta">தமிழ்நாடு — மாநில அளவிலான பகுப்பாய்வு</span>
+        <span class="en">Tamil Nadu — State-Level Analysis</span>
+      </h1>
+      <p class="tn-page__sub">
+        <span class="ta"
+          >தேசிய போட்டிகளில் தமிழ்நாட்டின் செயல்திறன், மாநில அரசின் முன்முயற்சிகள், மற்றும்
+          இடைவெளிகள்.</span
+        >
+        <span class="en"
+          >How Tamil Nadu performs in national competitions, state government initiatives, and where
+          the gaps lie.</span
+        >
+      </p>
+    </div>
+
+    <!-- Stats -->
+    <div class="tn-page__section">
+      <TNOverviewStats />
+      <p class="tn-page__source">
+        <span class="ta">{t(TN_STATE_CONTEXT.baseline.source, 'ta')}</span>
+        <span class="en">{t(TN_STATE_CONTEXT.baseline.source, 'en')}</span>
+      </p>
+    </div>
+
+    <!-- Vaanavil Mandram -->
+    <div class="tn-page__section">
+      <SectionHead titleTa="வானவில் மன்றம்" titleEn="Vaanavil Mandram" />
+      <div class="tn-page__vaanavil">
+        <p class="tn-page__vaanavil-intro">
+          <span class="ta"
+            >தமிழ்நாடு அரசின் மிக முக்கியமான பள்ளி அறிவியல் திட்டம். 13,210 அரசு பள்ளிகளில் 25
+            லட்சம் மாணவர்களுக்கு சேவை. 710 STEM வளப் பணியாளர்கள்.</span
+          >
+          <span class="en"
+            >Tamil Nadu's most significant state science programme. Serves 25 lakh students across
+            13,210 government schools. 710 trained STEM Resource Persons.</span
+          >
+        </p>
+        <div class="tn-page__vaanavil-highlight">
+          <span class="tn-page__vaanavil-dot"></span>
+          <span>
+            <span class="ta"
+              >காணாமல் போன இணைப்பு: எந்த தேசிய போட்டி நுழைவாயிலுடனும் இணைக்கப்படவில்லை.</span
+            >
+            <span class="en"
+              >The missing link: not connected to any national competition gateway.</span
+            >
+          </span>
+        </div>
+        <a href="/competitions/vaanavil-mandram" class="tn-page__vaanavil-link">
+          <span class="ta">வானவில் மன்றம் விவரங்கள் →</span>
+          <span class="en">Vaanavil Mandram details →</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Education Policy -->
+    <div class="tn-page__section">
+      <SectionHead
+        titleTa={TN_STATE_CONTEXT.educationPolicy.title.ta}
+        titleEn={TN_STATE_CONTEXT.educationPolicy.title.en}
+      />
+      <ul class="tn-page__policy-list">
+        {
+          TN_STATE_CONTEXT.educationPolicy.commitments.map((c) => (
+            <li class="tn-page__policy-item">
+              <span class="ta">{c.ta}</span>
+              <span class="en">{c.en}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- Budget -->
+    <div class="tn-page__section">
+      <SectionHead titleTa="பட்ஜெட் ஒதுக்கீடுகள்" titleEn="Budget Allocations" />
+      <div class="tn-page__budget">
+        <div class="tn-page__budget-total">
+          <span class="tn-page__budget-total-label">
+            <span class="ta">மொத்த பள்ளிக் கல்வி பட்ஜெட் 2025–26</span>
+            <span class="en">Total school education budget 2025–26</span>
+          </span>
+          <span class="tn-page__budget-total-value">{TN_STATE_CONTEXT.budget.total}</span>
+        </div>
+        {
+          TN_STATE_CONTEXT.budget.lineItems.map((item) => (
+            <div class="tn-page__budget-item">
+              <span class="tn-page__budget-item-label">
+                <span class="ta">{item.label.ta}</span>
+                <span class="en">{item.label.en}</span>
+              </span>
+              <span class="tn-page__budget-item-amount">{item.amount}</span>
+            </div>
+          ))
+        }
+        <p class="tn-page__budget-caveat">
+          <span class="ta">{TN_STATE_CONTEXT.budget.caveat.ta}</span>
+          <span class="en">{TN_STATE_CONTEXT.budget.caveat.en}</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Opportunities -->
+    <div class="tn-page__section">
+      <SectionHead titleTa="வாய்ப்புகள்" titleEn="Opportunities" />
+      <div class="tn-page__opportunities">
+        {
+          TN_STATE_CONTEXT.opportunities.map((opp) => (
+            <div class="tn-page__opp">
+              <h3 class="tn-page__opp-title">
+                <span class="ta">{opp.title.ta}</span>
+                <span class="en">{opp.title.en}</span>
+              </h3>
+              {opp.body.map((para) => (
+                <p class="tn-page__opp-body">
+                  <span class="ta">{para.ta}</span>
+                  <span class="en">{para.en}</span>
+                </p>
+              ))}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .tn-page {
+    padding: var(--section-pad) var(--gutter);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .tn-page__header {
+    margin-bottom: 32px;
+  }
+
+  .tn-page__kicker {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--sage);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .tn-page__title {
+    font-size: 28px;
+    font-weight: 400;
+    margin: 0 0 12px;
+    line-height: 1.15;
+  }
+
+  :global([data-lang='ta']) .tn-page__title {
+    font-family: var(--font-ta);
+    font-size: 24px;
+  }
+
+  :global([data-lang='en']) .tn-page__title {
+    font-family: var(--font-display);
+  }
+
+  @media (min-width: 768px) {
+    .tn-page__title {
+      font-size: 40px;
+    }
+
+    :global([data-lang='ta']) .tn-page__title {
+      font-size: 32px;
+    }
+  }
+
+  .tn-page__sub {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  :global([data-lang='ta']) .tn-page__sub {
+    font-family: var(--font-ta);
+  }
+
+  .tn-page__section {
+    margin-bottom: 40px;
+  }
+
+  .tn-page__source {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 8px;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+
+  /* Vaanavil */
+  .tn-page__vaanavil {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--teal);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+
+  .tn-page__vaanavil-intro {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+
+  :global([data-lang='ta']) .tn-page__vaanavil-intro {
+    font-family: var(--font-ta);
+  }
+
+  .tn-page__vaanavil-highlight {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 12px 14px;
+    background: var(--bronze-soft);
+    border-radius: 3px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink);
+    font-weight: 500;
+    margin-bottom: 14px;
+  }
+
+  :global([data-lang='ta']) .tn-page__vaanavil-highlight {
+    font-family: var(--font-ta);
+  }
+
+  .tn-page__vaanavil-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 99px;
+    background: var(--bronze);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  .tn-page__vaanavil-link {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--teal);
+    min-height: auto;
+    min-width: auto;
+  }
+
+  :global([data-lang='ta']) .tn-page__vaanavil-link {
+    font-family: var(--font-ta);
+  }
+
+  .tn-page__vaanavil-link:hover {
+    text-decoration: underline;
+  }
+
+  /* Policy */
+  .tn-page__policy-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .tn-page__policy-item {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink);
+    padding-left: 14px;
+    position: relative;
+  }
+
+  :global([data-lang='ta']) .tn-page__policy-item {
+    font-family: var(--font-ta);
+  }
+
+  .tn-page__policy-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 4px;
+    height: 4px;
+    border-radius: 99px;
+    background: var(--teal);
+  }
+
+  /* Budget */
+  .tn-page__budget {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .tn-page__budget-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+    background: var(--teal-soft);
+    border-bottom: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+
+  .tn-page__budget-total-label {
+    font-size: 13px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  :global([data-lang='ta']) .tn-page__budget-total-label {
+    font-family: var(--font-ta);
+  }
+
+  .tn-page__budget-total-value {
+    font-family: var(--font-display);
+    font-size: 24px;
+    color: var(--teal);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tn-page__budget-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--line-soft);
+    font-size: 13px;
+  }
+
+  .tn-page__budget-item:last-of-type {
+    border-bottom: none;
+  }
+
+  .tn-page__budget-item-label {
+    color: var(--ink);
+  }
+
+  :global([data-lang='ta']) .tn-page__budget-item-label {
+    font-family: var(--font-ta);
+  }
+
+  .tn-page__budget-item-amount {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    color: var(--teal);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .tn-page__budget-caveat {
+    padding: 12px 18px;
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--ivory);
+    border-top: 1px solid var(--line-soft);
+    font-style: italic;
+  }
+
+  :global([data-lang='ta']) .tn-page__budget-caveat {
+    font-family: var(--font-ta);
+  }
+
+  /* Opportunities */
+  .tn-page__opportunities {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .tn-page__opp {
+    padding: 18px 20px;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+
+  .tn-page__opp-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+
+  :global([data-lang='ta']) .tn-page__opp-title {
+    font-family: var(--font-ta);
+  }
+
+  .tn-page__opp-body {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  :global([data-lang='ta']) .tn-page__opp-body {
+    font-family: var(--font-ta);
+  }
+</style>

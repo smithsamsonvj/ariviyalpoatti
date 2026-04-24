@@ -1,0 +1,479 @@
+---
+import Base from '../layouts/Base.astro'
+import Motif from '../components/Motif.astro'
+import FreshnessBanner from '../components/FreshnessBanner.astro'
+import StatusPill from '../components/StatusPill.astro'
+import { getCollection } from 'astro:content'
+import { COPY, t, daysUntil, fmtDate } from '../data/content'
+
+const allComps = await getCollection('competitions')
+const sorted = allComps
+  .filter((c) => c.data.category !== 'state')
+  .sort((a, b) => new Date(a.data.deadline).getTime() - new Date(b.data.deadline).getTime())
+
+// Group by month
+const grouped = new Map<string, typeof sorted>()
+for (const c of sorted) {
+  const d = new Date(c.data.deadline)
+  const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
+  if (!grouped.has(key)) grouped.set(key, [])
+  grouped.get(key)!.push(c)
+}
+
+const taMonths = [
+  'ஜனவரி',
+  'பிப்ரவரி',
+  'மார்ச்',
+  'ஏப்ரல்',
+  'மே',
+  'ஜூன்',
+  'ஜூலை',
+  'ஆகஸ்ட்',
+  'செப்டம்பர்',
+  'அக்டோபர்',
+  'நவம்பர்',
+  'டிசம்பர்',
+]
+const enMonths = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+]
+---
+
+<Base title="முக்கிய தேதிகள் — Key Dates" currentRoute="/key-dates">
+  <div class="dates-page">
+    <div class="dates-page__header">
+      <div class="dates-page__kicker">
+        <Motif size={16} color="var(--bronze)" opacity={0.7} />
+        <span>
+          <span class="ta">முக்கிய தேதிகள்</span>
+          <span class="en">Key Dates</span>
+        </span>
+      </div>
+      <h1 class="dates-page__title">
+        <span class="ta">{COPY.dates.title.ta}</span>
+        <span class="en">Annual calendar of competitions</span>
+      </h1>
+      <p class="dates-page__sub">
+        <span class="ta">{COPY.dates.sub.ta}</span>
+        <span class="en">{COPY.dates.sub.en}</span>
+      </p>
+      <div class="dates-page__banner">
+        <FreshnessBanner />
+      </div>
+    </div>
+
+    <!-- Collision advisory -->
+    <div class="dates-page__collision">
+      <span class="dates-page__collision-dot"></span>
+      <div>
+        <div class="dates-page__collision-label">
+          <span class="ta">கவனிக்கவும்</span>
+          <span class="en">Heads up</span>
+        </div>
+        <div class="dates-page__collision-text">
+          <span class="ta">{COPY.dates.collisionNote.ta}</span>
+          <span class="en">{COPY.dates.collisionNote.en}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="dates-page__timeline">
+      {
+        [...grouped.entries()].map(([key, comps]) => {
+          const [year, monthStr] = key.split('-')
+          const monthIdx = parseInt(monthStr) - 1
+          return (
+            <div class="dates-month">
+              <div class="dates-month__anchor">
+                <div class="dates-month__name">
+                  <span class="ta">{taMonths[monthIdx]}</span>
+                  <span class="en">{enMonths[monthIdx]}</span>
+                </div>
+                <span class="dates-month__year">{year}</span>
+                <span class="dates-month__count">
+                  <span class="ta">{comps.length} போட்டிகள்</span>
+                  <span class="en">
+                    {comps.length} competition{comps.length > 1 ? 's' : ''}
+                  </span>
+                </span>
+              </div>
+              <div class="dates-month__items">
+                {comps.map((c) => {
+                  const days = daysUntil(c.data.deadline)
+                  const dd = new Date(c.data.deadline)
+                  return (
+                    <a href={`/competitions/${c.data.id}`} class="dates-row">
+                      <div class="dates-row__date">
+                        <span class="dates-row__day">{dd.getDate()}</span>
+                        <span class:list={['dates-row__dot', `dates-row__dot--${c.data.status}`]} />
+                      </div>
+                      <div class="dates-row__content">
+                        <div class="dates-row__name">
+                          <span class="ta">{c.data.name.ta}</span>
+                          <span class="en">{c.data.name.en}</span>
+                        </div>
+                        <div class="dates-row__meta">
+                          <span class="dates-row__category">
+                            <span class="ta">
+                              {t(
+                                COPY.categories[c.data.category as keyof typeof COPY.categories],
+                                'ta',
+                              )}
+                            </span>
+                            <span class="en">
+                              {t(
+                                COPY.categories[c.data.category as keyof typeof COPY.categories],
+                                'en',
+                              )}
+                            </span>
+                          </span>
+                          <StatusPill status={c.data.status} size="sm" />
+                        </div>
+                      </div>
+                      <div class="dates-row__days">
+                        <span
+                          class:list={[
+                            'dates-row__days-num',
+                            { 'dates-row__days-num--urgent': days >= 0 && days < 30 },
+                            { 'dates-row__days-num--closed': days < 0 },
+                          ]}
+                        >
+                          {days < 0 ? (
+                            <>
+                              <span class="ta">முடிந்தது</span>
+                              <span class="en">closed</span>
+                            </>
+                          ) : (
+                            <>
+                              <span class="ta">{days} நாட்கள்</span>
+                              <span class="en">{days} days</span>
+                            </>
+                          )}
+                        </span>
+                        <span class="dates-row__deadline">
+                          <span class="ta">{fmtDate(c.data.deadline, 'ta')}</span>
+                          <span class="en">{fmtDate(c.data.deadline, 'en')}</span>
+                        </span>
+                      </div>
+                    </a>
+                  )
+                })}
+              </div>
+            </div>
+          )
+        })
+      }
+    </div>
+  </div>
+</Base>
+
+<style>
+  .dates-page {
+    padding: var(--section-pad) var(--gutter);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .dates-page__header {
+    margin-bottom: 28px;
+  }
+
+  .dates-page__kicker {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--sage);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .dates-page__title {
+    font-size: 28px;
+    font-weight: 400;
+    margin: 0 0 12px;
+    line-height: 1.15;
+  }
+
+  :global([data-lang='ta']) .dates-page__title {
+    font-family: var(--font-ta);
+    font-size: 24px;
+  }
+
+  :global([data-lang='en']) .dates-page__title {
+    font-family: var(--font-display);
+  }
+
+  @media (min-width: 768px) {
+    .dates-page__title {
+      font-size: 40px;
+    }
+
+    :global([data-lang='ta']) .dates-page__title {
+      font-size: 32px;
+    }
+  }
+
+  .dates-page__sub {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.55;
+    margin-bottom: 20px;
+  }
+
+  :global([data-lang='ta']) .dates-page__sub {
+    font-family: var(--font-ta);
+  }
+
+  .dates-page__banner {
+    margin-bottom: 24px;
+  }
+
+  /* Collision */
+  .dates-page__collision {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 16px 18px;
+    background: var(--bronze-soft);
+    border-radius: var(--radius);
+    margin-bottom: 32px;
+  }
+
+  .dates-page__collision-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 99px;
+    background: var(--bronze);
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .dates-page__collision-label {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--bronze);
+    margin-bottom: 4px;
+  }
+
+  .dates-page__collision-text {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  :global([data-lang='ta']) .dates-page__collision-text {
+    font-family: var(--font-ta);
+  }
+
+  /* Timeline */
+  .dates-month {
+    margin-bottom: 32px;
+  }
+
+  .dates-month__anchor {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .dates-month__name {
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--teal);
+  }
+
+  :global([data-lang='ta']) .dates-month__name {
+    font-family: var(--font-ta);
+    font-size: 20px;
+  }
+
+  :global([data-lang='en']) .dates-month__name {
+    font-family: var(--font-display);
+  }
+
+  @media (min-width: 768px) {
+    .dates-month__name {
+      font-size: 28px;
+    }
+
+    :global([data-lang='ta']) .dates-month__name {
+      font-size: 24px;
+    }
+  }
+
+  .dates-month__year {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .dates-month__count {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--sage);
+    font-weight: 500;
+  }
+
+  /* Row */
+  .dates-row {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 0;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line-soft);
+    transition: background 0.1s;
+    min-height: auto;
+    min-width: auto;
+  }
+
+  @media (min-width: 768px) {
+    .dates-row {
+      grid-template-columns: 56px 1fr auto;
+    }
+  }
+
+  .dates-row:hover {
+    background: var(--teal-soft);
+  }
+
+  .dates-row__date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding-top: 2px;
+  }
+
+  .dates-row__day {
+    font-family: var(--font-display);
+    font-size: 30px;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  @media (min-width: 768px) {
+    .dates-row__day {
+      font-size: 36px;
+    }
+  }
+
+  .dates-row__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 99px;
+  }
+
+  .dates-row__dot--open {
+    background: var(--sage);
+  }
+  .dates-row__dot--soon {
+    background: var(--bronze);
+  }
+  .dates-row__dot--upcoming {
+    background: var(--teal);
+  }
+  .dates-row__dot--closed {
+    background: var(--muted);
+  }
+
+  .dates-row__content {
+    padding-left: 14px;
+  }
+
+  .dates-row__name {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  :global([data-lang='ta']) .dates-row__name {
+    font-family: var(--font-ta);
+    font-size: 16px;
+  }
+
+  @media (min-width: 768px) {
+    .dates-row__name {
+      font-size: 19px;
+    }
+
+    :global([data-lang='ta']) .dates-row__name {
+      font-size: 17px;
+    }
+  }
+
+  .dates-row__meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .dates-row__category {
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--sage);
+    font-weight: 600;
+    font-family: var(--font-ui);
+  }
+
+  .dates-row__days {
+    display: none;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    padding-left: 20px;
+  }
+
+  @media (min-width: 768px) {
+    .dates-row__days {
+      display: flex;
+    }
+  }
+
+  .dates-row__days-num {
+    font-weight: 600;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+    color: var(--sage);
+  }
+
+  .dates-row__days-num--urgent {
+    color: var(--bronze);
+  }
+
+  .dates-row__days-num--closed {
+    color: var(--muted);
+  }
+
+  .dates-row__deadline {
+    font-size: 12px;
+    color: var(--muted);
+  }
+</style>
