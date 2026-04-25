@@ -5,10 +5,6 @@
 [build.environment]
   NODE_VERSION = "22"
 
-# Cache Astro build artifacts
-[[plugins]]
-  package = "@netlify/plugin-caching"
-
 # Headers for security and caching
 [[headers]]
   for = "/*"
