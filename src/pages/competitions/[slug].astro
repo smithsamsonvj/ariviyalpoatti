@@ -42,7 +42,7 @@ const days = daysUntil(d.deadline)
           >
         </span>
         <StatusPill status={d.status} />
-        <FreshnessBadge size="sm" />
+        <FreshnessBadge size="sm" lastVerified={d.last_verified} />
       </div>
       <h1 class="detail__title">
         <span class="ta">{d.name.ta}</span>
@@ -58,7 +58,7 @@ const days = daysUntil(d.deadline)
     <CompetitionTimeline phases={d.phases} />
 
     <!-- TN Participation -->
-    {d.tn && <TNParticipationBlock data={d.tn} />}
+    {d.tn && <TNParticipationBlock data={d.tn} lastVerified={d.last_verified} />}
 
     <!-- Two-column body -->
     <div class="detail__body">

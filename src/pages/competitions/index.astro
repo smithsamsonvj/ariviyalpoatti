@@ -4,9 +4,10 @@ import Motif from '../../components/Motif.astro'
 import FreshnessBanner from '../../components/FreshnessBanner.astro'
 import CompetitionCard from '../../components/CompetitionCard.astro'
 import { getCollection } from 'astro:content'
-import { COPY } from '../../data/content'
+import { COPY, oldestVerifiedDate } from '../../data/content'
 
 const allComps = await getCollection('competitions')
+const siteVerified = oldestVerifiedDate(allComps)
 const national = allComps
   .filter((c) => c.data.category !== 'state')
   .sort((a, b) => (a.data.sortOrder ?? 99) - (b.data.sortOrder ?? 99))
@@ -38,7 +39,7 @@ const categories = ['all', 'govt', 'olympiad', 'ngo', 'robotics', 'private'] as 
         >
       </p>
       <div class="comp-page__banner">
-        <FreshnessBanner />
+        <FreshnessBanner lastVerified={siteVerified} />
       </div>
     </div>
 
@@ -75,6 +76,7 @@ const categories = ['all', 'govt', 'olympiad', 'ngo', 'robotics', 'private'] as 
             eligibility={c.data.eligibility}
             deadline={c.data.deadline}
             deadlineLabel={c.data.deadlineLabel}
+            lastVerified={c.data.last_verified}
           />
         ))
       }
@@ -102,6 +104,7 @@ const categories = ['all', 'govt', 'olympiad', 'ngo', 'robotics', 'private'] as 
                 eligibility={c.data.eligibility}
                 deadline={c.data.deadline}
                 deadlineLabel={c.data.deadlineLabel}
+                lastVerified={c.data.last_verified}
               />
             ))}
           </div>

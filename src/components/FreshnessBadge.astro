@@ -1,11 +1,12 @@
 ---
-import { LAST_VERIFIED, fmtDate } from '../data/content'
+import { fmtDate } from '../data/content'
 
 interface Props {
   size?: 'sm' | 'md'
+  lastVerified: string
 }
 
-const { size = 'md' } = Astro.props
+const { size = 'md', lastVerified } = Astro.props
 ---
 
 <span class:list={['freshness-badge', `freshness-badge--${size}`]}>
@@ -25,8 +26,8 @@ const { size = 'md' } = Astro.props
   </span>
   <span class="freshness-badge__sep">&middot;</span>
   <span class="freshness-badge__date">
-    <span class="ta">{fmtDate(LAST_VERIFIED, 'ta')}</span>
-    <span class="en">{fmtDate(LAST_VERIFIED, 'en')}</span>
+    <span class="ta">{fmtDate(lastVerified, 'ta')}</span>
+    <span class="en">{fmtDate(lastVerified, 'en')}</span>
   </span>
 </span>
 

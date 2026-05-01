@@ -24,6 +24,8 @@ deadlineLabel:
 annualTiming:
   ta: 'ஆக–செப்: பள்ளி சுற்று | அக்–நவ: பிராந்தியம் | டிச–ஜன: தேசிய இறுதி'
   en: 'Aug–Sep: School round | Oct–Nov: Regional | Dec–Jan: National finale'
+last_verified: '2026-04-15'
+
 summary:
   ta: 'CBSE பள்ளிகளுக்கு மட்டுமே. IRIS → Regeneron ISEF-க்கு ஒரு முக்கிய ஊட்டு கால்வாய். தமிழ்நாட்டில் ~2,500 CBSE பள்ளிகள் தகுதி.'
   en: 'Only for CBSE-affiliated schools. A key feeder pipeline to IRIS → Regeneron ISEF. Tamil Nadu has ~2,500 eligible CBSE schools.'

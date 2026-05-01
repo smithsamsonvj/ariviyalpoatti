@@ -24,6 +24,8 @@ deadlineLabel:
 annualTiming:
   ta: 'ஜூன்–செப்: பதிவு | அக்–டிச: நிலை 1 | ஜன–பிப்: நிலை 2 | மார்ச்: முடிவுகள்'
   en: 'Jun–Sep: Registration | Oct–Dec: Level 1 | Jan–Feb: Level 2 | Mar: Results'
+last_verified: '2026-04-15'
+
 summary:
   ta: 'தனியார் வணிக அமைப்பான Science Olympiad Foundation நடத்துகிறது. அரசு ஒலிம்பியாட் திட்டத்துடன் தொடர்பு இல்லை. HBCSE இதை தவறான சித்தரிப்பு என்று குறிப்பிட்டுள்ளது. ஆனால் பங்கேற்பில் மிகப்பெரியது (~50 லட்சம் மாணவர்கள்).'
   en: 'Run by the private Science Olympiad Foundation. Not connected to the official government Olympiad pipeline — HBCSE has publicly called this a misrepresentation. Still the largest by participation (~5 million students).'

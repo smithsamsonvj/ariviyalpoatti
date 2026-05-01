@@ -1,6 +1,6 @@
 ---
 import StatusPill from './StatusPill.astro'
-import { COPY, LAST_VERIFIED, t, daysUntil, fmtDate } from '../data/content'
+import { COPY, t, daysUntil, fmtDate } from '../data/content'
 import type { Bilingual, CompetitionCategory, CompetitionStatus } from '../data/types'
 
 interface Props {
@@ -12,9 +12,20 @@ interface Props {
   eligibility: Bilingual
   deadline: string
   deadlineLabel: Bilingual
+  lastVerified: string
 }
 
-const { id, category, status, name, shortName, eligibility, deadline, deadlineLabel } = Astro.props
+const {
+  id,
+  category,
+  status,
+  name,
+  shortName,
+  eligibility,
+  deadline,
+  deadlineLabel,
+  lastVerified,
+} = Astro.props
 
 const days = daysUntil(deadline)
 ---
@@ -78,8 +89,8 @@ const days = daysUntil(deadline)
 
   <div class="comp-card__verified">
     <span class="comp-card__verified-dot"></span>
-    <span class="ta">சரிபார்க்கப்பட்டது &middot; {fmtDate(LAST_VERIFIED, 'ta')}</span>
-    <span class="en">Verified &middot; {fmtDate(LAST_VERIFIED, 'en')}</span>
+    <span class="ta">சரிபார்க்கப்பட்டது &middot; {fmtDate(lastVerified, 'ta')}</span>
+    <span class="en">Verified &middot; {fmtDate(lastVerified, 'en')}</span>
   </div>
 </a>
 

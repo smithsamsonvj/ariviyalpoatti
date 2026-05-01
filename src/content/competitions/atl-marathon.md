@@ -24,6 +24,8 @@ deadlineLabel:
 annualTiming:
   ta: 'ஆக–செப்: குழு உருவாக்கம் | செப்–ஜன: வார்த்தக்கங்கள் + முன்மாதிரி | ஜன–மார்: மதிப்பீடு | மார்–ஏப்: இறுதி நிகழ்வு'
   en: 'Aug–Sep: Team formation | Sep–Jan: Workshops + prototype | Jan–Mar: Evaluation | Mar–Apr: Finale'
+last_verified: '2026-04-15'
+
 summary:
   ta: 'NITI Aayog-ஆல் நடத்தப்படும். ATL பள்ளிகள் மற்றும் ATL-அல்லாத பள்ளிகளுக்கும் திறந்தது. குழுக்கள் உண்மையான உலக பிரச்சினைக்கு இயங்கும் முன்மாதிரியை உருவாக்க வேண்டும். கிராமப்புற மற்றும் அரசு பள்ளிகளுக்கு சிறப்பு அங்கீகாரம்.'
   en: 'Run by NITI Aayog. Open to ATL and non-ATL schools. Teams must build a working prototype for a real-world problem. Special recognition for rural and government-school teams.'

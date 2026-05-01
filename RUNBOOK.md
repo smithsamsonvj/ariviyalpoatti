@@ -40,8 +40,48 @@ src/
 
 - **Status change** (e.g., upcoming -> open): edit `status` in the competition's `.md` frontmatter
 - **Deadline change**: edit `deadline` field (YYYY-MM-DD format)
-- **Verification date**: update `LAST_VERIFIED` in `src/data/content.ts`
+- **Verification date**: edit `last_verified` in the competition's `.md` frontmatter (YYYY-MM-DD). Per-competition — site-wide freshness signals derive from the _oldest_ date across the collection via `oldestVerifiedDate()` in `src/data/content.ts`.
 - **UI strings**: edit `COPY` object in `src/data/content.ts`
+
+## Content Cadence
+
+The site's value depends on freshness. We run three scheduled checks against the official portals, plus on-demand runs. Each check writes to `CONTENT_LOG.md` (audit trail) and updates `last_verified` per competition.
+
+### The three cadences
+
+| Cadence     | When                        | Time budget | What it does                                                                                                    |
+| ----------- | --------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------- |
+| **Weekly**  | Every Monday 09:00 IST      | ~15 min     | Scan each portal for announcements/changes. Flags anything new since last run.                                  |
+| **Monthly** | 1st of each month 09:00 IST | ~30 min     | Verify every future `deadline` still matches source. Bump `last_verified` on confirmed entries.                 |
+| **Annual**  | 2nd January 09:00 IST       | ~2 hours    | Full sweep — re-read each competition's process text against current portal copy. Refresh next-cycle deadlines. |
+
+### Where findings land
+
+- **Source matched, no change needed** → routine commits a `last_verified` bump directly to `main` (Option B). No PR. The bump is visible per-competition on every card.
+- **Source changed, real update proposed** → routine opens a **PR** using `.github/pull_request_template.md`. Labels: `content-update`, `source-check`, `cadence:<weekly|monthly|annual>`, `needs-review`. You review the diff, verify against cited source, merge. Netlify deploys.
+- **Portal unreachable, redesigned, or parse failed** → routine opens an **issue** using `.github/ISSUE_TEMPLATE/source-check-failed.md`. Label: `verification-failed`. No content was changed; investigate manually.
+
+### GitHub labels
+
+| Label                                                   | Meaning                                                                                                |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `content-update`                                        | Routine-proposed change to competition data                                                            |
+| `source-check`                                          | Result of a scheduled source verification run                                                          |
+| `cadence:weekly` / `cadence:monthly` / `cadence:annual` | Which schedule fired                                                                                   |
+| `needs-review`                                          | Mismatch detected — your judgement required                                                            |
+| `auto-verified`                                         | Source matched; only `last_verified` was bumped (rare on PRs since these commit direct under Option B) |
+| `verification-failed`                                   | Couldn't reach source / portal redesigned / parse failed (issues only)                                 |
+
+### Triggering a routine on demand
+
+The actual routine commands land when the routines are built (next session). For now, manual updates follow the path in **Updating Competition Data** above and should be logged in `CONTENT_LOG.md` with `cadence: manual`.
+
+### When something goes wrong
+
+1. Check the open `verification-failed` issues — start with the most recent.
+2. Read `CONTENT_LOG.md` for the affected competition's history (most recent entries at top).
+3. Visit the cited source URL manually. If the portal genuinely changed, update the routine's source URL/parse logic, not just the markdown.
+4. Add a `cadence: manual` entry to `CONTENT_LOG.md` describing what you did.
 
 ## Bilingual System
 

@@ -24,6 +24,8 @@ deadlineLabel:
 annualTiming:
   ta: 'ஆண்டு முழுவதும் · பள்ளி → தொகுதி → மாவட்டம் → மாநிலம்'
   en: 'Year-round · School → Block → District → State'
+last_verified: '2026-04-15'
+
 summary:
   ta: 'தமிழ்நாடு அரசின் மிக முக்கியமான பள்ளி அறிவியல் திட்டம். முதல்வர் MK ஸ்டாலின் 2022 நவம்பர் 28 அன்று திருச்சியில் தொடங்கினார். 13,210 அரசு பள்ளிகளில் 25 லட்சம் மாணவர்களுக்கு சேவை. 710 STEM வளப் பணியாளர்கள்.'
   en: "Tamil Nadu's most significant state science programme. Launched by CM M.K. Stalin on 28 November 2022 at Trichy. Serves 25 lakh government school students across 13,210 schools. 710 trained STEM Resource Persons."

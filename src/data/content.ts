@@ -1,7 +1,16 @@
 import type { Bilingual } from './types'
 
-// Site-wide freshness — bump when re-verified against official portals
-export const LAST_VERIFIED = '2026-04-15'
+// Site-wide freshness derived from per-competition `last_verified` frontmatter.
+// Returns the OLDEST verified date across the passed entries (worst-case signal),
+// so a single stale competition can't be hidden behind a recent stamp on others.
+// Pass the result of `await getCollection('competitions')` (or any subset).
+export function oldestVerifiedDate(entries: Array<{ data: { last_verified: string } }>): string {
+  if (!entries || entries.length === 0) return ''
+  return entries.reduce(
+    (oldest, e) => (e.data.last_verified < oldest ? e.data.last_verified : oldest),
+    entries[0].data.last_verified,
+  )
+}
 
 // Translation helper: reads {ta, en} bilingual objects
 export function t(obj: Bilingual | string | undefined | null, lang: string): string {

@@ -4,9 +4,10 @@ import Motif from '../components/Motif.astro'
 import FreshnessBanner from '../components/FreshnessBanner.astro'
 import StatusPill from '../components/StatusPill.astro'
 import { getCollection } from 'astro:content'
-import { COPY, t, daysUntil, fmtDate } from '../data/content'
+import { COPY, t, daysUntil, fmtDate, oldestVerifiedDate } from '../data/content'
 
 const allComps = await getCollection('competitions')
+const siteVerified = oldestVerifiedDate(allComps)
 const sorted = allComps
   .filter((c) => c.data.category !== 'state')
   .sort((a, b) => new Date(a.data.deadline).getTime() - new Date(b.data.deadline).getTime())
@@ -69,7 +70,7 @@ const enMonths = [
         <span class="en">{COPY.dates.sub.en}</span>
       </p>
       <div class="dates-page__banner">
-        <FreshnessBanner />
+        <FreshnessBanner lastVerified={siteVerified} />
       </div>
     </div>
 

@@ -1,13 +1,14 @@
 ---
 import FreshnessBadge from './FreshnessBadge.astro'
-import { LAST_VERIFIED, t, fmtDate } from '../data/content'
+import { t, fmtDate } from '../data/content'
 import type { TNParticipation } from '../data/types'
 
 interface Props {
   data: TNParticipation
+  lastVerified: string
 }
 
-const { data } = Astro.props
+const { data, lastVerified } = Astro.props
 if (!data) return
 
 const initialCount = 3
@@ -38,7 +39,7 @@ const hasMore = data.examples.length > initialCount
         </div>
       </div>
     </div>
-    <FreshnessBadge size="sm" />
+    <FreshnessBadge size="sm" lastVerified={lastVerified} />
   </header>
 
   <!-- Stats row -->
@@ -140,8 +141,8 @@ const hasMore = data.examples.length > initialCount
       <span class="en">{t(data.sourceLabel, 'en')}</span>
     </span>
     <span class="tn-block__footer-verified">
-      <span class="ta">சரிபார்க்கப்பட்டது &middot; {fmtDate(LAST_VERIFIED, 'ta')}</span>
-      <span class="en">Verified &middot; {fmtDate(LAST_VERIFIED, 'en')}</span>
+      <span class="ta">சரிபார்க்கப்பட்டது &middot; {fmtDate(lastVerified, 'ta')}</span>
+      <span class="en">Verified &middot; {fmtDate(lastVerified, 'en')}</span>
     </span>
   </footer>
 </section>

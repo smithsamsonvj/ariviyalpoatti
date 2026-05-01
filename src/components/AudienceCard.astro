@@ -3,13 +3,11 @@ interface Props {
   role: 'teacher' | 'principal' | 'parent'
   labelTa: string
   labelEn: string
-  lineTa: string
-  lineEn: string
   detailTa: string
   detailEn: string
 }
 
-const { role, labelTa, labelEn, lineTa, lineEn, detailTa, detailEn } = Astro.props
+const { role, labelTa, labelEn, detailTa, detailEn } = Astro.props
 
 const colorMap = {
   teacher: 'var(--teal)',

@@ -1,4 +1,5 @@
-import { defineCollection, z } from 'astro:content'
+import { defineCollection } from 'astro:content'
+import { z } from 'zod'
 import { glob } from 'astro/loaders'
 
 const bilingualString = z.object({
@@ -25,6 +26,10 @@ const competitionsCollection = defineCollection({
     deadline: z.string(),
     deadlineLabel: bilingualString,
     annualTiming: bilingualString.optional(),
+
+    // Freshness — date this competition was last cross-checked against its official source.
+    // Updated by the cadence routines (weekly/monthly/annual). Format: YYYY-MM-DD.
+    last_verified: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'last_verified must be YYYY-MM-DD'),
 
     // Descriptive
     summary: bilingualString,

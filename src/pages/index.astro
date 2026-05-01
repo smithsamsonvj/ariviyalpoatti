@@ -1,10 +1,13 @@
 ---
 import Base from '../layouts/Base.astro'
 import Motif from '../components/Motif.astro'
-import FreshnessBadge from '../components/FreshnessBadge.astro'
 import AudienceCard from '../components/AudienceCard.astro'
 import EscapeLink from '../components/EscapeLink.astro'
-import { COPY, LAST_VERIFIED, fmtDate } from '../data/content'
+import { getCollection } from 'astro:content'
+import { COPY, oldestVerifiedDate, fmtDate } from '../data/content'
+
+const allComps = await getCollection('competitions')
+const siteVerified = oldestVerifiedDate(allComps)
 ---
 
 <Base title="அறிவியல் போட்டி — Ariviyal Poatti" currentRoute="/" hideFooter>
@@ -47,8 +50,8 @@ import { COPY, LAST_VERIFIED, fmtDate } from '../data/content'
       </span>
       <span class="hero__verified-sep">&middot;</span>
       <span class="hero__verified-date">
-        <span class="ta">{fmtDate(LAST_VERIFIED, 'ta')}</span>
-        <span class="en">{fmtDate(LAST_VERIFIED, 'en')}</span>
+        <span class="ta">{fmtDate(siteVerified, 'ta')}</span>
+        <span class="en">{fmtDate(siteVerified, 'en')}</span>
       </span>
     </div>
   </section>
@@ -88,8 +91,6 @@ import { COPY, LAST_VERIFIED, fmtDate } from '../data/content'
       role="teacher"
       labelTa={COPY.audiences.teacher.label.ta}
       labelEn={COPY.audiences.teacher.label.en}
-      lineTa={COPY.audiences.teacher.line.ta}
-      lineEn={COPY.audiences.teacher.line.en}
       detailTa={COPY.audiences.teacher.detail.ta}
       detailEn={COPY.audiences.teacher.detail.en}
     />
@@ -97,8 +98,6 @@ import { COPY, LAST_VERIFIED, fmtDate } from '../data/content'
       role="principal"
       labelTa={COPY.audiences.principal.label.ta}
       labelEn={COPY.audiences.principal.label.en}
-      lineTa={COPY.audiences.principal.line.ta}
-      lineEn={COPY.audiences.principal.line.en}
       detailTa={COPY.audiences.principal.detail.ta}
       detailEn={COPY.audiences.principal.detail.en}
     />
@@ -106,8 +105,6 @@ import { COPY, LAST_VERIFIED, fmtDate } from '../data/content'
       role="parent"
       labelTa={COPY.audiences.parent.label.ta}
       labelEn={COPY.audiences.parent.label.en}
-      lineTa={COPY.audiences.parent.line.ta}
-      lineEn={COPY.audiences.parent.line.en}
       detailTa={COPY.audiences.parent.detail.ta}
       detailEn={COPY.audiences.parent.detail.en}
     />

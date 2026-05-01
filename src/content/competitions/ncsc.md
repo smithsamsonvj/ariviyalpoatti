@@ -24,6 +24,8 @@ deadlineLabel:
 annualTiming:
   ta: 'ஜூன்–செப்: கள ஆய்வு | அக்–நவ: மாவட்டம் | நவ: மாநிலம் | டிச 27–31: தேசியம்'
   en: 'Jun–Sep: Fieldwork | Oct–Nov: District | Nov: State | Dec 27–31: National'
+last_verified: '2026-04-15'
+
 summary:
   ta: 'இந்தியாவின் மிகவும் சமத்துவமான போட்டி. பள்ளிக்கு வெளியே உள்ள குழந்தைகளும் பங்கேற்கலாம். திட்டங்கள் உள்ளூர் சமூக பிரச்சனைகளை அறிவியல் முறையில் தீர்க்க வேண்டும். 1993 முதல்.'
   en: "India's most inclusive competition — open to out-of-school children too. Projects must address local community problems using scientific method. Running since 1993."

@@ -1,11 +1,12 @@
 ---
-import { LAST_VERIFIED, fmtDate } from '../data/content'
+import { fmtDate } from '../data/content'
 
 interface Props {
   compact?: boolean
+  lastVerified: string
 }
 
-const { compact = false } = Astro.props
+const { compact = false, lastVerified } = Astro.props
 ---
 
 <div class:list={['freshness-banner', { 'freshness-banner--compact': compact }]}>
@@ -21,9 +22,9 @@ const { compact = false } = Astro.props
   </svg>
   <div>
     <div class="freshness-banner__title">
-      <span class="ta">கடைசியாக சரிபார்க்கப்பட்டது — {fmtDate(LAST_VERIFIED, 'ta')}</span>
+      <span class="ta">கடைசியாக சரிபார்க்கப்பட்டது — {fmtDate(lastVerified, 'ta')}</span>
       <span class="en"
-        >Last cross-checked against official sources &middot; {fmtDate(LAST_VERIFIED, 'en')}</span
+        >Last cross-checked against official sources &middot; {fmtDate(lastVerified, 'en')}</span
       >
     </div>
     <div class="freshness-banner__body">

@@ -310,8 +310,8 @@ const atHome = currentRoute === '/' || currentRoute === ''
 
 <script>
   function initMobileMenu() {
-    const btn = document.querySelector('.topbar__menu-btn')
-    const menu = document.querySelector('.topbar__mobile-menu')
+    const btn = document.querySelector<HTMLElement>('.topbar__menu-btn')
+    const menu = document.querySelector<HTMLElement>('.topbar__mobile-menu')
     if (!btn || !menu) return
 
     btn.addEventListener('click', () => {

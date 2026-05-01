@@ -24,6 +24,8 @@ deadlineLabel:
 annualTiming:
   ta: 'நவ–டிச: மெய்நிகர் | ஜன–பிப்: பிராந்தியம் | மார்ச்: தேசியம் | அக்–நவ: சர்வதேசம்'
   en: 'Nov–Dec: Virtual rounds | Jan–Feb: Regionals | Mar: Nationals | Oct–Nov: WRO International'
+last_verified: '2026-04-15'
+
 summary:
   ta: 'India STEM Foundation + NCSM நடத்துகிறது. 4 சவால் பாதைகள் — RoboMission, Future Innovators, RoboSports, Future Engineers. கட்டணத் தடை காரணமாக பெரும்பாலும் நகர்ப்புற/தனியார்.'
   en: 'Run by India STEM Foundation with NCSM. Four challenge tracks — RoboMission, Future Innovators, RoboSports, Future Engineers. The fee barrier keeps this mostly urban and private.'

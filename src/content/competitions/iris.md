@@ -24,6 +24,8 @@ deadlineLabel:
 annualTiming:
   ta: 'செப்–அக்: விண்ணப்பம் | நவ–டிச: திரையிடல் | ஜன–பிப்: தேசிய விழா | மே: ISEF'
   en: 'Sep–Oct: Applications | Nov–Dec: Screening | Jan–Feb: National fair | May: ISEF USA'
+last_verified: '2026-04-15'
+
 summary:
   ta: 'இந்தியாவின் ISEF நுழைவாயில். EXSTEMPLAR + DST + Broadcom Foundation. உண்மையான ஆராய்ச்சி அல்லது புதுமை பொறியியல் திட்டங்கள் மட்டுமே — பாடப்புத்தக சோதனைகள் அல்ல.'
   en: "India's gateway to ISEF. Run by EXSTEMPLAR with DST and Broadcom Foundation. Only original research or novel engineering projects — textbook experiments are rejected."

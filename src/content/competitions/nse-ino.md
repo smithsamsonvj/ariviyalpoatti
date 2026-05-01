@@ -24,6 +24,8 @@ deadlineLabel:
 annualTiming:
   ta: 'ஆக–செப்: NSE மைய பதிவு | நவ: NSE நிலை 1 | ஜன: INO நிலை 2 | ஏப்–ஜூன்: OCSC | ஜூன்–ஜூலை: சர்வதேச ஒலிம்பியாட்'
   en: 'Aug–Sep: NSE centre enrollment | Nov: NSE Stage 1 | Jan: INO Stage 2 | Apr–Jun: OCSC | Jun–Jul: International Olympiad'
+last_verified: '2026-04-15'
+
 summary:
   ta: 'இந்தியாவின் உண்மையான சர்வதேச ஒலிம்பியாட் பாதை. HBCSE/IAPT நடத்துகிறது. 5-நிலை குழாய் — NSE → INO → OCSC → சர்வதேச ஒலிம்பியாட் (IPhO, IChO, IBO, IOAA, IJSO).'
   en: "India's true international Olympiad pipeline, run by HBCSE and IAPT. A 5-stage funnel — NSE → INO → OCSC → international Olympiads (IPhO, IChO, IBO, IOAA, IJSO)."
