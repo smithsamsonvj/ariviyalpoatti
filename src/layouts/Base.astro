@@ -52,6 +52,12 @@ const {
         document.documentElement.lang = saved
       })()
     </script>
+
+    {
+      import.meta.env.PROD && (
+        <script defer data-domain="ariviyalpoatti.in" src="https://plausible.io/js/script.js" />
+      )
+    }
   </head>
   <body>
     <a href="#main-content" class="skip-link">
