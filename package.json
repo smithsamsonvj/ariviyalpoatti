@@ -24,6 +24,7 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
+    "@anthropic-ai/sdk": "^0.92.0",
     "@lhci/cli": "^0.15.1",
     "@typescript-eslint/eslint-plugin": "^8.59.0",
     "@typescript-eslint/parser": "^8.59.0",
