@@ -16,6 +16,16 @@ See `RUNBOOK.md` → "Content Cadence" for the workflow this log supports.
 
 ---
 
+## 2026-05-01 · weekly · all
+
+Checked 13 in-scope competitions (mode: weekly). 7 matched — `last_verified` bumped. 0 proposed change(s). 6 fetch failure(s) — issues opened.
+
+**Outcome:**
+
+- Direct commits: 7cc66ab
+- PR opened: none
+- Issues opened: https://github.com/smithsamsonvj/ariviyalpoatti/issues/1, https://github.com/smithsamsonvj/ariviyalpoatti/issues/2, https://github.com/smithsamsonvj/ariviyalpoatti/issues/3, https://github.com/smithsamsonvj/ariviyalpoatti/issues/4, https://github.com/smithsamsonvj/ariviyalpoatti/issues/5, https://github.com/smithsamsonvj/ariviyalpoatti/issues/6
+
 ## 2026-05-01 · foundation · all
 
 Initialised cadence infrastructure. Replaced the global `LAST_VERIFIED` constant
