@@ -49,8 +49,21 @@ For each in-scope competition:
 
 1. Read the markdown file. Extract: `id`, `status`, `deadline`, `official`, `last_verified`.
 2. Construct the URL: `https://{official}` (the field has no protocol).
-3. **WebFetch the URL.** If the fetch fails (HTTP error, timeout, redirect loop), record this competition as `fetch-failed`. Do not retry more than once.
-4. From the fetched content, look for:
+3. **Fetch the URL using `curl` via Bash.** Use this exact command so the request looks like a real browser visit and follows redirects:
+
+   ```bash
+   curl -s -L --max-time 30 \
+     -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" \
+     -H "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" \
+     -H "Accept-Language: en-IN,en;q=0.9,ta;q=0.8" \
+     "https://{official}"
+   ```
+
+   If `curl` returns a non-zero exit code, an HTTP 4xx/5xx (check with `-w "%{http_code}"`), or empty output, record the competition as `fetch-failed`. Do not retry more than once.
+
+   If `curl` succeeds but the page is a CAPTCHA wall, login gate, or yields no readable content about the competition, also record as `fetch-failed` with reason "page not parseable".
+
+4. From the fetched HTML, look for:
    - The official deadline for the current cycle (compare to `deadline` field).
    - For `weekly` mode: any new announcement / banner / news item the portal is highlighting.
    - For `annual` mode: changes to the application process described in the markdown's `process` field.
@@ -189,6 +202,10 @@ node --version && npm --version || { echo "node/npm missing — aborting"; exit 
 
 # 4. All 8 cadence labels exist
 gh label list --repo smithsamsonvj/ariviyalpoatti | grep -q "content-update" || { echo "Labels missing — aborting"; exit 1; }
+
+# 5. Outbound internet access — smoke test against a stable public URL
+HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "https://www.google.com")
+[ "$HTTP_CODE" = "200" ] || { echo "No outbound internet access (got HTTP $HTTP_CODE from google.com) — aborting"; exit 1; }
 ```
 
 If any pre-flight fails, write a brief CONTENT_LOG entry noting the abort reason, then stop. Don't try to recover.
