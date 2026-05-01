@@ -24,7 +24,7 @@ deadlineLabel:
 annualTiming:
   ta: 'ஆகஸ்ட்: சீசன் | நவ–ஜன: பயிற்சி | ஜன–பிப்: சுற்றுகள் | ஏப்–மே: World Festival'
   en: 'Aug: Season launch | Nov–Jan: Build & practice | Jan–Feb: Regionals/Nationals | Apr–May: World Festival'
-last_verified: '2026-04-15'
+last_verified: '2026-05-01'
 
 summary:
   ta: 'India STEM Foundation FIRST (USA) தேசிய கூட்டாளர். LEGO Education தொழில்நுட்ப கூட்டாளர். பட்டியலிட்ட அனைத்து போட்டிகளிலும் மிக அதிக செலவு தடை.'
