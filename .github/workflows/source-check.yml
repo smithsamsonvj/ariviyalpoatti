@@ -66,4 +66,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MODE: ${{ steps.mode.outputs.mode }}
+          HUSKY: '0'        # skip pre-commit hooks in CI
         run: node scripts/source-check.mjs "$MODE"

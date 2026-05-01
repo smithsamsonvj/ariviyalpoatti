@@ -192,6 +192,13 @@ function git(args, opts = {}) {
   return result.stdout.trim()
 }
 
+/** Returns true if there are staged changes ready to commit. */
+function hasStagedChanges() {
+  // exit 1 = differences exist, exit 0 = no differences
+  const r = spawnSync('git', ['diff', '--cached', '--quiet'], { cwd: ROOT })
+  return r.status !== 0
+}
+
 // ─── Template builders ────────────────────────────────────────────────────────
 
 function prBody(changes) {
@@ -328,14 +335,19 @@ async function main() {
     }
 
     git(['add', ...matches.map((r) => r.comp.filePath)])
-    git([
-      'commit',
-      '-m',
-      `chore(content): bump last_verified for ${matches.length} competition(s)\n\nRoutine: source-check · ${MODE}\nVerified on ${TODAY}.\n\n${matches.map((r) => `- ${r.comp.id}: ${r.analysis?.evidence}`).join('\n')}\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>`,
-    ])
-    git(['push', 'origin', 'main'])
-    commitSha = git(['rev-parse', '--short', 'HEAD'])
-    console.log(`✓ Committed + pushed last_verified bumps (${commitSha})`)
+
+    if (!hasStagedChanges()) {
+      console.log('ℹ last_verified already up to date for all matched competitions — skipping commit')
+    } else {
+      git([
+        'commit',
+        '-m',
+        `chore(content): bump last_verified for ${matches.length} competition(s)\n\nRoutine: source-check · ${MODE}\nVerified on ${TODAY}.\n\n${matches.map((r) => `- ${r.comp.id}: ${r.analysis?.evidence}`).join('\n')}\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>`,
+      ])
+      git(['push', 'origin', 'main'])
+      commitSha = git(['rev-parse', '--short', 'HEAD'])
+      console.log(`✓ Committed + pushed last_verified bumps (${commitSha})`)
+    }
   }
 
   // ── 6. Changes → open one PR ───────────────────────────────────────────────
@@ -356,6 +368,12 @@ async function main() {
     }
 
     git(['add', ...changes.map((r) => r.comp.filePath)])
+
+    if (!hasStagedChanges()) {
+      console.log('ℹ No actual diff for change candidates — skipping PR')
+      git(['checkout', 'main'])
+      // treat as matches instead
+    } else {
     git([
       'commit',
       '-m',
@@ -385,6 +403,7 @@ async function main() {
     console.log(`✓ PR opened: ${prUrl}`)
 
     git(['checkout', 'main'])
+    } // end hasStagedChanges
   }
 
   // ── 7. Failures → open one issue per portal ────────────────────────────────
@@ -420,13 +439,17 @@ async function main() {
   writeFileSync(LOG_FILE, log.slice(0, idx + sep.length) + '\n' + entry + log.slice(idx + sep.length))
 
   git(['add', LOG_FILE])
-  git([
-    'commit',
-    '-m',
-    `chore(log): ${MODE} source-check run ${TODAY}\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>`,
-  ])
-  git(['push', 'origin', 'main'])
-  console.log('✓ CONTENT_LOG committed + pushed')
+  if (hasStagedChanges()) {
+    git([
+      'commit',
+      '-m',
+      `chore(log): ${MODE} source-check run ${TODAY}\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>`,
+    ])
+    git(['push', 'origin', 'main'])
+    console.log('✓ CONTENT_LOG committed + pushed')
+  } else {
+    console.log('ℹ CONTENT_LOG unchanged — skipping commit')
+  }
 
   // ── 9. Run summary ─────────────────────────────────────────────────────────
   console.log(`
