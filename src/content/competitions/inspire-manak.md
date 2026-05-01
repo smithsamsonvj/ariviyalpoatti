@@ -24,7 +24,7 @@ deadlineLabel:
 annualTiming:
   ta: 'ஜூலை–செப்: யோசனை | டிச–ஜன: மாவட்டம் | பிப்: மாநிலம் | மார்ச்: தேசியம்'
   en: 'Jul–Sep: Idea submission | Dec–Jan: District | Feb: State | Mar: National'
-last_verified: '2026-04-15'
+last_verified: '2026-05-01'
 
 summary:
   ta: 'இந்தியாவின் மிகப்பெரிய பள்ளி அளவிலான அறிவியல் புதுமைத் திட்டம். DST மற்றும் NIF நடத்துகிறது. தேர்வு செய்யப்படும் 1 லட்சம் மாணவர்களுக்கு ₹10,000 நேரடி பயனீட்டு பரிமாற்றம்.'
