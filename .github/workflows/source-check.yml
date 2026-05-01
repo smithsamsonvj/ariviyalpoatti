@@ -21,6 +21,9 @@ permissions:
   issues: write     # open verification-failed issues
   pull-requests: write  # open change PRs
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true   # opt into Node.js 24 for actions
+
 jobs:
   source-check:
     runs-on: ubuntu-latest

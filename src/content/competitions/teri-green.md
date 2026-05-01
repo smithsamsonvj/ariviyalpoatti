@@ -38,7 +38,7 @@ process:
     en: 'Results and awards released November–December.'
   - ta: 'இளையோருக்கான தனி பிரிவு உள்ளது (Junior Green Olympiad).'
     en: 'A separate Junior category exists.'
-official: 'teri.res.in/greenitiatives'
+official: 'www.teriin.org'
 organiser:
   ta: 'TERI, புதுடில்லி'
   en: 'TERI, New Delhi'

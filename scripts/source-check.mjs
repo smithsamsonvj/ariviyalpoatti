@@ -64,30 +64,40 @@ function setFrontmatterField(content, field, value) {
 
 // ─── Fetch ────────────────────────────────────────────────────────────────────
 
+const CURL_BASE_ARGS = [
+  '-s',
+  '-L',
+  '--max-time',
+  '30',
+  '--retry',
+  '1',
+  '--retry-delay',
+  '3',
+  '-A',
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+  '-H',
+  'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  '-H',
+  'Accept-Language: en-IN,en;q=0.9,ta;q=0.8',
+  '-w',
+  '\n__CODE__:%{http_code}',
+]
+
+function curlOnce(url, extraArgs = []) {
+  return spawnSync('curl', [...CURL_BASE_ARGS, ...extraArgs, url], {
+    encoding: 'utf8',
+    maxBuffer: 10 * 1024 * 1024,
+  })
+}
+
 function fetchURL(url) {
-  const result = spawnSync(
-    'curl',
-    [
-      '-s',
-      '-L',
-      '--max-time',
-      '30',
-      '--retry',
-      '1',
-      '--retry-delay',
-      '3',
-      '-A',
-      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-      '-H',
-      'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-      '-H',
-      'Accept-Language: en-IN,en;q=0.9,ta;q=0.8',
-      '-w',
-      '\n__CODE__:%{http_code}',
-      url,
-    ],
-    { encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 },
-  )
+  let result = curlOnce(url)
+
+  // curl exit 35 = SSL handshake failure — retry without certificate verification
+  // (common for .nic.in / .gov.in sites with outdated TLS configs)
+  if (result.status === 35) {
+    result = curlOnce(url, ['--insecure'])
+  }
 
   if (result.status !== 0 || result.stderr?.includes('ECONNREFUSED')) {
     return { ok: false, error: `curl exit ${result.status}: ${result.stderr?.slice(0, 120)}` }

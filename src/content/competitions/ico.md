@@ -38,7 +38,7 @@ process:
     en: 'May–Jun: IOITC training camp — Indian team is selected here.'
   - ta: 'ஜூலை: IOI சர்வதேசம் — 4 மாணவர்கள் இந்தியாவை பிரதிநிதித்துவம் செய்கின்றனர்.'
     en: 'July: IOI International — 4 students represent India.'
-official: 'iarcs.org.in/inoi'
+official: 'www.iarcs.org.in/inoi'
 organiser:
   ta: 'IARCS · HBCSE'
   en: 'IARCS · HBCSE'
