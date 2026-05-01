@@ -24,7 +24,7 @@ deadlineLabel:
 annualTiming:
   ta: 'ஜூன்–ஆக: பதிவு | செப்–அக்: எழுத்துத் தேர்வு | நவ–டிச: முடிவுகள் + விருதுகள்'
   en: 'Jun–Aug: Registration | Sep–Oct: Written exam | Nov–Dec: Results + awards'
-last_verified: '2026-04-15'
+last_verified: '2026-05-01'
 
 summary:
   ta: 'TERI (The Energy and Resources Institute) நடத்தும் சுற்றுச்சூழல், காலநிலை மாற்றம் மற்றும் நிலைத்தன்மை மீதான எழுத்து தேர்வு. 1999 முதல்.'
