@@ -18,6 +18,16 @@ See `RUNBOOK.md` → "Content Cadence" for the workflow this log supports.
 
 ## 2026-05-01 · weekly · all
 
+Checked 13 in-scope competitions (mode: weekly). 11 matched — `last_verified` bumped. 0 proposed change(s). 2 fetch failure(s) — issues opened.
+
+**Outcome:**
+
+- Direct commits: 9f57c2b
+- PR opened: none
+- Issues opened: https://github.com/smithsamsonvj/ariviyalpoatti/issues/7, https://github.com/smithsamsonvj/ariviyalpoatti/issues/8
+
+## 2026-05-01 · weekly · all
+
 Checked 13 in-scope competitions (mode: weekly). 7 matched — `last_verified` bumped. 0 proposed change(s). 6 fetch failure(s) — issues opened.
 
 **Outcome:**
