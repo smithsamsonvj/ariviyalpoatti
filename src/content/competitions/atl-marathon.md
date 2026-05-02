@@ -1,7 +1,6 @@
 ---
 id: 'atl-marathon'
 category: 'govt'
-status: 'upcoming'
 name:
   ta: 'ATL பள்ளி புதுமை மாரத்தான்'
   en: 'ATL School Innovation Marathon'

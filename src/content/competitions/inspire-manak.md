@@ -1,7 +1,6 @@
 ---
 id: 'inspire-manak'
 category: 'govt'
-status: 'open'
 name:
   ta: 'INSPIRE–MANAK'
   en: 'INSPIRE–MANAK'

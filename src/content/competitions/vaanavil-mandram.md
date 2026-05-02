@@ -1,7 +1,6 @@
 ---
 id: 'vaanavil-mandram'
 category: 'state'
-status: 'open'
 name:
   ta: 'வானவில் மன்றம்'
   en: 'Vaanavil Mandram'

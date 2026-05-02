@@ -1,7 +1,6 @@
 ---
 id: 'ico'
 category: 'olympiad'
-status: 'upcoming'
 name:
   ta: 'இந்திய கணினி ஒலிம்பியாட் (ICO)'
   en: 'Indian Computing Olympiad (ICO)'

@@ -1,7 +1,6 @@
 ---
 id: 'teri-green'
 category: 'ngo'
-status: 'open'
 name:
   ta: 'கிரீன் ஒலிம்பியாட் — TERI'
   en: 'Green Olympiad — TERI'

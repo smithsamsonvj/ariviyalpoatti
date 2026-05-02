@@ -1,7 +1,6 @@
 ---
 id: 'fll'
 category: 'robotics'
-status: 'upcoming'
 name:
   ta: 'FIRST LEGO League — India'
   en: 'FIRST LEGO League — India'

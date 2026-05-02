@@ -1,7 +1,6 @@
 ---
 id: 'rbvp'
 category: 'govt'
-status: 'upcoming'
 name:
   ta: 'RBVP / JNNSMEE'
   en: 'RBVP / JNNSMEE'

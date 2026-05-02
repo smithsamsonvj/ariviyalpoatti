@@ -1,7 +1,6 @@
 ---
 id: 'cbse-expo'
 category: 'govt'
-status: 'upcoming'
 name:
   ta: 'CBSE தேசிய அறிவியல் கண்காட்சி'
   en: 'CBSE National Science Exhibition'

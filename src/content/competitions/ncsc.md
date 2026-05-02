@@ -1,7 +1,6 @@
 ---
 id: 'ncsc'
 category: 'govt'
-status: 'open'
 name:
   ta: 'தேசிய குழந்தைகள் அறிவியல் மாநாடு (NCSC)'
   en: "National Children's Science Congress (NCSC)"

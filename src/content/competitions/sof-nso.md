@@ -1,7 +1,6 @@
 ---
 id: 'sof-nso'
 category: 'private'
-status: 'soon'
 name:
   ta: 'SOF தேசிய அறிவியல் ஒலிம்பியாட் (NSO)'
   en: 'SOF National Science Olympiad (NSO)'

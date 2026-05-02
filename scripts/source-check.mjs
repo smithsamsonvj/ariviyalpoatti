@@ -162,14 +162,13 @@ Respond with valid JSON only — no markdown fences, no commentary:
   "evidence": "<phrase under 15 words describing what you found on the page>",
   "proposed": {
     "deadline": "<YYYY-MM-DD or null>",
-    "status": "<open|upcoming|soon|closed or null>",
     "note": "<human-readable explanation under 60 words, or null>"
   }
 }
 
 RULES
 - "match"        → portal confirms existing data, or nothing decisive found.
-- "change"       → you see a CLEAR, EXPLICIT difference (different date, new status, portal says registration closed).
+- "change"       → you see a CLEAR, EXPLICIT difference (different date, portal says registration closed).
 - "fetch-failed" → page is a CAPTCHA wall, login gate, totally unrelated, or empty.
 - Never invent a deadline date. When uncertain, return "match" and explain in evidence.`
 
@@ -213,7 +212,7 @@ function prBody(changes) {
   const rows = changes
     .map(({ comp, analysis }) => {
       const p = analysis.proposed
-      return `| ${comp.id} | ${comp.deadline} | ${p?.deadline ?? '—'} | ${p?.status ?? '—'} | ${analysis.evidence} |`
+      return `| ${comp.id} | ${comp.deadline} | ${p?.deadline ?? '—'} | ${analysis.evidence} |`
     })
     .join('\n')
 
@@ -221,8 +220,8 @@ function prBody(changes) {
 
 ### Proposed changes
 
-| Competition | Current deadline | Proposed deadline | Proposed status | Evidence |
-|---|---|---|---|---|
+| Competition | Current deadline | Proposed deadline | Evidence |
+|---|---|---|---|
 ${rows}
 
 ### Reviewer checklist
@@ -295,7 +294,7 @@ async function main() {
 
   // ── 2. Scope filter ────────────────────────────────────────────────────────
   const inScope =
-    MODE === 'annual' ? all : all.filter((c) => ['open', 'upcoming', 'soon'].includes(c.status))
+    MODE === 'annual' ? all : all.filter((c) => new Date(c.deadline) >= new Date(TODAY))
 
   console.log(`In scope: ${inScope.length} / ${all.length} competitions\n`)
 
@@ -370,9 +369,6 @@ async function main() {
       let updated = comp.content
       if (analysis.proposed?.deadline) {
         updated = setFrontmatterField(updated, 'deadline', analysis.proposed.deadline)
-      }
-      if (analysis.proposed?.status) {
-        updated = setFrontmatterField(updated, 'status', analysis.proposed.status)
       }
       updated = setFrontmatterField(updated, 'last_verified', TODAY)
       writeFileSync(comp.filePath, updated)

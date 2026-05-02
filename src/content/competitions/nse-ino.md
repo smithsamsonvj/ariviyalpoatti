@@ -1,7 +1,6 @@
 ---
 id: 'nse-ino'
 category: 'olympiad'
-status: 'upcoming'
 name:
   ta: 'NSE / INO — அறிவியல் ஒலிம்பியாட்'
   en: 'NSE / INO — Science Olympiad'

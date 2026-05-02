@@ -13,7 +13,7 @@ const competitionsCollection = defineCollection({
     // Identity
     id: z.string(),
     category: z.enum(['govt', 'ngo', 'olympiad', 'private', 'robotics', 'state']),
-    status: z.enum(['open', 'upcoming', 'soon', 'closed']),
+    status: z.enum(['open', 'upcoming', 'soon', 'closed']).optional(),
     name: bilingualString,
     shortName: bilingualString,
 

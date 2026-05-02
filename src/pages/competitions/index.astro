@@ -4,7 +4,7 @@ import Motif from '../../components/Motif.astro'
 import FreshnessBanner from '../../components/FreshnessBanner.astro'
 import CompetitionCard from '../../components/CompetitionCard.astro'
 import { getCollection } from 'astro:content'
-import { COPY, getAcademicYear, currentAcademicYear } from '../../data/content'
+import { COPY, getAcademicYear, currentAcademicYear, computeStatus } from '../../data/content'
 import lastRun from '../../data/last-run.json'
 
 const allComps = await getCollection('competitions')
@@ -89,7 +89,7 @@ const defaultYear = currentAcademicYear()
           <CompetitionCard
             id={c.data.id}
             category={c.data.category}
-            status={c.data.status}
+            status={c.data.status ?? computeStatus(c.data.deadline)}
             name={c.data.name}
             shortName={c.data.shortName}
             eligibility={c.data.eligibility}
@@ -118,7 +118,7 @@ const defaultYear = currentAcademicYear()
               <CompetitionCard
                 id={c.data.id}
                 category={c.data.category}
-                status={c.data.status}
+                status={c.data.status ?? computeStatus(c.data.deadline)}
                 name={c.data.name}
                 shortName={c.data.shortName}
                 eligibility={c.data.eligibility}

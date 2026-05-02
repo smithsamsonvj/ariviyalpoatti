@@ -1,7 +1,6 @@
 ---
 id: 'wro'
 category: 'robotics'
-status: 'upcoming'
 name:
   ta: 'உலக ரோபோட் ஒலிம்பியாட் — இந்தியா'
   en: 'World Robot Olympiad — India'

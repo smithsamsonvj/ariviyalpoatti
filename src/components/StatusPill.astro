@@ -2,11 +2,11 @@
 import { COPY, t } from '../data/content'
 
 interface Props {
-  status: 'open' | 'upcoming' | 'soon' | 'closed'
+  status?: 'open' | 'upcoming' | 'soon' | 'closed'
   size?: 'sm' | 'md'
 }
 
-const { status, size = 'md' } = Astro.props
+const { status = 'upcoming', size = 'md' } = Astro.props
 
 const statusMap = {
   open: { bg: 'rgba(92,124,111,0.14)', fg: 'var(--sage)', label: COPY.dates.statusOpen },

@@ -1,12 +1,12 @@
 ---
 import StatusPill from './StatusPill.astro'
-import { COPY, t, daysUntil, fmtDate } from '../data/content'
+import { COPY, t, daysUntil, fmtDate, computeStatus } from '../data/content'
 import type { Bilingual, CompetitionCategory, CompetitionStatus } from '../data/types'
 
 interface Props {
   id: string
   category: CompetitionCategory
-  status: CompetitionStatus
+  status?: CompetitionStatus
   name: Bilingual
   shortName: Bilingual
   eligibility: Bilingual
@@ -29,6 +29,7 @@ const {
   academicYear,
 } = Astro.props
 
+const resolvedStatus = status ?? computeStatus(deadline)
 const days = daysUntil(deadline)
 ---
 
@@ -39,7 +40,7 @@ const days = daysUntil(deadline)
       <span class="en">{t(COPY.categories[category as keyof typeof COPY.categories], 'en')}</span>
     </span>
     <span class="comp-card__sep">&middot;</span>
-    <StatusPill status={status} size="sm" />
+    <StatusPill status={resolvedStatus} size="sm" />
   </div>
 
   <h3 class="comp-card__title">

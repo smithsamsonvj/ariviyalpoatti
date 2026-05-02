@@ -9,7 +9,7 @@ import Fact from '../../components/Fact.astro'
 import CompetitionNavStrip from '../../components/CompetitionNavStrip.astro'
 import CompetitionRolePath from '../../components/CompetitionRolePath.astro'
 import { getCollection } from 'astro:content'
-import { COPY, t, daysUntil, fmtDate } from '../../data/content'
+import { COPY, t, daysUntil, fmtDate, computeStatus } from '../../data/content'
 
 export async function getStaticPaths() {
   const allComps = await getCollection('competitions')
@@ -60,7 +60,7 @@ const days = daysUntil(d.deadline)
             >{t(COPY.categories[d.category as keyof typeof COPY.categories], 'en')}</span
           >
         </span>
-        <StatusPill status={d.status} />
+        <StatusPill status={d.status ?? computeStatus(d.deadline)} />
         <FreshnessBadge size="sm" lastVerified={d.last_verified} />
       </div>
       <h1 class="detail__title">

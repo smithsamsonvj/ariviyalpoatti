@@ -1,4 +1,4 @@
-import type { Bilingual } from './types'
+import type { Bilingual, CompetitionStatus } from './types'
 
 // Site-wide freshness derived from per-competition `last_verified` frontmatter.
 // Returns the OLDEST verified date across the passed entries (worst-case signal),
@@ -24,6 +24,16 @@ export function daysUntil(iso: string): number {
   const now = new Date()
   const d = new Date(iso)
   return Math.ceil((d.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+}
+
+// Derive competition status from deadline date so the pipeline only needs to maintain `deadline`.
+// Thresholds: closed (<0d) · soon (0–30d) · open (31–90d) · upcoming (>90d)
+export function computeStatus(deadline: string): CompetitionStatus {
+  const d = daysUntil(deadline)
+  if (d < 0) return 'closed'
+  if (d <= 30) return 'soon'
+  if (d <= 90) return 'open'
+  return 'upcoming'
 }
 
 // Format a date per language

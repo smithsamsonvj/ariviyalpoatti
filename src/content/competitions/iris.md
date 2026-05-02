@@ -1,7 +1,6 @@
 ---
 id: 'iris'
 category: 'ngo'
-status: 'soon'
 name:
   ta: 'IRIS National Fair'
   en: 'IRIS National Fair'

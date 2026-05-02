@@ -4,7 +4,7 @@ import Motif from '../components/Motif.astro'
 import FreshnessBanner from '../components/FreshnessBanner.astro'
 import StatusPill from '../components/StatusPill.astro'
 import { getCollection } from 'astro:content'
-import { COPY, t, daysUntil, fmtDate, getAcademicYear } from '../data/content'
+import { COPY, t, daysUntil, fmtDate, getAcademicYear, computeStatus } from '../data/content'
 import lastRun from '../data/last-run.json'
 
 const allComps = await getCollection('competitions')
@@ -144,7 +144,10 @@ const enMonths = [
                         <div class="dates-row__date">
                           <span class="dates-row__day">{dd.getDate()}</span>
                           <span
-                            class:list={['dates-row__dot', `dates-row__dot--${c.data.status}`]}
+                            class:list={[
+                              'dates-row__dot',
+                              `dates-row__dot--${c.data.status ?? computeStatus(c.data.deadline)}`,
+                            ]}
                           />
                         </div>
                         <div class="dates-row__content">
@@ -167,7 +170,10 @@ const enMonths = [
                                 )}
                               </span>
                             </span>
-                            <StatusPill status={c.data.status} size="sm" />
+                            <StatusPill
+                              status={c.data.status ?? computeStatus(c.data.deadline)}
+                              size="sm"
+                            />
                           </div>
                         </div>
                         <div class="dates-row__days">
