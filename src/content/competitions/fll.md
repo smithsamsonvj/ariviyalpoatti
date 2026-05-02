@@ -57,18 +57,27 @@ intlPath:
 phases:
   - level: 'registration'
     title:
-      ta: 'சீசன் பதிவு · குழு உருவாக்கம்'
-      en: 'Season registration · team formation'
+      ta: 'சீசன் தொடக்கம் · குழு உருவாக்கம்'
+      en: 'Season launch · team formation'
+    note:
+      ta: 'LEGO SPIKE Prime கிட் தேவை'
+      en: 'LEGO SPIKE Prime kit required'
     months: [7, 8, 9]
   - level: 'district'
     title:
-      ta: 'ரோபோட் பயிற்சி + புதுமை'
-      en: 'Robot practice + innovation'
+      ta: 'ரோபோட் கட்டுதல் + புதுமை திட்டம்'
+      en: 'Robot build + innovation project'
+    note:
+      ta: 'Engineering Notebook கட்டாயம்'
+      en: 'Engineering Notebook mandatory'
     months: [10, 11, 0]
   - level: 'national'
     title:
-      ta: 'பிராந்திய + தேசியம்'
-      en: 'Regional + National'
+      ta: 'தகுதி → பிராந்திய → தேசியம்'
+      en: 'Qualifier → Regional → National'
+    note:
+      ta: '4 நடுவர் பரிமாணங்கள்'
+      en: '4 judging dimensions'
     months: [0, 1]
   - level: 'international'
     title:
@@ -77,6 +86,9 @@ phases:
     note:
       ta: '110+ நாடுகள்'
       en: '110+ countries'
+    theme:
+      ta: 'UNEARTHED'
+      en: 'UNEARTHED'
     months: [3, 4]
 tn:
   schools: '~90'

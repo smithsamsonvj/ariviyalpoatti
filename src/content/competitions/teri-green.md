@@ -62,19 +62,25 @@ phases:
     title:
       ta: 'TERI-வில் பதிவு'
       en: 'Register with TERI'
+    note:
+      ta: '₹75/மாணவர் · குறைந்தது 20 மாணவர் · தமிழ் கிடைக்கும்'
+      en: '₹75/student · min 20 students · Tamil available'
     months: [5, 6, 7]
   - level: 'national'
     title:
       ta: 'எழுத்துத் தேர்வு'
       en: 'Written exam'
     note:
-      ta: 'பள்ளியிலேயே'
-      en: 'At school itself'
+      ta: 'பலதேர்வு · எதிர்மறை மதிப்பெண் இல்லை · தமிழ் கிடைக்கும்'
+      en: 'MCQ · no negative marking · Tamil available'
     months: [8, 9]
   - level: 'state'
     title:
       ta: 'முடிவுகள் + விருதுகள்'
       en: 'Results + awards'
+    note:
+      ta: '₹10 லட்சம் வரை பரிசுகள்'
+      en: 'Up to ₹10L prizes'
     months: [10, 11]
 sortOrder: 6
 roleGuide:

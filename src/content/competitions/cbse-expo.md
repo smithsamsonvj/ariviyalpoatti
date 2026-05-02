@@ -60,29 +60,38 @@ intlPathDetail:
 phases:
   - level: 'registration'
     title:
-      ta: 'பள்ளி சுற்று'
-      en: 'School round'
+      ta: 'பதிவு செய்து கட்டணம் செலுத்துங்கள்'
+      en: 'Register + pay fee'
     note:
-      ta: 'CBSE பள்ளிகள் மட்டுமே'
-      en: 'CBSE schools only'
+      ta: '₹3,000/குழு · CBSE பள்ளிகள் மட்டும்'
+      en: '₹3,000/team · CBSE schools only'
     months: [7, 8]
   - level: 'district'
     title:
       ta: 'பிராந்திய சுற்று'
       en: 'Regional round'
+    note:
+      ta: 'பிராந்திய வாரியாக சிறந்த 14 தேர்வு'
+      en: 'Top 14 per region advance'
     months: [9, 10]
   - level: 'national'
     title:
       ta: 'தேசிய இறுதி'
       en: 'National finale'
     note:
-      ta: '25 இறுதியாளர்கள்'
-      en: '25 finalists'
+      ta: 'IRIS-க்கு 5 திட்டங்கள் அனுப்பப்படும்'
+      en: '5 entries forwarded to IRIS'
     months: [11, 0]
   - level: 'international'
     title:
       ta: 'IRIS → ISEF'
       en: 'IRIS → ISEF'
+    note:
+      ta: 'IRIS நாமினேஷன் வழியாக'
+      en: 'Via IRIS nomination'
+    abbr:
+      - short: 'ISEF'
+        full: 'International Science and Engineering Fair'
     months: [4]
 tn:
   schools: '~1,200'

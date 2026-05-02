@@ -60,11 +60,14 @@ intlPathDetail:
 phases:
   - level: 'registration'
     title:
-      ta: 'பள்ளி பதிவு'
-      en: 'School registration'
+      ta: 'கண்காட்சி தயாரிக்கவும் · இந்த ஆண்டு கருப்பொருள்'
+      en: "Prepare exhibit · year's theme"
     note:
-      ta: 'SCERT வழியாக'
-      en: 'Via SCERT'
+      ta: 'DEO சுற்றறிக்கை · தனி போர்ட்டல் இல்லை'
+      en: 'DEO circular · no online portal'
+    theme:
+      ta: 'STEM for Vikasit and Atmanirbhar Bharat'
+      en: 'STEM for Vikasit and Atmanirbhar Bharat'
     months: [6, 7, 8]
   - level: 'district'
     title:
@@ -73,21 +76,32 @@ phases:
     months: [8, 9]
   - level: 'state'
     title:
-      ta: 'மாநில சுற்று'
-      en: 'State round'
+      ta: 'மாநில சுற்று (RSBVP)'
+      en: 'State round (RSBVP)'
+    abbr:
+      - short: 'RSBVP'
+        full: 'Rajya Bal Vaigyanik Pradarshani'
     months: [9, 10]
   - level: 'national'
     title:
-      ta: 'JNNSMEE — தேசியம்'
-      en: 'JNNSMEE — National'
+      ta: 'RBVP தேசிய கண்காட்சி'
+      en: 'RBVP National exhibition'
+    abbr:
+      - short: 'RBVP'
+        full: 'Rashtriya Bal Vaigyanik Pradarshani'
+      - short: 'JNNSMEE'
+        full: 'Jawaharlal Nehru National Science Mathematics and Environment Exhibition'
     months: [10, 11, 0, 1]
   - level: 'international'
     title:
       ta: 'IRIS → ISEF (USA)'
       en: 'IRIS → ISEF (USA)'
     note:
-      ta: 'வெற்றியாளர்களுக்கு'
+      ta: 'வெற்றியாளர்களுக்கு மட்டும்'
       en: 'For winners only'
+    abbr:
+      - short: 'ISEF'
+        full: 'International Science and Engineering Fair'
     months: [4]
 tn:
   schools: '~9,600'

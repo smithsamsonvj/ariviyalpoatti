@@ -7,6 +7,8 @@ export interface Phase {
   level: 'registration' | 'district' | 'state' | 'national' | 'international'
   title: Bilingual
   note?: Bilingual
+  theme?: Bilingual
+  abbr?: Array<{ short: string; full: string }>
   months: number[]
 }
 

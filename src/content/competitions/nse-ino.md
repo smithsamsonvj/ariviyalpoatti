@@ -60,37 +60,57 @@ intlPathDetail:
 phases:
   - level: 'registration'
     title:
-      ta: 'NSE மைய பதிவு'
-      en: 'NSE centre enrollment'
+      ta: 'NSE பதிவு · ₹300/பாடம்'
+      en: 'NSE enrolment · ₹300/subject'
     note:
-      ta: '≥20 மாணவர்கள்'
-      en: '≥20 students'
+      ta: 'ஆக 21 பதிவு இறுதி · iapt.org.in'
+      en: 'Register by 21 Aug · iapt.org.in'
     months: [7, 8]
   - level: 'national'
     title:
-      ta: 'NSE — நிலை 1'
-      en: 'NSE — Stage 1'
+      ta: 'NSE நிலை 1 தேர்வு'
+      en: 'NSE Stage 1 exam'
+    note:
+      ta: 'சிறந்த 1% INO-க்கு தகுதி'
+      en: 'Top 1% qualify → INO'
     months: [10]
   - level: 'national'
     title:
-      ta: 'INO — நிலை 2'
-      en: 'INO — Stage 2'
+      ta: 'INO நிலை 2'
+      en: 'INO Stage 2'
     note:
       ta: '≈300 ஒவ்வொரு பாடத்திலும்'
-      en: '≈300 per subject'
+      en: '≈300 per subject advance'
     months: [0]
   - level: 'national'
     title:
-      ta: 'OCSC பயிற்சி முகாம்'
-      en: 'OCSC training camp'
+      ta: 'OCSC தேர்வு முகாம்'
+      en: 'OCSC selection camp'
+    note:
+      ta: '35 மாணவர்கள் · 2-வார முகாம் · HBCSE'
+      en: '35 students · 2-week camp · HBCSE'
+    abbr:
+      - short: 'OCSC'
+        full: 'Orientation cum Selection Camp'
     months: [3, 4, 5]
   - level: 'international'
     title:
-      ta: 'IPhO · IChO · IBO · IOAA · IJSO'
-      en: 'IPhO · IChO · IBO · IOAA · IJSO'
+      ta: 'சர்வதேச அறிவியல் ஒலிம்பியாட்கள்'
+      en: 'International Science Olympiads'
     note:
-      ta: '4–6 மாணவர்கள்'
+      ta: '4–6 மாணவர்கள் இந்தியாவை பிரதிநிதித்துவப்படுத்துவர்'
       en: '4–6 students represent India'
+    abbr:
+      - short: 'IPhO'
+        full: 'International Physics Olympiad'
+      - short: 'IChO'
+        full: 'International Chemistry Olympiad'
+      - short: 'IBO'
+        full: 'International Biology Olympiad'
+      - short: 'IOAA'
+        full: 'International Olympiad on Astronomy and Astrophysics'
+      - short: 'IJSO'
+        full: 'International Junior Science Olympiad'
     months: [5, 6]
 sortOrder: 7
 roleGuide:

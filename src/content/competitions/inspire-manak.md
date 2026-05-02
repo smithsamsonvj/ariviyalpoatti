@@ -60,42 +60,53 @@ intlPathDetail:
 phases:
   - level: 'registration'
     title:
-      ta: 'யோசனை சமர்ப்பணம்'
-      en: 'Idea submission'
+      ta: 'யோசனை சமர்ப்பிக்கவும் · E-MIAS'
+      en: 'Submit ideas · E-MIAS portal'
     note:
-      ta: 'ஆசிரியர் பள்ளி சார்பாக'
-      en: 'Teacher on behalf of school'
+      ta: '5 யோசனைகள் வரை · செப் 15 இறுதி தேதி'
+      en: 'Up to 5 ideas · 15 Sep deadline'
     months: [6, 7, 8, 9]
   - level: 'district'
     title:
-      ta: 'DLEPC — மாவட்ட கண்காட்சி'
+      ta: 'மாவட்ட கண்காட்சி'
       en: 'District exhibition'
     note:
       ta: '₹10,000 DBT · முன்மாதிரி'
       en: '₹10,000 DBT · prototype'
+    abbr:
+      - short: 'DLEPC'
+        full: 'District Level Exhibition and Project Competition'
     months: [11, 0]
   - level: 'state'
     title:
-      ta: 'SLEPC — மாநிலம்'
+      ta: 'மாநில கண்காட்சி'
       en: 'State exhibition'
     note:
-      ta: 'சிறந்த 10%'
+      ta: 'சிறந்த 10% தேர்வு'
       en: 'Top 10% advance'
+    abbr:
+      - short: 'SLEPC'
+        full: 'State Level Exhibition and Project Competition'
     months: [1]
   - level: 'national'
     title:
-      ta: 'NLEPC + FINE'
+      ta: 'தேசியம் + FINE'
       en: 'National + FINE'
     note:
       ta: 'ராஷ்ட்ரபதி பவன்'
       en: 'At Rashtrapati Bhavan'
+    abbr:
+      - short: 'NLEPC'
+        full: 'National Level Exhibition and Project Competition'
+      - short: 'FINE'
+        full: 'Festival of Innovations at National Exhibition'
     months: [2, 3]
   - level: 'international'
     title:
       ta: 'Sakura · ஜப்பான்'
       en: 'Sakura · Japan'
     note:
-      ta: 'Top students nominated'
+      ta: 'சிறந்த மாணவர்கள் பரிந்துரைக்கப்படுவர்'
       en: 'Top students nominated'
     months: [4]
 tn:

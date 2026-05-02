@@ -55,34 +55,46 @@ intlPath:
   ta: 'IOI (International Olympiad in Informatics)'
   en: 'IOI (International Olympiad in Informatics)'
 phases:
-  - level: 'registration'
+  - level: 'national'
     title:
-      ta: 'ZIO — மண்டல சுற்று'
-      en: 'ZIO — zonal round'
+      ta: 'மண்டல குறியீட்டு சுற்று (ZIO)'
+      en: 'Zonal coding round (ZIO)'
     note:
-      ta: 'பதிவு செய்த மையங்களில்'
-      en: 'At registered centres'
+      ta: 'அல்காரிதம் சிந்தனை'
+      en: 'Algorithmic problem solving'
+    abbr:
+      - short: 'ZIO'
+        full: 'Zonal Informatics Olympiad'
     months: [9, 10]
   - level: 'national'
     title:
       ta: 'IOQI தகுதி'
       en: 'IOQI qualifier'
+    abbr:
+      - short: 'IOQI'
+        full: 'Indian Olympiad Qualifier in Informatics'
     months: [0]
   - level: 'national'
     title:
       ta: 'IOITC பயிற்சி முகாம்'
-      en: 'IOITC camp'
+      en: 'IOITC training camp'
     note:
       ta: 'இந்திய குழு தேர்வு'
       en: 'Indian team selected'
+    abbr:
+      - short: 'IOITC'
+        full: 'Indian Olympiad Informatics Training Camp'
     months: [4, 5]
   - level: 'international'
     title:
       ta: 'IOI — சர்வதேசம்'
       en: 'IOI — International'
     note:
-      ta: '4 மாணவர்கள்'
+      ta: '4 மாணவர்கள் இந்தியாவை பிரதிநிதித்துவம் செய்வர்'
       en: '4 students represent India'
+    abbr:
+      - short: 'IOI'
+        full: 'International Olympiad in Informatics'
     months: [6]
 sortOrder: 9
 roleGuide:

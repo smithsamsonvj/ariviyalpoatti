@@ -57,31 +57,43 @@ intlPath:
 phases:
   - level: 'registration'
     title:
-      ta: 'குழு பதிவு'
-      en: 'Team registration'
+      ta: 'குழு பதிவு · 4 சவால் பாதைகள்'
+      en: 'Team registration · 4 tracks'
     note:
-      ta: '4 சவால் பாதைகள்'
-      en: '4 challenge tracks'
+      ta: 'ஒவ்வொரு பள்ளிக்கும் ஒரு இலவச Future Innovators இடம்'
+      en: '1 free Future Innovators slot per school'
     months: [7, 8, 9]
   - level: 'district'
     title:
       ta: 'மெய்நிகர் சுற்று'
-      en: 'Virtual round'
+      en: 'Virtual Championship'
+    note:
+      ta: 'ஆன்லைன் தகுதி சுற்று'
+      en: 'Online qualifying round'
     months: [10, 11]
   - level: 'state'
     title:
       ta: 'பிராந்திய சுற்று'
-      en: 'Regional round'
+      en: 'Regional Championship'
+    note:
+      ta: 'நேர்முக நிகழ்வு'
+      en: 'In-person event'
     months: [0, 1]
   - level: 'national'
     title:
-      ta: 'தேசியம்'
-      en: 'Nationals'
+      ta: 'தேசிய சாம்பியன்ஷிப்'
+      en: 'National Championship'
     months: [2]
   - level: 'international'
     title:
-      ta: 'WRO சர்வதேசம் (90+ நாடுகள்)'
-      en: 'WRO International (90+ countries)'
+      ta: 'WRO சர்வதேச சாம்பியன்ஷிப்'
+      en: 'WRO International Championship'
+    note:
+      ta: '90+ நாடுகள்'
+      en: '90+ countries'
+    theme:
+      ta: 'The Future of Robots'
+      en: 'The Future of Robots'
     months: [9, 10]
 tn:
   schools: '~180'

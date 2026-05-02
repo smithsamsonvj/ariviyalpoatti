@@ -60,29 +60,38 @@ intlPathDetail:
 phases:
   - level: 'registration'
     title:
-      ta: 'குழு உருவாக்கம்'
-      en: 'Team formation'
+      ta: 'பதிவு செய்து குழு உருவாக்கவும்'
+      en: 'Register + form team'
     note:
-      ta: '2–3 மாணவர் + வழிகாட்டி'
-      en: '2–3 students + mentor'
+      ta: 'schoolinnovationmarathon.org · UDISE குறியீடு'
+      en: 'schoolinnovationmarathon.org · UDISE'
     months: [7, 8]
   - level: 'district'
     title:
-      ta: 'வார்த்தக்கங்கள் + முன்மாதிரி'
-      en: 'Workshops + prototype'
+      ta: 'செயல்படும் முன்மாதிரி உருவாக்கவும்'
+      en: 'Build working prototype'
+    note:
+      ta: 'நவ 30 இறுதி தேதி · வீடியோ + 1-பக்க அறிக்கை'
+      en: '30 Nov deadline · video + 1-page report'
     months: [8, 9, 10, 11, 0]
   - level: 'national'
     title:
       ta: 'தேசிய மதிப்பீடு'
       en: 'National evaluation'
     note:
-      ta: 'Internship offers'
+      ta: 'Internship வாய்ப்புகள்'
       en: 'Internship offers'
+    abbr:
+      - short: 'AIM'
+        full: 'Atal Innovation Mission'
     months: [0, 1, 2]
   - level: 'international'
     title:
-      ta: 'இறுதி நிகழ்வு'
-      en: 'Finale'
+      ta: 'AIM இறுதி சுற்று'
+      en: 'AIM Finale'
+    note:
+      ta: 'கல்வி அமைச்சகம் அங்கீகாரம்'
+      en: 'Ministry of Education recognition'
     months: [2, 3]
 tn:
   schools: '~3,800'

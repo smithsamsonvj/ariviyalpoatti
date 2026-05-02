@@ -59,24 +59,33 @@ phases:
     title:
       ta: 'பள்ளி ஒருங்கிணைப்பாளர் பதிவு'
       en: 'School coordinator registers'
+    note:
+      ta: '₹125/மாணவர் · sofworld.org'
+      en: '₹125/student · sofworld.org'
     months: [5, 6, 7, 8]
   - level: 'national'
     title:
-      ta: 'நிலை 1 — பள்ளியில்'
-      en: 'Level 1 — at school'
+      ta: 'நிலை 1 — பள்ளியில் தேர்வு'
+      en: 'Level 1 exam at school'
+    note:
+      ta: '50 பலதேர்வு · 60 நிமிடம் · 3 தேதி தேர்வுகள்'
+      en: '50 MCQs · 60 min · 3 date choices'
     months: [9, 10, 11]
   - level: 'national'
     title:
-      ta: 'நிலை 2'
-      en: 'Level 2'
+      ta: 'நிலை 2 · நிலை 1-ல் சிறந்த 5%'
+      en: 'Level 2 · top 5% from Level 1'
     note:
-      ta: 'சிறந்த ~5%'
-      en: 'Top ~5% qualify'
+      ta: 'வகுப்பு 3–12 மட்டும்'
+      en: 'Classes 3–12 only'
     months: [0, 1]
-  - level: 'state'
+  - level: 'national'
     title:
-      ta: 'முடிவுகள் + பதக்கங்கள்'
-      en: 'Results + medals'
+      ta: 'முடிவுகள் · பதக்கங்கள் · உதவித்தொகைகள்'
+      en: 'Results · medals · scholarships'
+    note:
+      ta: 'IPhO/IChO/IBO-க்கு வழி இல்லை'
+      en: 'Not a route to IPhO/IChO/IBO'
     months: [2]
 tn:
   schools: '~3,400'

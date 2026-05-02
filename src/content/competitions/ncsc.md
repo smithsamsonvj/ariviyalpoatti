@@ -60,16 +60,19 @@ intlPathDetail:
 phases:
   - level: 'registration'
     title:
-      ta: 'குழு + கள ஆய்வு'
-      en: 'Team + fieldwork'
+      ta: 'குழு உருவாக்கம் · கள ஆய்வு'
+      en: 'Group formation · field study'
     note:
-      ta: '2–5 பேர் + வழிகாட்டி'
-      en: '2–5 children + guide'
+      ta: '2–5 பேர் + வழிகாட்டி · உள்ளூர் பிரச்சனை'
+      en: '2–5 children + guide · local issue'
     months: [5, 6, 7, 8]
   - level: 'district'
     title:
-      ta: 'மாவட்ட மாநாடு'
-      en: 'District congress'
+      ta: 'மாவட்ட அறிவியல் மாநாடு'
+      en: 'District science congress'
+    note:
+      ta: '8 நிமிட வழங்கல் + கேள்வி நேரம்'
+      en: '8 min presentation + Q&A'
     months: [9, 10]
   - level: 'state'
     title:
@@ -86,8 +89,11 @@ phases:
     months: [11]
   - level: 'international'
     title:
-      ta: 'ISCA காட்சிப்படுத்தல்'
-      en: 'ISCA showcase'
+      ta: 'இந்திய அறிவியல் மாநாடு (ISCA)'
+      en: 'Indian Science Congress (ISCA)'
+    abbr:
+      - short: 'ISCA'
+        full: 'Indian Science Congress Association'
     months: [0]
 tn:
   schools: '~15,200'

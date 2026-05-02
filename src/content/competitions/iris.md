@@ -57,26 +57,35 @@ intlPath:
 phases:
   - level: 'registration'
     title:
-      ta: 'விண்ணப்பம் — 21 பிரிவுகள்'
-      en: 'Applications — 21 categories'
+      ta: 'விண்ணப்பம் · 21 STEM பிரிவுகள்'
+      en: 'Applications · 21 STEM categories'
+    note:
+      ta: 'படிவத்தில் பள்ளி பெயர் வேண்டாம் · குருட்டு நடுவர் மதிப்பீடு'
+      en: 'No school name in submission · blind judging'
     months: [8, 9]
   - level: 'national'
     title:
       ta: 'திரையிடல்'
       en: 'Screening'
+    note:
+      ta: 'உண்மையான ஆராய்ச்சி மட்டும் · பாடப்புத்தக சோதனைகள் நிராகரிப்பு'
+      en: 'Original research only · no textbook experiments'
     months: [10, 11]
   - level: 'national'
     title:
-      ta: 'தேசிய விழா — 100 இறுதி'
-      en: 'National fair — 100 finalists'
+      ta: 'தேசிய விழா · ~100 இறுதியாளர்கள்'
+      en: 'National fair · ~100 finalists'
+    note:
+      ta: 'நேர்முக நடுவர் மதிப்பீடு + நேர்காணல்'
+      en: 'In-person judging + interview'
     months: [0, 1]
   - level: 'international'
     title:
       ta: 'Regeneron ISEF (USA)'
       en: 'Regeneron ISEF (USA)'
     note:
-      ta: 'உலகின் பெரிய விழா'
-      en: "World's largest fair"
+      ta: 'உலகின் மிகப்பெரிய பள்ளி அறிவியல் விழா'
+      en: "World's largest pre-college science fair"
     months: [4]
 tn:
   schools: '~900'

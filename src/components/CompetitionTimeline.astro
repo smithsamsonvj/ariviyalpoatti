@@ -39,7 +39,9 @@ const phaseRows = phases.map((p) => {
   const startCol = gridCells[0]
   const endCol = gridCells[gridCells.length - 1]
   const style = levelStyle[p.level] || levelStyle.district
-  return { ...p, startCol, endCol, style }
+  const isActive =
+    effectiveNowGridIdx >= 0 && effectiveNowGridIdx >= startCol && effectiveNowGridIdx <= endCol
+  return { ...p, startCol, endCol, style, isActive }
 })
 ---
 
@@ -90,12 +92,15 @@ const phaseRows = phases.map((p) => {
             />
           ))}
           <div
-            class="timeline__bar"
+            class:list={['timeline__bar', { 'timeline__bar--active': p.isActive }]}
             style={`left: ${(p.startCol / 12) * 100}%; width: ${((p.endCol - p.startCol + 1) / 12) * 100}%; background: ${p.style.color};`}
             data-tip-title-ta={t(p.title, 'ta')}
             data-tip-title-en={t(p.title, 'en')}
             data-tip-note-ta={p.note ? t(p.note, 'ta') : ''}
             data-tip-note-en={p.note ? t(p.note, 'en') : ''}
+            data-tip-abbr={p.abbr ? p.abbr.map((a) => `${a.short} = ${a.full}`).join(' · ') : ''}
+            data-tip-theme-ta={p.theme ? t(p.theme, 'ta') : ''}
+            data-tip-theme-en={p.theme ? t(p.theme, 'en') : ''}
           >
             <div class="timeline__bar-title">
               <span class="ta">{t(p.title, 'ta')}</span>
@@ -105,6 +110,12 @@ const phaseRows = phases.map((p) => {
               <div class="timeline__bar-note">
                 <span class="ta">{t(p.note, 'ta')}</span>
                 <span class="en">{t(p.note, 'en')}</span>
+              </div>
+            )}
+            {p.theme && (
+              <div class="timeline__bar-theme">
+                <span class="ta">{t(p.theme, 'ta')}</span>
+                <span class="en">{t(p.theme, 'en')}</span>
               </div>
             )}
           </div>
@@ -142,6 +153,8 @@ const phaseRows = phases.map((p) => {
   <div class="timeline__tooltip" id="timeline-tooltip" aria-hidden="true" style="display:none">
     <div class="timeline__tooltip-title"></div>
     <div class="timeline__tooltip-note"></div>
+    <div class="timeline__tooltip-abbr"></div>
+    <div class="timeline__tooltip-theme"></div>
   </div>
 </section>
 
@@ -155,6 +168,8 @@ const phaseRows = phases.map((p) => {
 
     const tipTitle = tip.querySelector<HTMLElement>('.timeline__tooltip-title')!
     const tipNote = tip.querySelector<HTMLElement>('.timeline__tooltip-note')!
+    const tipAbbr = tip.querySelector<HTMLElement>('.timeline__tooltip-abbr')!
+    const tipTheme = tip.querySelector<HTMLElement>('.timeline__tooltip-theme')!
 
     const lang = () => (document.documentElement.dataset.lang === 'en' ? 'en' : 'ta')
 
@@ -163,9 +178,15 @@ const phaseRows = phases.map((p) => {
         const l = lang()
         const title = bar.dataset[l === 'en' ? 'tipTitleEn' : 'tipTitleTa'] || ''
         const note = bar.dataset[l === 'en' ? 'tipNoteEn' : 'tipNoteTa'] || ''
+        const abbr = bar.dataset.tipAbbr || ''
+        const theme = bar.dataset[l === 'en' ? 'tipThemeEn' : 'tipThemeTa'] || ''
         tipTitle.textContent = title
         tipNote.textContent = note
+        tipAbbr.textContent = abbr
+        tipTheme.textContent = theme ? `Theme: ${theme}` : ''
         tipNote.style.display = note ? '' : 'none'
+        tipAbbr.style.display = abbr ? '' : 'none'
+        tipTheme.style.display = theme ? '' : 'none'
 
         const barRect = bar.getBoundingClientRect()
         const sectionRect = section.getBoundingClientRect()
@@ -374,6 +395,49 @@ const phaseRows = phases.map((p) => {
     font-family: var(--font-ta);
   }
 
+  .timeline__bar-theme {
+    font-size: 9.5px;
+    opacity: 0.8;
+    font-style: italic;
+    line-height: 1.2;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin-top: 1px;
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .timeline__bar-theme {
+      display: block;
+    }
+  }
+
+  :global([data-lang='ta']) .timeline__bar-theme {
+    font-family: var(--font-ta);
+  }
+
+  .timeline__bar--active {
+    filter: brightness(1.12);
+    box-shadow: inset 3px 0 0 rgba(255, 255, 255, 0.55);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .timeline__bar--active {
+      animation: bar-pulse 2s ease-in-out 3;
+    }
+  }
+
+  @keyframes bar-pulse {
+    0%,
+    100% {
+      filter: brightness(1.12);
+    }
+    50% {
+      filter: brightness(1.22);
+    }
+  }
+
   .timeline__tooltip {
     position: absolute;
     z-index: 20;
@@ -405,6 +469,30 @@ const phaseRows = phases.map((p) => {
   }
 
   :global([data-lang='ta']) .timeline__tooltip-note {
+    font-family: var(--font-ta);
+  }
+
+  .timeline__tooltip-abbr {
+    font-size: 9.5px;
+    opacity: 0.72;
+    margin-top: 3px;
+    line-height: 1.4;
+    font-style: italic;
+    max-width: 260px;
+    white-space: normal;
+  }
+
+  .timeline__tooltip-theme {
+    font-size: 10px;
+    opacity: 0.8;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    padding-top: 3px;
+    margin-top: 4px;
+    line-height: 1.3;
+    white-space: normal;
+  }
+
+  :global([data-lang='ta']) .timeline__tooltip-theme {
     font-family: var(--font-ta);
   }
 

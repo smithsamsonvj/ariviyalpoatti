@@ -56,6 +56,8 @@ const competitionsCollection = defineCollection({
         level: z.enum(['registration', 'district', 'state', 'national', 'international']),
         title: bilingualString,
         note: bilingualString.optional(),
+        theme: bilingualString.optional(),
+        abbr: z.array(z.object({ short: z.string(), full: z.string() })).optional(),
         months: z.array(z.number().min(0).max(11)),
       }),
     ),

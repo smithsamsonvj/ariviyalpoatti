@@ -57,18 +57,24 @@ intlPath:
 phases:
   - level: 'registration'
     title:
-      ta: 'பள்ளி நிலை நிகழ்ச்சிகள்'
-      en: 'School-level activities'
+      ta: 'STEM நிகழ்ச்சிகள் · மொபைல் ஆய்வக கிட்கள்'
+      en: 'STEM activities · mobile lab kits'
+    note:
+      ta: '710 STEM வளப் பணியாளர்கள் மாநில அளவில்'
+      en: '710 STEM Resource Persons statewide'
     months: [5, 6, 7, 8, 9, 10, 11, 0, 1, 2, 3, 4]
   - level: 'district'
     title:
-      ta: 'தொகுதி + மாவட்ட கண்காட்சி'
-      en: 'Block + District exhibition'
+      ta: 'அறிவியல் பழகு · தொகுதி → மாவட்டம்'
+      en: 'Ariviyal Palagu · Block → District'
     months: [9, 10, 11]
   - level: 'state'
     title:
       ta: 'மாநில கண்காட்சி'
       en: 'State exhibition'
+    note:
+      ta: 'வெற்றியாளர்கள் → ISRO சதீஷ்தவன் வருகை'
+      en: 'Winners → ISRO Sriharikota visit'
     months: [0, 1]
 tn:
   schools: '13,210'
