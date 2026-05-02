@@ -3,11 +3,10 @@ import Base from '../layouts/Base.astro'
 import Motif from '../components/Motif.astro'
 import AudienceCard from '../components/AudienceCard.astro'
 import EscapeLink from '../components/EscapeLink.astro'
-import { getCollection } from 'astro:content'
-import { COPY, oldestVerifiedDate, fmtDate } from '../data/content'
+import { COPY, fmtDate } from '../data/content'
+import lastRun from '../data/last-run.json'
 
-const allComps = await getCollection('competitions')
-const siteVerified = oldestVerifiedDate(allComps)
+const siteVerified = lastRun.date
 ---
 
 <Base title="அறிவியல் போட்டி — Ariviyal Poatti" currentRoute="/" hideFooter>

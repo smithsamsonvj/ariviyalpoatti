@@ -1,0 +1,349 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import type { RoleGuide } from '../data/types'
+import { COPY } from '../data/content'
+import SectionHead from './SectionHead.astro'
+
+interface Props {
+  comp: CollectionEntry<'competitions'>
+  roleGuide: RoleGuide | undefined
+}
+
+const { comp, roleGuide } = Astro.props
+const d = comp.data
+
+const roles = [
+  {
+    id: 'teacher',
+    label: COPY.audiences.teacher.label,
+    color: 'var(--teal)',
+    steps: COPY.startHere.teacher,
+    step5: roleGuide?.teacher?.step5,
+    contact: roleGuide?.teacher?.contact,
+  },
+  {
+    id: 'principal',
+    label: COPY.audiences.principal.label,
+    color: 'var(--bronze)',
+    steps: COPY.startHere.principal,
+    step5: roleGuide?.principal?.step5,
+  },
+  {
+    id: 'parent',
+    label: COPY.audiences.parent.label,
+    color: 'var(--sage)',
+    steps: COPY.startHere.parent,
+    step5: roleGuide?.parent?.step5,
+  },
+]
+
+const fallbackStep5 = {
+  ta: `${d.name.ta} அதிகாரப்பூர்வ இணையதளத்தைப் பார்க்கவும்.`,
+  en: `Visit the ${d.name.en} official website to register.`,
+}
+---
+
+<section class="crp">
+  <SectionHead titleTa="இந்த போட்டிக்கு உங்கள் பாதை" titleEn="Your path for this competition" />
+
+  <!-- Tab bar -->
+  <div class="crp__tabs" role="tablist">
+    {
+      roles.map((role, i) => (
+        <button
+          class:list={['crp__tab', { 'crp__tab--active': i === 0 }]}
+          data-crp-tab-btn={role.id}
+          style={`--crp-tab-color: ${role.color};`}
+          role="tab"
+          aria-selected={i === 0 ? 'true' : 'false'}
+          aria-controls={`crp-panel-${role.id}`}
+        >
+          <span class="ta">{role.label.ta}</span>
+          <span class="en">{role.label.en}</span>
+        </button>
+      ))
+    }
+  </div>
+
+  <!-- Tab panels -->
+  {
+    roles.map((role, i) => {
+      const step5 = role.step5 ?? fallbackStep5
+      return (
+        <div
+          class="crp__panel"
+          id={`crp-panel-${role.id}`}
+          data-crp-tab-panel={role.id}
+          role="tabpanel"
+          hidden={i !== 0}
+          style={`--crp-color: ${role.color};`}
+        >
+          <ol class="crp__checklist">
+            {role.steps.slice(0, 4).map((step, j) => (
+              <li class="crp__checklist-item">
+                <span class="crp__checklist-num">{String(j + 1).padStart(2, '0')}</span>
+                <span class="crp__checklist-text">
+                  <span class="ta">{step.ta}</span>
+                  <span class="en">{step.en}</span>
+                </span>
+              </li>
+            ))}
+          </ol>
+
+          <a href={`/start-here?for=${role.id}`} class="crp__guide-link">
+            <span class="ta">முழு வழிகாட்டி பார் →</span>
+            <span class="en">See full guide →</span>
+          </a>
+
+          <div class="crp__step5">
+            <div class="crp__step5-header">
+              <span class="crp__step5-num">05</span>
+              <span class="crp__step5-label">
+                <span class="ta">படி 5 — இந்த போட்டிக்கான உங்கள் நடவடிக்கை</span>
+                <span class="en">Step 5 — Your action for this competition</span>
+              </span>
+            </div>
+            <p class="crp__step5-body">
+              <span class="ta">{step5.ta}</span>
+              <span class="en">{step5.en}</span>
+            </p>
+            {role.id === 'teacher' && (role as (typeof roles)[0]).contact && (
+              <p class="crp__step5-contact">
+                <span class="ta">
+                  <strong>தொடர்பு:</strong> {(role as (typeof roles)[0]).contact!.ta}
+                </span>
+                <span class="en">
+                  <strong>Contact:</strong> {(role as (typeof roles)[0]).contact!.en}
+                </span>
+              </p>
+            )}
+            <a
+              href={`https://${d.official}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="crp__step5-cta"
+            >
+              <span class="ta">அதிகாரப்பூர்வ தளம் →</span>
+              <span class="en">Official site →</span>
+            </a>
+          </div>
+        </div>
+      )
+    })
+  }
+</section>
+
+<style>
+  .crp {
+    margin: 32px 0;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+
+  /* Tabs */
+  .crp__tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 24px;
+    overflow-x: auto;
+  }
+
+  .crp__tab {
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    transition: all 0.12s;
+    min-height: 44px;
+    min-width: auto;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  :global([data-lang='ta']) .crp__tab {
+    font-family: var(--font-ta);
+    font-size: 14px;
+  }
+
+  .crp__tab:hover {
+    color: var(--ink);
+  }
+
+  .crp__tab--active {
+    color: var(--ink);
+    border-bottom-color: var(--crp-tab-color);
+  }
+
+  /* Checklist (steps 1–4) */
+  .crp__checklist {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .crp__checklist-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    opacity: 0.5;
+  }
+
+  .crp__checklist-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--line);
+    color: var(--muted);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .crp__checklist-text {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--muted);
+    padding-top: 4px;
+  }
+
+  :global([data-lang='ta']) .crp__checklist-text {
+    font-family: var(--font-ta);
+  }
+
+  .crp__guide-link {
+    display: inline-block;
+    font-size: 12px;
+    color: var(--crp-color);
+    font-weight: 500;
+    margin-bottom: 20px;
+    margin-left: 36px;
+  }
+
+  :global([data-lang='ta']) .crp__guide-link {
+    font-family: var(--font-ta);
+  }
+
+  /* Step 5 expanded */
+  .crp__step5 {
+    border-left: 3px solid var(--crp-color);
+    background: var(--cream);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 20px;
+  }
+
+  .crp__step5-header {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 14px;
+  }
+
+  .crp__step5-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--crp-color);
+    color: var(--ivory);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .crp__step5-label {
+    font-size: 12px;
+    font-weight: 700;
+    font-family: var(--font-ui);
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--crp-color);
+    padding-top: 7px;
+  }
+
+  :global([data-lang='ta']) .crp__step5-label {
+    font-family: var(--font-ta);
+    letter-spacing: 0;
+    font-size: 13px;
+    text-transform: none;
+  }
+
+  .crp__step5-body {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--ink);
+    margin: 0 0 14px;
+  }
+
+  :global([data-lang='ta']) .crp__step5-body {
+    font-family: var(--font-ta);
+  }
+
+  .crp__step5-contact {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0 0 14px;
+    line-height: 1.5;
+  }
+
+  :global([data-lang='ta']) .crp__step5-contact {
+    font-family: var(--font-ta);
+  }
+
+  .crp__step5-cta {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    background: var(--crp-color);
+    color: var(--ivory);
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-weight: 600;
+    min-height: 36px;
+    min-width: auto;
+    transition: opacity 0.12s;
+  }
+
+  :global([data-lang='ta']) .crp__step5-cta {
+    font-family: var(--font-ta);
+  }
+
+  .crp__step5-cta:hover {
+    opacity: 0.85;
+  }
+</style>
+
+<script>
+  function initCrpTabs() {
+    document.querySelectorAll<HTMLElement>('[data-crp-tab-btn]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const tabId = btn.dataset.crpTabBtn!
+        const section = btn.closest('.crp')
+        if (!section) return
+
+        section.querySelectorAll<HTMLElement>('[data-crp-tab-btn]').forEach((b) => {
+          const isActive = b.dataset.crpTabBtn === tabId
+          b.classList.toggle('crp__tab--active', isActive)
+          b.setAttribute('aria-selected', String(isActive))
+        })
+        section.querySelectorAll<HTMLElement>('[data-crp-tab-panel]').forEach((p) => {
+          p.hidden = p.dataset.crpTabPanel !== tabId
+        })
+      })
+    })
+  }
+
+  initCrpTabs()
+  document.addEventListener('astro:after-swap', initCrpTabs)
+</script>

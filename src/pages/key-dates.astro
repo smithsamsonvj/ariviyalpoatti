@@ -4,10 +4,11 @@ import Motif from '../components/Motif.astro'
 import FreshnessBanner from '../components/FreshnessBanner.astro'
 import StatusPill from '../components/StatusPill.astro'
 import { getCollection } from 'astro:content'
-import { COPY, t, daysUntil, fmtDate, oldestVerifiedDate } from '../data/content'
+import { COPY, t, daysUntil, fmtDate, getAcademicYear } from '../data/content'
+import lastRun from '../data/last-run.json'
 
 const allComps = await getCollection('competitions')
-const siteVerified = oldestVerifiedDate(allComps)
+const siteVerified = lastRun.date
 const sorted = allComps
   .filter((c) => c.data.category !== 'state')
   .sort((a, b) => new Date(a.data.deadline).getTime() - new Date(b.data.deadline).getTime())
@@ -20,6 +21,18 @@ for (const c of sorted) {
   if (!grouped.has(key)) grouped.set(key, [])
   grouped.get(key)!.push(c)
 }
+
+// Pre-compute where academic year boundaries fall between month groups
+function yearFromKey(key: string): string {
+  const [yr, mo] = key.split('-').map(Number)
+  return getAcademicYear(new Date(yr, mo - 1, 1).toISOString())
+}
+const groupEntries = [...grouped.entries()]
+const showBoundary = groupEntries.map(([key], i) => {
+  if (i === 0) return true
+  return yearFromKey(key) !== yearFromKey(groupEntries[i - 1][0])
+})
+const groupAcYear = groupEntries.map(([key]) => yearFromKey(key))
 
 const taMonths = [
   'ஜனவரி',
@@ -92,87 +105,102 @@ const enMonths = [
     <!-- Timeline -->
     <div class="dates-page__timeline">
       {
-        [...grouped.entries()].map(([key, comps]) => {
+        groupEntries.map(([key, comps], idx) => {
           const [year, monthStr] = key.split('-')
           const monthIdx = parseInt(monthStr) - 1
+          const acYear = groupAcYear[idx]
           return (
-            <div class="dates-month">
-              <div class="dates-month__anchor">
-                <div class="dates-month__name">
-                  <span class="ta">{taMonths[monthIdx]}</span>
-                  <span class="en">{enMonths[monthIdx]}</span>
-                </div>
-                <span class="dates-month__year">{year}</span>
-                <span class="dates-month__count">
-                  <span class="ta">{comps.length} போட்டிகள்</span>
-                  <span class="en">
-                    {comps.length} competition{comps.length > 1 ? 's' : ''}
+            <>
+              {showBoundary[idx] && (
+                <div class="dates-year-boundary">
+                  <span class="dates-year-boundary__line" />
+                  <span class="dates-year-boundary__label">
+                    <span class="ta">கல்வியாண்டு {acYear}</span>
+                    <span class="en">Academic year {acYear.replace('-', '–')}</span>
                   </span>
-                </span>
-              </div>
-              <div class="dates-month__items">
-                {comps.map((c) => {
-                  const days = daysUntil(c.data.deadline)
-                  const dd = new Date(c.data.deadline)
-                  return (
-                    <a href={`/competitions/${c.data.id}`} class="dates-row">
-                      <div class="dates-row__date">
-                        <span class="dates-row__day">{dd.getDate()}</span>
-                        <span class:list={['dates-row__dot', `dates-row__dot--${c.data.status}`]} />
-                      </div>
-                      <div class="dates-row__content">
-                        <div class="dates-row__name">
-                          <span class="ta">{c.data.name.ta}</span>
-                          <span class="en">{c.data.name.en}</span>
+                  <span class="dates-year-boundary__line" />
+                </div>
+              )}
+              <div class="dates-month">
+                <div class="dates-month__anchor">
+                  <div class="dates-month__name">
+                    <span class="ta">{taMonths[monthIdx]}</span>
+                    <span class="en">{enMonths[monthIdx]}</span>
+                  </div>
+                  <span class="dates-month__year">{year}</span>
+                  <span class="dates-month__count">
+                    <span class="ta">{comps.length} போட்டிகள்</span>
+                    <span class="en">
+                      {comps.length} competition{comps.length > 1 ? 's' : ''}
+                    </span>
+                  </span>
+                </div>
+                <div class="dates-month__items">
+                  {comps.map((c) => {
+                    const days = daysUntil(c.data.deadline)
+                    const dd = new Date(c.data.deadline)
+                    return (
+                      <a href={`/competitions/${c.data.id}`} class="dates-row">
+                        <div class="dates-row__date">
+                          <span class="dates-row__day">{dd.getDate()}</span>
+                          <span
+                            class:list={['dates-row__dot', `dates-row__dot--${c.data.status}`]}
+                          />
                         </div>
-                        <div class="dates-row__meta">
-                          <span class="dates-row__category">
-                            <span class="ta">
-                              {t(
-                                COPY.categories[c.data.category as keyof typeof COPY.categories],
-                                'ta',
-                              )}
+                        <div class="dates-row__content">
+                          <div class="dates-row__name">
+                            <span class="ta">{c.data.name.ta}</span>
+                            <span class="en">{c.data.name.en}</span>
+                          </div>
+                          <div class="dates-row__meta">
+                            <span class="dates-row__category">
+                              <span class="ta">
+                                {t(
+                                  COPY.categories[c.data.category as keyof typeof COPY.categories],
+                                  'ta',
+                                )}
+                              </span>
+                              <span class="en">
+                                {t(
+                                  COPY.categories[c.data.category as keyof typeof COPY.categories],
+                                  'en',
+                                )}
+                              </span>
                             </span>
-                            <span class="en">
-                              {t(
-                                COPY.categories[c.data.category as keyof typeof COPY.categories],
-                                'en',
-                              )}
-                            </span>
+                            <StatusPill status={c.data.status} size="sm" />
+                          </div>
+                        </div>
+                        <div class="dates-row__days">
+                          <span
+                            class:list={[
+                              'dates-row__days-num',
+                              { 'dates-row__days-num--urgent': days >= 0 && days < 30 },
+                              { 'dates-row__days-num--closed': days < 0 },
+                            ]}
+                          >
+                            {days < 0 ? (
+                              <>
+                                <span class="ta">முடிந்தது</span>
+                                <span class="en">closed</span>
+                              </>
+                            ) : (
+                              <>
+                                <span class="ta">{days} நாட்கள்</span>
+                                <span class="en">{days} days</span>
+                              </>
+                            )}
                           </span>
-                          <StatusPill status={c.data.status} size="sm" />
+                          <span class="dates-row__deadline">
+                            <span class="ta">{fmtDate(c.data.deadline, 'ta')}</span>
+                            <span class="en">{fmtDate(c.data.deadline, 'en')}</span>
+                          </span>
                         </div>
-                      </div>
-                      <div class="dates-row__days">
-                        <span
-                          class:list={[
-                            'dates-row__days-num',
-                            { 'dates-row__days-num--urgent': days >= 0 && days < 30 },
-                            { 'dates-row__days-num--closed': days < 0 },
-                          ]}
-                        >
-                          {days < 0 ? (
-                            <>
-                              <span class="ta">முடிந்தது</span>
-                              <span class="en">closed</span>
-                            </>
-                          ) : (
-                            <>
-                              <span class="ta">{days} நாட்கள்</span>
-                              <span class="en">{days} days</span>
-                            </>
-                          )}
-                        </span>
-                        <span class="dates-row__deadline">
-                          <span class="ta">{fmtDate(c.data.deadline, 'ta')}</span>
-                          <span class="en">{fmtDate(c.data.deadline, 'en')}</span>
-                        </span>
-                      </div>
-                    </a>
-                  )
-                })}
+                      </a>
+                    )
+                  })}
+                </div>
               </div>
-            </div>
+            </>
           )
         })
       }
@@ -283,6 +311,35 @@ const enMonths = [
 
   :global([data-lang='ta']) .dates-page__collision-text {
     font-family: var(--font-ta);
+  }
+
+  /* Academic year boundary divider */
+  .dates-year-boundary {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 32px 0 24px;
+  }
+
+  .dates-year-boundary__line {
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .dates-year-boundary__label {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  :global([data-lang='ta']) .dates-year-boundary__label {
+    font-family: var(--font-ta);
+    letter-spacing: 0;
   }
 
   /* Timeline */

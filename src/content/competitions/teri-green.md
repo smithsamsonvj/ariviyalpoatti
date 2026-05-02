@@ -78,6 +78,22 @@ phases:
       en: 'Results + awards'
     months: [10, 11]
 sortOrder: 6
+roleGuide:
+  teacher:
+    step5:
+      ta: 'teriin.org/greenolympiad-ல் ஆன்லைன் தேர்வு பதிவு செய்யுங்கள். தனிப்பட்ட மாணவர்கள் பதிவு செய்யலாம் அல்லது பள்ளி குழு பதிவு செய்யலாம். சூழல் தலைப்புகளில் கவலைப்படும் மாணவர்களுக்கு ஏற்றது.'
+      en: 'Register for the online exam at teriin.org/greenolympiad. Individual students or school groups can register. Suited for students interested in environment and sustainability topics.'
+    contact:
+      ta: 'TERI Green Olympiad: teriin.org | greeno@teri.res.in'
+      en: 'TERI Green Olympiad: teriin.org | greeno@teri.res.in'
+  principal:
+    step5:
+      ta: 'TERI Green Olympiad ஆன்லைன் தேர்வு — தனி உள்கட்டமைப்பு தேவையில்லை. சூழல் கல்விக்கு ஆர்வமுள்ள வகுப்பு 4–12 மாணவர்களை பதிவு செய்யுங்கள்.'
+      en: 'TERI Green Olympiad is an online exam — no special infrastructure needed. Register interested students from Classes 4–12 with an interest in environmental education.'
+  parent:
+    step5:
+      ta: '"என் குழந்தை Green Olympiad-ல் பங்கேற்கலாமா?" என்று ஆசிரியரிடம் கேளுங்கள் அல்லது teriin.org-ல் நேரடியாக பதிவு செய்யுங்கள். கட்டணம் மிகவும் குறைவு. ஆன்லைன் தேர்வு.'
+      en: "Ask the teacher or register directly at teriin.org. Very low fee. Online exam. Ask: 'Can my child register for TERI Green Olympiad?'"
 ---
 
 <!-- lang:ta -->

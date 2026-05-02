@@ -86,6 +86,22 @@ phases:
       en: '4 students represent India'
     months: [6]
 sortOrder: 9
+roleGuide:
+  teacher:
+    step5:
+      ta: 'iarcs.org.in-ல் மாணவர்கள் நேரடியாக பதிவு செய்யலாம். ICO-க்கு பள்ளி ஒருங்கிணைப்பு தேவையில்லை — தனிப்பட்ட மாணவர் பதிவு. வகுப்பு 8–12, coding-ல் ஆர்வமுள்ளவர்கள் தகுதி.'
+      en: 'Students can register directly at iarcs.org.in. ICO requires no school coordination — individual student registration. Classes 8–12 with interest in competitive programming.'
+    contact:
+      ta: 'IARCS: iarcs.org.in | iarcs@tcs.tifr.res.in'
+      en: 'IARCS: iarcs.org.in | iarcs@tcs.tifr.res.in'
+  principal:
+    step5:
+      ta: 'ICO-க்கு பள்ளி பதிவு தேவையில்லை. ஆர்வமுள்ள மாணவர்கள் iarcs.org.in-ல் நேரடியாக பதிவு செய்யலாம். கணினி அறை மட்டும் தேவை.'
+      en: 'ICO requires no school registration. Interested students register directly at iarcs.org.in. Only a computer lab is needed.'
+  parent:
+    step5:
+      ta: 'உங்கள் குழந்தை iarcs.org.in-ல் நேரடியாக பதிவு செய்யலாம் — பள்ளி வழியாக தேவையில்லை. கட்டணம் மிகவும் குறைவு. IOI (International Olympiad in Informatics) வரை செல்லலாம்.'
+      en: 'Your child can register directly at iarcs.org.in — no school coordination needed. Very low fee. Can lead all the way to IOI (International Olympiad in Informatics).'
 ---
 
 <!-- lang:ta -->

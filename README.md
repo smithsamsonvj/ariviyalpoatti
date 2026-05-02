@@ -20,7 +20,7 @@ That missed registration is what this site is trying to prevent.
 
 - **Bilingual by default.** Every piece of text has a Tamil and an English version. The toggle is per-session, stored in `localStorage`. Tamil is the default.
 - **Role-first navigation.** Teachers, principals, and parents each see a different entry path — only the steps that matter to them.
-- **Source-driven freshness.** Each competition's data is cross-checked against its official portal on a weekly / monthly / annual schedule. Every card shows a per-competition `last_verified` date — not a site-wide stamp.
+- **Source-driven freshness.** Each competition's data is cross-checked against its official portal on a manual / monthly / annual cadence. Every card shows a per-competition `last_verified` date — not a site-wide stamp.
 - **No logins, no ads, no trackers.** Static site, zero client-side JS frameworks, Plausible for privacy-respecting analytics.
 
 ---
@@ -31,7 +31,7 @@ That missed registration is what this site is trying to prevent.
 Official portals (13)
         │
         ▼
-  Scheduled agent (weekly / monthly / annual)
+  Scheduled agent (manual / monthly / annual)
   reads each portal → compares to markdown frontmatter
         │
         ├── Match     → bumps last_verified, commits direct to main
@@ -122,7 +122,7 @@ See [`RUNBOOK.md`](./RUNBOOK.md) for full instructions. The short version:
 
 ## Data accuracy
 
-Competition deadlines and process descriptions are sourced from official government and organiser portals. Each entry shows the date it was last cross-checked (`last_verified`). Automated routines re-verify these on a weekly, monthly, and annual schedule.
+Competition deadlines and process descriptions are sourced from official government and organiser portals. Each entry shows the date it was last cross-checked (`last_verified`). Automated routines re-verify these on a monthly and annual schedule, with on-demand manual runs in between.
 
 **This is not an official government site.** Dates may lag behind portal updates. Always confirm deadlines at the official source before submitting — every competition page links directly to it.
 

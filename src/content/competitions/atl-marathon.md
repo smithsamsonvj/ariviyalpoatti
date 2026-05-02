@@ -125,6 +125,22 @@ tn:
         - 'Vellalar HSS'
         - 'Nandha Central School'
 sortOrder: 4
+roleGuide:
+  teacher:
+    step5:
+      ta: 'innovation.gov.in/atl-marathon-ல் உங்கள் ATL குழுவை பதிவு செய்யுங்கள். குழுவில் 2–4 மாணவர்கள் இருக்கலாம். ஒரு நடைமுறை இயந்திர மாதிரி அல்லது செயல்படும் முன்மாதிரி தேவை. ATL ஆய்வக வளங்களை பயன்படுத்தலாம்.'
+      en: 'Register your ATL team at innovation.gov.in/atl-marathon. Teams can have 2–4 students. A working model or functional prototype is required. Use your ATL lab resources.'
+    contact:
+      ta: 'AIM ஆதரவு: aim.gov.in | 1800-180-2087'
+      en: 'AIM support: aim.gov.in | 1800-180-2087'
+  principal:
+    step5:
+      ta: 'ATL ஆய்வகம் இருந்தால், innovation.gov.in-ல் குழுவை பதிவு செய்யுங்கள். ATL Marathon-ல் 54,000+ பள்ளிகள் பங்கேற்கின்றன — ATL இருந்தும் பங்கேற்காதது வாய்ப்பை வீணடிப்பது.'
+      en: 'If you have an ATL, register a team at innovation.gov.in. 54,000+ schools join ATL Marathon — not entering despite having an ATL wastes a government-funded opportunity.'
+  parent:
+    step5:
+      ta: '"என் குழந்தையின் பள்ளியில் ATL ஆய்வகம் இருக்கிறதா? ATL Marathon-க்கு பதிவு செய்யலாமா?" என்று ஆசிரியரிடம் கேளுங்கள். ATL முழுவதும் அரசு நிதியில் இயங்குகிறது — கட்டணம் இல்லை.'
+      en: "Ask the teacher: 'Does the school have an ATL? Can my child's team register for ATL Marathon?' ATL is fully government-funded — no fee."
 ---
 
 <!-- lang:ta -->

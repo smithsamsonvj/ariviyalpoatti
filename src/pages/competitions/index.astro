@@ -4,16 +4,20 @@ import Motif from '../../components/Motif.astro'
 import FreshnessBanner from '../../components/FreshnessBanner.astro'
 import CompetitionCard from '../../components/CompetitionCard.astro'
 import { getCollection } from 'astro:content'
-import { COPY, oldestVerifiedDate } from '../../data/content'
+import { COPY, getAcademicYear, currentAcademicYear } from '../../data/content'
+import lastRun from '../../data/last-run.json'
 
 const allComps = await getCollection('competitions')
-const siteVerified = oldestVerifiedDate(allComps)
+const siteVerified = lastRun.date
 const national = allComps
   .filter((c) => c.data.category !== 'state')
   .sort((a, b) => (a.data.sortOrder ?? 99) - (b.data.sortOrder ?? 99))
+  .map((c) => ({ ...c, academicYear: getAcademicYear(c.data.deadline) }))
 const stateComps = allComps.filter((c) => c.data.category === 'state')
 
 const categories = ['all', 'govt', 'olympiad', 'ngo', 'robotics', 'private'] as const
+const academicYears = [...new Set(national.map((c) => c.academicYear))].sort()
+const defaultYear = currentAcademicYear()
 ---
 
 <Base title="போட்டிகள் — Competitions" currentRoute="/competitions">
@@ -43,8 +47,8 @@ const categories = ['all', 'govt', 'olympiad', 'ngo', 'robotics', 'private'] as 
       </div>
     </div>
 
-    <!-- Category filters -->
-    <div class="comp-page__filters">
+    <!-- Category filters + year switcher -->
+    <div class="comp-page__filters" data-default-year={defaultYear}>
       {
         categories.map((cat) => {
           const count =
@@ -60,6 +64,21 @@ const categories = ['all', 'govt', 'olympiad', 'ngo', 'robotics', 'private'] as 
             </button>
           )
         })
+      }
+      <span class="comp-page__filter-sep" aria-hidden="true">&middot;</span>
+      {
+        academicYears.map((yr) => (
+          <button
+            class:list={[
+              'comp-page__filter',
+              'comp-page__filter--year',
+              { 'comp-page__filter--active': yr === defaultYear },
+            ]}
+            data-year-filter={yr}
+          >
+            {yr.replace('-', '–')}
+          </button>
+        ))
       }
     </div>
 
@@ -77,6 +96,7 @@ const categories = ['all', 'govt', 'olympiad', 'ngo', 'robotics', 'private'] as 
             deadline={c.data.deadline}
             deadlineLabel={c.data.deadlineLabel}
             lastVerified={c.data.last_verified}
+            academicYear={c.academicYear}
           />
         ))
       }
@@ -201,7 +221,9 @@ const categories = ['all', 'govt', 'olympiad', 'ngo', 'robotics', 'private'] as 
     color: var(--ink);
     background: transparent;
     cursor: pointer;
-    transition: all 0.12s;
+    transition:
+      background-color 0.12s,
+      border-color 0.12s;
     min-height: 36px;
     min-width: auto;
   }
@@ -215,7 +237,8 @@ const categories = ['all', 'govt', 'olympiad', 'ngo', 'robotics', 'private'] as 
     color: var(--teal);
   }
 
-  .comp-page__filter--active {
+  .comp-page__filter--active,
+  .comp-page__filter--active:hover {
     background: var(--teal);
     color: var(--ivory);
     border-color: var(--teal);
@@ -225,6 +248,20 @@ const categories = ['all', 'govt', 'olympiad', 'ngo', 'robotics', 'private'] as 
     font-size: 11px;
     opacity: 0.7;
     font-family: var(--font-ui);
+  }
+
+  .comp-page__filter-sep {
+    display: flex;
+    align-items: center;
+    color: var(--muted);
+    font-size: 14px;
+    padding: 0 2px;
+    user-select: none;
+  }
+
+  .comp-page__filter--year {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.5px;
   }
 
   /* Grid */
@@ -273,29 +310,45 @@ const categories = ['all', 'govt', 'olympiad', 'ngo', 'robotics', 'private'] as 
 
 <script>
   function initFilters() {
-    const filters = document.querySelectorAll('[data-filter]')
+    const filterBar = document.querySelector('[data-default-year]')
+    const catBtns = document.querySelectorAll('[data-filter]')
+    const yearBtns = document.querySelectorAll('[data-year-filter]')
     const grid = document.querySelector('[data-comp-grid]')
-    if (!filters.length || !grid) return
+    if (!grid) return
 
-    const cards = grid.querySelectorAll('[data-category]')
+    const cards = Array.from(grid.querySelectorAll('[data-category]')) as HTMLElement[]
 
-    filters.forEach((btn) => {
+    const defaultYear = (filterBar as HTMLElement)?.dataset.defaultYear ?? ''
+    let activeCat = 'all'
+    let activeYear = defaultYear
+
+    function applyFilters() {
+      cards.forEach((card) => {
+        const catMatch = activeCat === 'all' || card.dataset.category === activeCat
+        const yearMatch = !activeYear || card.dataset.year === activeYear
+        card.style.display = catMatch && yearMatch ? '' : 'none'
+      })
+    }
+
+    catBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
-        const cat = (btn as HTMLElement).dataset.filter
-
-        filters.forEach((f) => f.classList.remove('comp-page__filter--active'))
+        activeCat = (btn as HTMLElement).dataset.filter ?? 'all'
+        catBtns.forEach((f) => f.classList.remove('comp-page__filter--active'))
         btn.classList.add('comp-page__filter--active')
-
-        cards.forEach((card) => {
-          const el = card as HTMLElement
-          if (cat === 'all' || el.dataset.category === cat) {
-            el.style.display = ''
-          } else {
-            el.style.display = 'none'
-          }
-        })
+        applyFilters()
       })
     })
+
+    yearBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        activeYear = (btn as HTMLElement).dataset.yearFilter ?? ''
+        yearBtns.forEach((f) => f.classList.remove('comp-page__filter--active'))
+        btn.classList.add('comp-page__filter--active')
+        applyFilters()
+      })
+    })
+
+    applyFilters()
   }
 
   initFilters()

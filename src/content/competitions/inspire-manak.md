@@ -157,6 +157,22 @@ tn:
         - 'Vivekananda Vidyalaya'
         - 'Carmel HSS, Nagercoil'
 sortOrder: 1
+roleGuide:
+  teacher:
+    step5:
+      ta: 'inspireawards-dst.gov.in-ல் உள்ள E-MIAS போர்ட்டலில் உள்நுழையுங்கள். உங்கள் பள்ளி UDISE குறியீடு தயாராக வைத்திருங்கள். ஜூலை–செப்டம்பர் காலத்தில் மட்டும் 5 மாணவர் யோசனைகளை சமர்ப்பிக்கவும். ஒவ்வொரு யோசனைக்கும் 300-வார்த்தை சுருக்கம், பாஸ்போர்ட் புகைப்படம், மாணவர் ஆதார் தேவை. செப்டம்பர் 7-க்கு முன் சமர்ப்பிக்கவும் — கடைசி வாரத்தில் போர்ட்டல் மிகவும் மெதுவாக இருக்கும்.'
+      en: 'Log into E-MIAS at inspireawards-dst.gov.in. Have your school UDISE code ready. Submit up to 5 student ideas (July–September only). Each idea needs: 300-word synopsis, passport photo, student Aadhaar. Submit before 7 September — portal slows in the final week.'
+    contact:
+      ta: 'E-MIAS ஆதரவு: inspire-award@nic.in | SCERT தமிழ்நாடு: 044-28278872'
+      en: 'E-MIAS support: inspire-award@nic.in | SCERT Tamil Nadu: 044-28278872'
+  principal:
+    step5:
+      ta: 'INSPIRE நோடல் ஆசிரியரை (அரசு கட்டாயமான பதவி) நியமிக்கவும். அவர் E-MIAS-ல் பதிவு செய்ய பள்ளி UDISE குறியீடை கொடுங்கள். ஒவ்வொரு வகுப்பிலிருந்தும் குறைந்தது 1 மாணவரை நாமினேட் செய்யுங்கள் என கேளுங்கள்.'
+      en: 'Designate the INSPIRE Nodal Teacher (government-mandated role). Give them the school UDISE code to register on E-MIAS. Ask each class teacher to nominate at least 1 student.'
+  parent:
+    step5:
+      ta: '"என் குழந்தையின் யோசனையை INSPIRE போர்ட்டலில் சமர்ப்பிக்க முடியுமா?" என்று ஆசிரியரிடம் கேளுங்கள். யோசனையை எளிய வார்த்தைகளில் எழுதி கொடுங்கள் — ஆசிரியர் போர்ட்டலில் நிரப்புவார். ₹10,000 நேரடியாக வரும் என்பதால் மாணவரின் வங்கிக் கணக்பு (சிறார் கணக்கு சரியானது) தயாராக வைத்திருங்கள்.'
+      en: "Ask the teacher: 'Can you submit my child's idea to the INSPIRE portal?' Write the idea in simple words and give it to the teacher — they fill it into the portal. Have your child's bank account (minor account is fine) ready — ₹10,000 comes directly if selected."
 ---
 
 <!-- lang:ta -->

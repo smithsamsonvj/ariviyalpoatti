@@ -28,7 +28,7 @@ const competitionsCollection = defineCollection({
     annualTiming: bilingualString.optional(),
 
     // Freshness — date this competition was last cross-checked against its official source.
-    // Updated by the cadence routines (weekly/monthly/annual). Format: YYYY-MM-DD.
+    // Updated by the cadence routines (manual/monthly/annual). Format: YYYY-MM-DD.
     last_verified: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'last_verified must be YYYY-MM-DD'),
 
     // Descriptive
@@ -80,6 +80,29 @@ const competitionsCollection = defineCollection({
       .optional(),
 
     sortOrder: z.number().optional(),
+
+    // Role-specific guidance — Steps 1–4 are universal per role (in content.ts).
+    // Step 5 is competition-specific and lives here per competition.
+    roleGuide: z
+      .object({
+        teacher: z
+          .object({
+            step5: bilingualString,
+            contact: bilingualString.optional(),
+          })
+          .optional(),
+        principal: z
+          .object({
+            step5: bilingualString,
+          })
+          .optional(),
+        parent: z
+          .object({
+            step5: bilingualString,
+          })
+          .optional(),
+      })
+      .optional(),
   }),
 })
 

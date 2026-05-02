@@ -22,10 +22,8 @@ const { compact = false, lastVerified } = Astro.props
   </svg>
   <div>
     <div class="freshness-banner__title">
-      <span class="ta">கடைசியாக சரிபார்க்கப்பட்டது — {fmtDate(lastVerified, 'ta')}</span>
-      <span class="en"
-        >Last cross-checked against official sources &middot; {fmtDate(lastVerified, 'en')}</span
-      >
+      <span class="ta">கடைசி திட்டமிட்ட சரிபார்ப்பு — {fmtDate(lastVerified, 'ta')}</span>
+      <span class="en">Last scheduled check &middot; {fmtDate(lastVerified, 'en')}</span>
     </div>
     <div class="freshness-banner__body">
       <span class="ta"

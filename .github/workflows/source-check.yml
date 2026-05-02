@@ -1,28 +1,27 @@
 name: Source Check
 
 on:
-  # Weekly — every Monday 09:00 IST (03:30 UTC)
   # Monthly — 1st of each month 09:00 IST (03:30 UTC)
-  # Annual — 2nd January 09:00 IST (03:30 UTC)
+  # Annual  — 2nd January 09:00 IST (03:30 UTC)
+  # Weekly  — manual only via workflow_dispatch
   schedule:
-    - cron: '30 3 * * 1'   # weekly
-    - cron: '30 3 1 * *'   # monthly (also fires on Mon 1st — mode logic below handles it)
-    - cron: '30 3 2 1 *'   # annual
+    - cron: '30 3 1 * *' # monthly
+    - cron: '30 3 2 1 *' # annual
   workflow_dispatch:
     inputs:
       mode:
         description: 'Check mode'
         required: true
         type: choice
-        options: [weekly, monthly, annual]
+        options: [manual, monthly, annual]
 
 permissions:
-  contents: write   # push commits to main
-  issues: write     # open verification-failed issues
-  pull-requests: write  # open change PRs
+  contents: write # push commits to main
+  issues: write # open verification-failed issues
+  pull-requests: write # open change PRs
 
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true   # opt into Node.js 24 for actions
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true # opt into Node.js 24 for actions
 
 jobs:
   source-check:
@@ -55,7 +54,7 @@ jobs:
           elif [ "$(date -u +%d)" = "01" ]; then
             echo "mode=monthly" >> "$GITHUB_OUTPUT"
           else
-            echo "mode=weekly" >> "$GITHUB_OUTPUT"
+            echo "mode=monthly" >> "$GITHUB_OUTPUT"  # unexpected schedule — default to monthly
           fi
 
       - name: Configure git
@@ -69,5 +68,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MODE: ${{ steps.mode.outputs.mode }}
-          HUSKY: '0'        # skip pre-commit hooks in CI
+          HUSKY: '0' # skip pre-commit hooks in CI
         run: node scripts/source-check.mjs "$MODE"

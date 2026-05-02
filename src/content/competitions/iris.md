@@ -113,6 +113,22 @@ tn:
       schools:
         - 'BHEL Matric HSS'
 sortOrder: 10
+roleGuide:
+  teacher:
+    step5:
+      ta: 'irisfair.com-ல் பதிவு செய்யுங்கள். வகுப்பு 6–12 மாணவர்கள் தகுதியுடையவர்கள். திட்டம் 8 வாரங்கள் வரை செயல்படுத்தப்பட்டு ஆவணப்படுத்தப்பட வேண்டும். ISEF-ஒத்த விஞ்ஞான முறை கட்டாயம். நவம்பர்-டிசம்பரில் விண்ணப்பிக்கவும்.'
+      en: 'Register at irisfair.com. Classes 6–12 are eligible. Project must run for 8+ weeks with documentation. ISEF-aligned scientific method required. Apply November–December.'
+    contact:
+      ta: 'IRIS: irisfair.com | Tata Trusts ஆதரவு: info@irisfair.com'
+      en: 'IRIS: irisfair.com | Tata Trusts support: info@irisfair.com'
+  principal:
+    step5:
+      ta: 'IRIS-க்கு ஆர்வமுள்ள வகுப்பு 9–12 மாணவர்களை கண்டுபிடியுங்கள். இரண்டு ஆசிரியர் வழிகாட்டிகளை நியமிக்கவும். IRIS-ல் தமிழ்நாட்டிலிருந்து 2024-ல் 3 பள்ளிகள் மட்டும் — மிகவும் குறைவான போட்டி.'
+      en: 'Identify Classes 9–12 students interested in original research. Assign two teacher mentors. Only 3 TN schools reached IRIS 2024 finals — very low competition from the state.'
+  parent:
+    step5:
+      ta: '"என் குழந்தை IRIS-க்கு தகுதியுடையதா?" என்று ஆசிரியரிடம் கேளுங்கள். IRIS தேசிய மட்டத்தில் வெற்றி பெற்றவர்கள் Intel ISEF-க்கு அமெரிக்கா செல்வார்கள். நீண்ட கால திட்டம் (8+ வாரங்கள்) தேவை. கட்டணம் குறைவு.'
+      en: "Ask the teacher: 'Is my child eligible for IRIS?' National IRIS winners go to Intel ISEF in the US. Requires a long-term project (8+ weeks). Low fee."
 ---
 
 <!-- lang:ta -->

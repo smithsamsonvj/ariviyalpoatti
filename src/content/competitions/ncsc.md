@@ -136,6 +136,22 @@ tn:
         - 'Ida Scudder School'
         - 'GHSS Gudiyatham'
 sortOrder: 3
+roleGuide:
+  teacher:
+    step5:
+      ta: 'உங்கள் மாவட்ட TNSCST ஒருங்கிணைப்பாளரை தொடர்பு கொள்ளுங்கள். NCSC-க்கு தனி ஆன்லைன் போர்ட்டல் இல்லை — மாவட்ட ஒருங்கிணைப்பாளர் வழியாகவே பதிவு நடக்கும். தொலைத்தொடர்பு அல்லது சூழல் விஞ்ஞானத்தில் திட்டங்கள் உள்ள மாணவர்களை தேர்ந்தெடுங்கள்.'
+      en: 'Contact your district TNSCST coordinator. NCSC has no separate online portal — registration goes through the district coordinator. Select students with projects in telecommunications or environmental science.'
+    contact:
+      ta: 'TNSCST: tnscst.in | 044-22350494'
+      en: 'TNSCST: tnscst.in | 044-22350494'
+  principal:
+    step5:
+      ta: 'மாவட்ட TNSCST ஒருங்கிணைப்பாளரை ஆகஸ்ட்-செப்டம்பர் மாதங்களில் தொடர்பு கொள்ள ஒரு ஆசிரியரை நியமிக்கவும். NCSC கிராமப்புற அரசு பள்ளிகளுக்கு முன்னுரிமை அளிக்கிறது.'
+      en: 'Designate a teacher to contact the district TNSCST coordinator in August–September. NCSC prioritises rural government schools.'
+  parent:
+    step5:
+      ta: '"என் குழந்தை NCSC-க்கு பதிவு செய்ய முடியுமா?" என்று ஆசிரியரிடம் கேளுங்கள். பதிவு மாவட்ட ஒருங்கிணைப்பாளர் வழியாக பள்ளியே செய்யும். கட்டணம் இல்லை.'
+      en: "Ask your child's teacher: 'Can my child be registered for NCSC?' Registration is done by the school through the district coordinator. No fee."
 ---
 
 <!-- lang:ta -->

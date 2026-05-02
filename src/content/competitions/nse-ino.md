@@ -94,6 +94,22 @@ phases:
       en: '4–6 students represent India'
     months: [5, 6]
 sortOrder: 7
+roleGuide:
+  teacher:
+    step5:
+      ta: 'hbcse.tifr.res.in-ல் குழு பதிவு செய்யுங்கள். NSE (தேசிய அறிவியல் Olympiad) நவம்பரில் நடக்கும். வகுப்பு 8–12 மாணவர்கள் தகுதியுடையவர்கள். HBCSE முந்தைய ஆண்டு கேள்விகளை இலவசமாக வழங்குகிறது.'
+      en: 'Register as a group at hbcse.tifr.res.in. NSE (National Science Olympiad) is held in November. Classes 8–12 are eligible. HBCSE provides past-year papers for free.'
+    contact:
+      ta: 'HBCSE: hbcse.tifr.res.in | 022-25767546'
+      en: 'HBCSE: hbcse.tifr.res.in | 022-25767546'
+  principal:
+    step5:
+      ta: 'NSE/INO-க்கு பதிவு செய்ய ஒரு ஆசிரியரை நியமிக்கவும். HBCSE குழு பதிவை ஆதரிக்கிறது. INO (பின்னர்) 5 படிகளில் IMO வரை செல்லும். CBSE/ICSE/மாநில வாரியங்கள் அனைத்தும் தகுதியுடையவை.'
+      en: 'Designate a teacher to handle NSE/INO registration. HBCSE supports group registration. INO (later stage) leads in 5 steps to IMO. All boards eligible.'
+  parent:
+    step5:
+      ta: '"என் குழந்தை NSE/INO-க்கு பதிவு செய்யலாமா?" என்று ஆசிரியரிடம் கேளுங்கள். HBCSE முந்தைய ஆண்டு கேள்விகள் இலவசம். NSE வெற்றி → NSEJS → IMO — ஒவ்வொரு படியும் உலக மட்டத்தை நோக்கி செல்கிறது.'
+      en: "Ask the teacher: 'Can my child register for NSE/INO?' HBCSE past papers are free. NSE win → NSEJS → IMO — each step leads toward the world stage."
 ---
 
 <!-- lang:ta -->

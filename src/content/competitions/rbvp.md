@@ -130,6 +130,22 @@ tn:
         - 'Kalyanasundaram HSS'
         - "St. Antony's HSS"
 sortOrder: 2
+roleGuide:
+  teacher:
+    step5:
+      ta: 'அக்டோபரில் DEO அனுப்பும் சுற்றறிக்கையை கவனமாக பாருங்கள். RBVP-க்கு தனி போர்ட்டல் இல்லை — DEO சுற்றறிக்கை வழியாகவே பதிவு நடக்கும். கிராமப்புற நன்மை தரும் யோசனை உள்ள மாணவர்களை தேர்ந்தெடுங்கள். SCERT அல்லது DEO-ஐ நேரடியாக தொடர்பு கொள்ளுங்கள்.'
+      en: 'Watch for the DEO circular in October — RBVP has no separate portal. Registration happens only through the DEO circular. Select students with ideas that have direct rural benefit. Contact SCERT or your DEO office directly for the current year application form.'
+    contact:
+      ta: 'உங்கள் மாவட்ட RBVP ஒருங்கிணைப்பாளருக்கு DEO அலுவலகம் வழியாக தொடர்பு கொள்ளுங்கள்.'
+      en: 'Contact your district RBVP coordinator through the DEO office.'
+  principal:
+    step5:
+      ta: 'DEO அலுவலகத்திலிருந்து RBVP சுற்றறிக்கையை கண்காணிக்க ஒரு ஆசிரியரை நியமிக்கவும். RBVP கிராமப்புற பள்ளிகளுக்கு முன்னுரிமை அளிக்கிறது — உங்கள் பள்ளி தகுதியுடையதாக இருந்தால் நாமினேட் செய்யுங்கள்.'
+      en: 'Designate a teacher to watch for the RBVP circular from the DEO office. RBVP prioritises rural schools — if your school qualifies, nominate promptly when the circular arrives.'
+  parent:
+    step5:
+      ta: '"என் குழந்தை RBVP-க்கு தகுதியுடையதா?" என்று ஆசிரியரிடம் கேளுங்கள். RBVP கிராமப்புற மாணவர்களுக்கு முன்னுரிமை அளிக்கிறது. கட்டணம் இல்லை. பள்ளி வழியாக மட்டுமே பதிவு.'
+      en: "Ask your child's teacher: 'Is my child eligible for RBVP?' RBVP prioritises rural students. No fee. Registration through school only."
 ---
 
 <!-- lang:ta -->

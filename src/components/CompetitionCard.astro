@@ -13,6 +13,7 @@ interface Props {
   deadline: string
   deadlineLabel: Bilingual
   lastVerified: string
+  academicYear?: string
 }
 
 const {
@@ -25,12 +26,13 @@ const {
   deadline,
   deadlineLabel,
   lastVerified,
+  academicYear,
 } = Astro.props
 
 const days = daysUntil(deadline)
 ---
 
-<a href={`/competitions/${id}`} class="comp-card" data-category={category}>
+<a href={`/competitions/${id}`} class="comp-card" data-category={category} data-year={academicYear}>
   <div class="comp-card__meta">
     <span class="comp-card__category">
       <span class="ta">{t(COPY.categories[category as keyof typeof COPY.categories], 'ta')}</span>

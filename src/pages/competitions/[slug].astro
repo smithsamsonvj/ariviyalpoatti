@@ -6,18 +6,37 @@ import CompetitionTimeline from '../../components/CompetitionTimeline.astro'
 import TNParticipationBlock from '../../components/TNParticipationBlock.astro'
 import SectionHead from '../../components/SectionHead.astro'
 import Fact from '../../components/Fact.astro'
+import CompetitionNavStrip from '../../components/CompetitionNavStrip.astro'
+import CompetitionRolePath from '../../components/CompetitionRolePath.astro'
 import { getCollection } from 'astro:content'
 import { COPY, t, daysUntil, fmtDate } from '../../data/content'
 
 export async function getStaticPaths() {
-  const comps = await getCollection('competitions')
-  return comps.map((c) => ({
-    params: { slug: c.id },
-    props: { comp: c },
+  const allComps = await getCollection('competitions')
+  const sorted = allComps
+    .filter((c) => c.data.category !== 'state')
+    .sort((a, b) => ((a.data.sortOrder ?? 99) as number) - ((b.data.sortOrder ?? 99) as number))
+  const stateComps = allComps.filter((c) => c.data.category === 'state')
+
+  const mainPaths = sorted.map((comp, i) => ({
+    params: { slug: comp.id },
+    props: {
+      comp,
+      prevComp: i > 0 ? sorted[i - 1] : null,
+      nextComp: i < sorted.length - 1 ? sorted[i + 1] : null,
+      position: { current: i + 1, total: sorted.length },
+    },
   }))
+
+  const statePaths = stateComps.map((comp) => ({
+    params: { slug: comp.id },
+    props: { comp, prevComp: null, nextComp: null, position: null },
+  }))
+
+  return [...mainPaths, ...statePaths]
 }
 
-const { comp } = Astro.props
+const { comp, prevComp, nextComp, position } = Astro.props
 const d = comp.data
 const days = daysUntil(d.deadline)
 ---
@@ -59,6 +78,9 @@ const days = daysUntil(d.deadline)
 
     <!-- TN Participation -->
     {d.tn && <TNParticipationBlock data={d.tn} lastVerified={d.last_verified} />}
+
+    <!-- Role Path -->
+    <CompetitionRolePath comp={comp} roleGuide={d.roleGuide} />
 
     <!-- Two-column body -->
     <div class="detail__body">
@@ -150,8 +172,72 @@ const days = daysUntil(d.deadline)
         </a>
       </aside>
     </div>
+
+    <!-- Prev/next navigation -->
+    {
+      position && (
+        <CompetitionNavStrip prevComp={prevComp} nextComp={nextComp} position={position} />
+      )
+    }
   </div>
 </Base>
+
+<script>
+  import { navigate } from 'astro:transitions/client'
+
+  function initSwipeNav() {
+    const strip = document.querySelector('[data-nav-strip]') as HTMLElement | null
+    if (!strip) return
+
+    const prevUrl = strip.dataset.prevUrl || ''
+    const nextUrl = strip.dataset.nextUrl || ''
+
+    function go(url: string, dir: string) {
+      if (!url) return
+      document.documentElement.dataset.swipeDir = dir
+      navigate(url)
+    }
+
+    function onKeyDown(e: KeyboardEvent) {
+      if ((e.target as HTMLElement).tagName === 'INPUT') return
+      if (e.key === 'ArrowRight') go(nextUrl, 'forward')
+      if (e.key === 'ArrowLeft') go(prevUrl, 'backward')
+    }
+    document.addEventListener('keydown', onKeyDown)
+
+    let touchStartX = 0
+    function onTouchStart(e: TouchEvent) {
+      touchStartX = e.touches[0].clientX
+    }
+    function onTouchEnd(e: TouchEvent) {
+      const delta = touchStartX - e.changedTouches[0].clientX
+      if (Math.abs(delta) < 50) return
+      if (delta > 0) go(nextUrl, 'forward')
+      else go(prevUrl, 'backward')
+    }
+    document.addEventListener('touchstart', onTouchStart, { passive: true })
+    document.addEventListener('touchend', onTouchEnd, { passive: true })
+
+    document.querySelectorAll<HTMLAnchorElement>('[data-nav-dir]').forEach((el) => {
+      el.addEventListener('click', () => {
+        document.documentElement.dataset.swipeDir = el.dataset.navDir!
+      })
+    })
+
+    document.addEventListener(
+      'astro:page-load',
+      () => {
+        delete document.documentElement.dataset.swipeDir
+        document.removeEventListener('keydown', onKeyDown)
+        document.removeEventListener('touchstart', onTouchStart)
+        document.removeEventListener('touchend', onTouchEnd)
+      },
+      { once: true },
+    )
+  }
+
+  document.addEventListener('astro:page-load', initSwipeNav)
+</script>
 
 <style>
   .detail {

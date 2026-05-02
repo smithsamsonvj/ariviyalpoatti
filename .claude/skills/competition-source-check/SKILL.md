@@ -1,6 +1,6 @@
 ---
 name: competition-source-check
-description: Cross-check the 13 competitions in src/content/competitions/ against their official portals. Reports matches, proposes changes, flags failures. Used by the weekly / monthly / annual cadence routines for ariviyalpoatti.in.
+description: Cross-check the 13 competitions in src/content/competitions/ against their official portals. Reports matches, proposes changes, flags failures. Used by the manual / monthly / annual cadence routines for ariviyalpoatti.in.
 ---
 
 # competition-source-check
@@ -9,7 +9,7 @@ You are running inside a scheduled cadence routine for **ariviyalpoatti.in**, a 
 
 You have been invoked with a **mode** (set by the calling routine):
 
-- `weekly` — light scan. For each portal, check the home page and any visible "announcements" / "important dates" panel. Report anything _new_ since the last run. Don't propose deadline changes unless the portal explicitly states them.
+- `manual` — light scan. For each portal, check the home page and any visible "announcements" / "important dates" panel. Report anything _new_ since the last run. Don't propose deadline changes unless the portal explicitly states them.
 - `monthly` — deadline audit. For every competition with a future `deadline`, fetch the portal and confirm the date still matches. Bump `last_verified` on confirmed entries. Open PRs for mismatches.
 - `annual` — full sweep. Re-read the `process` text against current portal copy. Refresh the next academic cycle's deadlines. Heavier review, expect to draft real PRs.
 
@@ -42,7 +42,7 @@ Today's date (UTC) is available via `date -u +%Y-%m-%d`. Always use the actual c
 
 Scope by mode:
 
-- `weekly` and `monthly`: only competitions where `status` is `open`, `upcoming`, or `soon`. Skip `closed`.
+- `manual` and `monthly`: only competitions where `status` is `open`, `upcoming`, or `soon`. Skip `closed`.
 - `annual`: all 13 regardless of status.
 
 For each in-scope competition:
@@ -65,7 +65,7 @@ For each in-scope competition:
 
 4. From the fetched HTML, look for:
    - The official deadline for the current cycle (compare to `deadline` field).
-   - For `weekly` mode: any new announcement / banner / news item the portal is highlighting.
+   - For `manual` mode: any new announcement / banner / news item the portal is highlighting.
    - For `annual` mode: changes to the application process described in the markdown's `process` field.
 5. Decide outcome — exactly one of three buckets:
    - **`match`** — portal confirms what's in markdown. Nothing changed.
@@ -216,7 +216,7 @@ If any pre-flight fails, write a brief CONTENT_LOG entry noting the abort reason
 
 Whether the run succeeded fully, partially, or aborted — your final output (the message you end on) must include:
 
-- Mode: weekly / monthly / annual
+- Mode: manual / monthly / annual
 - Competitions checked: N
 - Outcomes: M matched, P proposed changes, F failed
 - Direct commits: SHA(s) or none

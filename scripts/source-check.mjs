@@ -3,7 +3,7 @@
  * source-check.mjs
  * Ariviyalpoatti.in content cadence routine.
  *
- * Usage: node scripts/source-check.mjs <weekly|monthly|annual>
+ * Usage: node scripts/source-check.mjs <manual|monthly|annual>
  *
  * For each in-scope competition:
  *   1. Fetch its official portal with curl.
@@ -24,12 +24,13 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..')
 const COMPS_DIR = path.join(ROOT, 'src/content/competitions')
 const LOG_FILE = path.join(ROOT, 'CONTENT_LOG.md')
+const LAST_RUN_FILE = path.join(ROOT, 'src', 'data', 'last-run.json')
 const TMP = '/tmp/source-check'
 mkdirSync(TMP, { recursive: true })
 
 const MODE = process.argv[2]
-if (!['weekly', 'monthly', 'annual'].includes(MODE)) {
-  console.error('Usage: source-check.mjs <weekly|monthly|annual>')
+if (!['manual', 'monthly', 'annual'].includes(MODE)) {
+  console.error('Usage: source-check.mjs <manual|monthly|annual>')
   process.exit(1)
 }
 
@@ -56,10 +57,7 @@ function parseFrontmatter(content) {
 /** Replace one frontmatter scalar in place. */
 function setFrontmatterField(content, field, value) {
   // Handles both single and double quotes
-  return content.replace(
-    new RegExp(`^(${field}:\\s*)(['"])[^'"]*\\2`, 'm'),
-    `$1'${value}'`,
-  )
+  return content.replace(new RegExp(`^(${field}:\\s*)(['"])[^'"]*\\2`, 'm'), `$1'${value}'`)
 }
 
 // ─── Fetch ────────────────────────────────────────────────────────────────────
@@ -138,7 +136,7 @@ function toText(html, maxChars = 12000) {
 
 async function analysePortal(comp, pageText) {
   const modeInstructions =
-    MODE === 'weekly'
+    MODE === 'manual'
       ? 'Scan for new announcements, banners, or status changes. Only propose a deadline change if the portal EXPLICITLY states a different date.'
       : MODE === 'monthly'
         ? 'Confirm whether the deadline date in the markdown still matches what the portal shows. Flag any mismatch.'
@@ -257,8 +255,7 @@ Update \`src/content/competitions/${comp.slug}.md\` and bump \`last_verified\` i
 }
 
 function logEntry(inScope, matches, changes, failures, prUrl, issueUrls, commitSha) {
-  const slugList =
-    inScope.length === 13 ? 'all' : inScope.map((c) => c.slug).join(', ')
+  const slugList = inScope.length === 13 ? 'all' : inScope.map((c) => c.slug).join(', ')
 
   const directCommit = matches.length > 0 ? (commitSha ?? 'yes') : 'none'
   const pr = prUrl ?? 'none'
@@ -331,7 +328,9 @@ async function main() {
   const changes = results.filter((r) => r.outcome === 'change')
   const failures = results.filter((r) => r.outcome === 'fetch-failed')
 
-  console.log(`\nMatched: ${matches.length}  Changes: ${changes.length}  Failed: ${failures.length}\n`)
+  console.log(
+    `\nMatched: ${matches.length}  Changes: ${changes.length}  Failed: ${failures.length}\n`,
+  )
 
   let commitSha = null
   let prUrl = null
@@ -347,7 +346,9 @@ async function main() {
     git(['add', ...matches.map((r) => r.comp.filePath)])
 
     if (!hasStagedChanges()) {
-      console.log('ℹ last_verified already up to date for all matched competitions — skipping commit')
+      console.log(
+        'ℹ last_verified already up to date for all matched competitions — skipping commit',
+      )
     } else {
       git([
         'commit',
@@ -384,35 +385,35 @@ async function main() {
       git(['checkout', 'main'])
       // treat as matches instead
     } else {
-    git([
-      'commit',
-      '-m',
-      `content: ${MODE} source check — ${changes.length} change(s) proposed\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>`,
-    ])
-    git(['push', '-u', 'origin', branch])
+      git([
+        'commit',
+        '-m',
+        `content: ${MODE} source check — ${changes.length} change(s) proposed\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>`,
+      ])
+      git(['push', '-u', 'origin', branch])
 
-    const bodyPath = path.join(TMP, 'pr-body.md')
-    writeFileSync(bodyPath, prBody(changes))
+      const bodyPath = path.join(TMP, 'pr-body.md')
+      writeFileSync(bodyPath, prBody(changes))
 
-    prUrl = gh([
-      'pr',
-      'create',
-      '--title',
-      `[${MODE}] Source check ${TODAY} — ${changes.length} change(s)`,
-      '--body-file',
-      bodyPath,
-      '--label',
-      'content-update',
-      '--label',
-      'source-check',
-      '--label',
-      `cadence:${MODE}`,
-      '--label',
-      'needs-review',
-    ])
-    console.log(`✓ PR opened: ${prUrl}`)
+      prUrl = gh([
+        'pr',
+        'create',
+        '--title',
+        `[${MODE}] Source check ${TODAY} — ${changes.length} change(s)`,
+        '--body-file',
+        bodyPath,
+        '--label',
+        'content-update',
+        '--label',
+        'source-check',
+        '--label',
+        `cadence:${MODE}`,
+        '--label',
+        'needs-review',
+      ])
+      console.log(`✓ PR opened: ${prUrl}`)
 
-    git(['checkout', 'main'])
+      git(['checkout', 'main'])
     } // end hasStagedChanges
   }
 
@@ -446,9 +447,14 @@ async function main() {
   const log = readFileSync(LOG_FILE, 'utf8')
   const sep = '---\n'
   const idx = log.indexOf(sep)
-  writeFileSync(LOG_FILE, log.slice(0, idx + sep.length) + '\n' + entry + log.slice(idx + sep.length))
+  writeFileSync(
+    LOG_FILE,
+    log.slice(0, idx + sep.length) + '\n' + entry + log.slice(idx + sep.length),
+  )
 
-  git(['add', LOG_FILE])
+  writeFileSync(LAST_RUN_FILE, JSON.stringify({ date: TODAY }) + '\n')
+
+  git(['add', LOG_FILE, LAST_RUN_FILE])
   if (hasStagedChanges()) {
     git([
       'commit',

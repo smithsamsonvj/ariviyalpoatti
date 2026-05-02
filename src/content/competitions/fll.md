@@ -108,6 +108,22 @@ tn:
       schools:
         - 'PSG Public Schools'
 sortOrder: 12
+roleGuide:
+  teacher:
+    step5:
+      ta: 'firstlegoleague.org-ல் அல்லது இந்திய FLL அமைப்பினர் வழியாக பதிவு செய்யுங்கள். LEGO Mindstorms அல்லது SPIKE கிட் தேவை. கட்டணம் ₹30,000+. ATL ஆய்வகம் உள்ள பள்ளிகளுக்கு ஏற்றது.'
+      en: 'Register at firstlegoleague.org or through the India FLL organiser. LEGO Mindstorms or SPIKE kit required. Fee: ₹30,000+. Best suited for schools with ATL labs.'
+    contact:
+      ta: 'FLL India: firstlegoleague.org | அமைப்பினர் வழியாக தொடர்பு கொள்ளவும்.'
+      en: 'FLL India: firstlegoleague.org | Contact through India organiser.'
+  principal:
+    step5:
+      ta: 'FLL கட்டணம் ₹30,000+ மற்றும் LEGO கிட் தேவை. ATL ஆய்வகம் இல்லாமல் செலவு மிகவும் அதிகம். ATL மானியம் இந்த செலவை ஈடுசெய்யலாம் — AIM-ஐ தொடர்பு கொள்ளுங்கள்.'
+      en: 'FLL fee is ₹30,000+ and requires LEGO kit. Without ATL support, cost is prohibitive. ATL grants can offset this — contact AIM before committing.'
+  parent:
+    step5:
+      ta: 'FLL மிக அதிக செலவு (₹30,000+). உங்கள் பள்ளியில் ATL இல்லாவிட்டால், இது கடினமாக இருக்கும். செலவை பள்ளியுடன் முன்னர் விவாதிக்கவும்.'
+      en: 'FLL is very high cost (₹30,000+). Without an ATL in your school, this is hard to pursue. Discuss costs with the school well in advance.'
 ---
 
 <!-- lang:ta -->

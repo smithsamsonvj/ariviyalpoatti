@@ -119,6 +119,22 @@ tn:
         - 'Shri Vidya Bharathi Matric'
         - 'Golden Gates Matric'
 sortOrder: 5
+roleGuide:
+  teacher:
+    step5:
+      ta: 'CBSE பிராந்திய அறிவியல் கண்காட்சி தேதிகளை CBSE Regional Office-லிருந்து பெறுங்கள். பள்ளி அளவில் விஞ்ஞான கண்காட்சி நடத்தி சிறந்த திட்டங்களை தேர்ந்தெடுங்கள். CBSE வாரியம் மட்டும்.'
+      en: 'Get CBSE Regional Science Exhibition dates from your CBSE Regional Office. Conduct a school-level science fair first and select the best projects. CBSE board schools only.'
+    contact:
+      ta: 'CBSE தமிழ்நாடு பிராந்திய அலுவலகம், சென்னை: cbse.gov.in/cbsenew/welcome.html'
+      en: 'CBSE Tamil Nadu Regional Office, Chennai: cbse.gov.in/cbsenew/welcome.html'
+  principal:
+    step5:
+      ta: 'CBSE பிராந்திய அலுவலகத்துடன் தொடர்பில் இருக்க ஒரு ஆசிரியரை நியமிக்கவும். பள்ளி அளவில் ஒரு முன் தேர்வு நடத்துங்கள். CBSE வாரியம் மட்டும் தகுதியுடையது.'
+      en: 'Designate a teacher to stay in touch with the CBSE Regional Office. Run a school-level pre-selection. CBSE board affiliation required.'
+  parent:
+    step5:
+      ta: '"என் குழந்தை CBSE அறிவியல் கண்காட்சியில் பங்கேற்கலாமா?" என்று ஆசிரியரிடம் கேளுங்கள். பள்ளி CBSE வாரியமாக இருந்தால் மட்டுமே தகுதி. கட்டணம் பொதுவாக மிகவும் குறைவு.'
+      en: "Ask the teacher: 'Can my child participate in the CBSE Science Exhibition?' Eligible only if the school is CBSE-affiliated. Fee is usually minimal."
 ---
 
 <!-- lang:ta -->

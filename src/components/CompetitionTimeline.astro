@@ -1,5 +1,5 @@
 ---
-import { t, ACADEMIC_MONTHS, monthToAcademicIndex } from '../data/content'
+import { t, ACADEMIC_MONTHS, monthToAcademicIndex, currentAcademicYear } from '../data/content'
 import type { Phase } from '../data/types'
 
 interface Props {
@@ -18,6 +18,19 @@ const levelStyle: Record<string, { color: string; labelTa: string; labelEn: stri
 }
 
 const nowGridIdx = monthToAcademicIndex(new Date().getMonth())
+
+// Determine if registration for this year is already past — if so, show next year's schedule
+const registrationPhase = phases.find((p) => p.level === 'registration') ?? phases[0]
+const lastRegAcIdx = Math.max(...registrationPhase.months.map(monthToAcademicIndex))
+const showNextYear = nowGridIdx > lastRegAcIdx
+
+// Compute the year label to display (e.g. "2026–27")
+const [cyStart] = currentAcademicYear().split('-')
+const displayStartYear = showNextYear ? parseInt(cyStart) + 1 : parseInt(cyStart)
+const displayYear = `${displayStartYear}–${String(displayStartYear + 1).slice(2)}`
+
+// Suppress Today marker when showing next year (today falls outside the displayed year)
+const effectiveNowGridIdx = showNextYear ? -1 : nowGridIdx
 
 const usedLevels = [...new Set(phases.map((p) => p.level))]
 
@@ -38,9 +51,17 @@ const phaseRows = phases.map((p) => {
         <span class="en">Phase-by-phase timeline</span>
       </div>
       <div class="timeline__title">
-        <span class="ta">2025–26 கல்வியாண்டு · ஜூன் → மே</span>
-        <span class="en">Academic year 2025–26 · Jun → May</span>
+        <span class="ta">{displayYear} கல்வியாண்டு · ஜூன் → மே</span>
+        <span class="en">Academic year {displayYear} · Jun → May</span>
       </div>
+      {
+        showNextYear && (
+          <div class="timeline__next-badge">
+            <span class="ta">அடுத்த ஆண்டு அட்டவணை</span>
+            <span class="en">Next year's schedule</span>
+          </div>
+        )
+      }
     </div>
   </div>
 
@@ -48,7 +69,9 @@ const phaseRows = phases.map((p) => {
   <div class="timeline__months">
     {
       ACADEMIC_MONTHS.en.map((_, i) => (
-        <div class:list={['timeline__month', { 'timeline__month--now': i === nowGridIdx }]}>
+        <div
+          class:list={['timeline__month', { 'timeline__month--now': i === effectiveNowGridIdx }]}
+        >
           <span class="ta">{ACADEMIC_MONTHS.ta[i]}</span>
           <span class="en">{ACADEMIC_MONTHS.en[i]}</span>
         </div>
@@ -62,11 +85,17 @@ const phaseRows = phases.map((p) => {
       phaseRows.map((p) => (
         <div class="timeline__row">
           {[...Array(12)].map((_, c) => (
-            <div class:list={['timeline__cell', { 'timeline__cell--now': c === nowGridIdx }]} />
+            <div
+              class:list={['timeline__cell', { 'timeline__cell--now': c === effectiveNowGridIdx }]}
+            />
           ))}
           <div
             class="timeline__bar"
             style={`left: ${(p.startCol / 12) * 100}%; width: ${((p.endCol - p.startCol + 1) / 12) * 100}%; background: ${p.style.color};`}
+            data-tip-title-ta={t(p.title, 'ta')}
+            data-tip-title-en={t(p.title, 'en')}
+            data-tip-note-ta={p.note ? t(p.note, 'ta') : ''}
+            data-tip-note-en={p.note ? t(p.note, 'en') : ''}
           >
             <div class="timeline__bar-title">
               <span class="ta">{t(p.title, 'ta')}</span>
@@ -98,13 +127,66 @@ const phaseRows = phases.map((p) => {
         )
       })
     }
-    <div class="timeline__legend-item timeline__legend-now">
-      <span class="timeline__legend-line"></span>
-      <span class="ta">இன்று</span>
-      <span class="en">Today</span>
-    </div>
+    {
+      !showNextYear && (
+        <div class="timeline__legend-item timeline__legend-now">
+          <span class="timeline__legend-line" />
+          <span class="ta">இன்று</span>
+          <span class="en">Today</span>
+        </div>
+      )
+    }
+  </div>
+
+  <!-- Single global tooltip reused for all bars via JS -->
+  <div class="timeline__tooltip" id="timeline-tooltip" aria-hidden="true" style="display:none">
+    <div class="timeline__tooltip-title"></div>
+    <div class="timeline__tooltip-note"></div>
   </div>
 </section>
+
+<script>
+  function initTimelineTooltips() {
+    const section = document.querySelector('.timeline')
+    if (!section) return
+
+    const tip = section.querySelector<HTMLElement>('#timeline-tooltip')
+    if (!tip) return
+
+    const tipTitle = tip.querySelector<HTMLElement>('.timeline__tooltip-title')!
+    const tipNote = tip.querySelector<HTMLElement>('.timeline__tooltip-note')!
+
+    const lang = () => (document.documentElement.dataset.lang === 'en' ? 'en' : 'ta')
+
+    section.querySelectorAll<HTMLElement>('.timeline__bar').forEach((bar) => {
+      bar.addEventListener('mouseenter', () => {
+        const l = lang()
+        const title = bar.dataset[l === 'en' ? 'tipTitleEn' : 'tipTitleTa'] || ''
+        const note = bar.dataset[l === 'en' ? 'tipNoteEn' : 'tipNoteTa'] || ''
+        tipTitle.textContent = title
+        tipNote.textContent = note
+        tipNote.style.display = note ? '' : 'none'
+
+        const barRect = bar.getBoundingClientRect()
+        const sectionRect = section.getBoundingClientRect()
+
+        tip.style.display = 'block'
+        // Position above the bar, aligned to its left edge (clamped inside section)
+        const rawLeft = barRect.left - sectionRect.left
+        const maxLeft = sectionRect.width - tip.offsetWidth - 4
+        tip.style.left = Math.max(0, Math.min(rawLeft, maxLeft)) + 'px'
+        tip.style.top = barRect.top - sectionRect.top - tip.offsetHeight - 6 + 'px'
+      })
+
+      bar.addEventListener('mouseleave', () => {
+        tip.style.display = 'none'
+      })
+    })
+  }
+
+  // Run on first load and after every View Transition navigation
+  document.addEventListener('astro:page-load', initTimelineTooltips)
+</script>
 
 <style>
   .timeline {
@@ -113,6 +195,7 @@ const phaseRows = phases.map((p) => {
     border-radius: var(--radius);
     padding: 20px 16px 18px;
     margin-bottom: 20px;
+    position: relative;
   }
 
   @media (min-width: 768px) {
@@ -159,6 +242,25 @@ const phaseRows = phases.map((p) => {
     .timeline__title {
       font-size: 20px;
     }
+  }
+
+  .timeline__next-badge {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--sage);
+    padding: 3px 8px;
+    border: 1px solid var(--sage);
+    border-radius: 999px;
+    margin-top: 6px;
+    display: inline-block;
+  }
+
+  :global([data-lang='ta']) .timeline__next-badge {
+    font-family: var(--font-ta);
+    letter-spacing: 0;
   }
 
   .timeline__months {
@@ -223,6 +325,7 @@ const phaseRows = phases.map((p) => {
     flex-direction: column;
     justify-content: center;
     overflow: hidden;
+    cursor: default;
   }
 
   @media (min-width: 768px) {
@@ -268,6 +371,40 @@ const phaseRows = phases.map((p) => {
   }
 
   :global([data-lang='ta']) .timeline__bar-note {
+    font-family: var(--font-ta);
+  }
+
+  .timeline__tooltip {
+    position: absolute;
+    z-index: 20;
+    background: var(--ink);
+    color: #fff;
+    border-radius: 4px;
+    padding: 6px 10px;
+    white-space: nowrap;
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+    font-family: var(--font-ui);
+  }
+
+  .timeline__tooltip-title {
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  :global([data-lang='ta']) .timeline__tooltip-title {
+    font-family: var(--font-ta);
+  }
+
+  .timeline__tooltip-note {
+    font-size: 10.5px;
+    opacity: 0.82;
+    margin-top: 2px;
+    line-height: 1.3;
+  }
+
+  :global([data-lang='ta']) .timeline__tooltip-note {
     font-family: var(--font-ta);
   }
 

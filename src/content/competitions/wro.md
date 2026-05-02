@@ -115,6 +115,22 @@ tn:
         - 'PSG Public Schools'
         - 'Suguna PIP'
 sortOrder: 11
+roleGuide:
+  teacher:
+    step5:
+      ta: 'wroasia.org/india-ல் பதிவு செய்யுங்கள். மாநில WRO அமைப்பினர் வழியாக அணியை பதிவு செய்யவும். ரோபோட் கிட் மற்றும் Scratch/Python தேவை. கட்டணம் ₹6,000–18,000 — பள்ளி அல்லது பெற்றோர் பங்களிப்பு தேவை.'
+      en: 'Register at wroasia.org/india via the state WRO organiser. Team registration required — kit and Scratch/Python skills needed. Fee: ₹6,000–18,000 — requires school or parent contribution.'
+    contact:
+      ta: 'WRO India: wroasia.org/india | மாநில அமைப்பினர் வழியாக தொடர்பு கொள்ளவும்.'
+      en: 'WRO India: wroasia.org/india | Contact through state organiser.'
+  principal:
+    step5:
+      ta: 'WRO-க்கு ATL அல்லது robotics அறை தேவை. மாணவர்கள் Scratch/Python-ல் திட்டங்கள் செய்திருக்க வேண்டும். கட்டணம் அதிகம் — பட்ஜெட் திட்டமிடல் முக்கியம்.'
+      en: 'WRO requires ATL or robotics room. Students need Scratch/Python project experience. High fee — budget planning essential before committing.'
+  parent:
+    step5:
+      ta: 'WRO கட்டணம் ₹6,000–18,000. ரோபோட் கிட் (₹10,000–30,000+) தேவை. ஆர்வமுள்ள குழந்தைக்கு பள்ளி robotics குழு இருக்கிறதா என்று கேளுங்கள். செலவு அதிகம் — முன்னர் திட்டமிடுங்கள்.'
+      en: 'WRO fee: ₹6,000–18,000. Robot kit (₹10,000–30,000+) required. Ask if the school has a robotics team. High cost — plan well in advance.'
 ---
 
 <!-- lang:ta -->

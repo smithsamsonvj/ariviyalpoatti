@@ -49,11 +49,11 @@ The site's value depends on freshness. We run three scheduled checks against the
 
 ### The three cadences
 
-| Cadence     | When                        | Time budget | What it does                                                                                                    |
-| ----------- | --------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------- |
-| **Weekly**  | Every Monday 09:00 IST      | ~15 min     | Scan each portal for announcements/changes. Flags anything new since last run.                                  |
-| **Monthly** | 1st of each month 09:00 IST | ~30 min     | Verify every future `deadline` still matches source. Bump `last_verified` on confirmed entries.                 |
-| **Annual**  | 2nd January 09:00 IST       | ~2 hours    | Full sweep — re-read each competition's process text against current portal copy. Refresh next-cycle deadlines. |
+| Cadence     | When                            | Time budget | What it does                                                                                                                                            |
+| ----------- | ------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Weekly**  | Manual only (workflow_dispatch) | ~15 min     | Scan each portal for announcements/changes. Flags anything new since last run. Trigger via GitHub Actions → Source Check → Run workflow → mode: manual. |
+| **Monthly** | 1st of each month 09:00 IST     | ~30 min     | Verify every future `deadline` still matches source. Bump `last_verified` on confirmed entries.                                                         |
+| **Annual**  | 2nd January 09:00 IST           | ~2 hours    | Full sweep — re-read each competition's process text against current portal copy. Refresh next-cycle deadlines.                                         |
 
 ### Where findings land
 
@@ -67,14 +67,20 @@ The site's value depends on freshness. We run three scheduled checks against the
 | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | `content-update`                                        | Routine-proposed change to competition data                                                            |
 | `source-check`                                          | Result of a scheduled source verification run                                                          |
-| `cadence:weekly` / `cadence:monthly` / `cadence:annual` | Which schedule fired                                                                                   |
+| `cadence:manual` / `cadence:monthly` / `cadence:annual` | Which schedule or trigger fired                                                                        |
 | `needs-review`                                          | Mismatch detected — your judgement required                                                            |
 | `auto-verified`                                         | Source matched; only `last_verified` was bumped (rare on PRs since these commit direct under Option B) |
 | `verification-failed`                                   | Couldn't reach source / portal redesigned / parse failed (issues only)                                 |
 
 ### Triggering a routine on demand
 
-The actual routine commands land when the routines are built (next session). For now, manual updates follow the path in **Updating Competition Data** above and should be logged in `CONTENT_LOG.md` with `cadence: manual`.
+**Weekly** runs are manual-only. To trigger:
+
+1. Go to the repo on GitHub → Actions → **Source Check** → **Run workflow**
+2. Choose `mode: manual` and click **Run workflow**
+3. The run will open PRs for any changes detected, issues for unreachable portals, and commit `last_verified` bumps directly to `main` for confirmed entries.
+
+For `monthly` and `annual`, the workflow fires automatically (see schedule above). You can also trigger them on demand the same way.
 
 ### When something goes wrong
 

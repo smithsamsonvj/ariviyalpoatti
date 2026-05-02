@@ -94,6 +94,22 @@ tn:
       schools:
         - '13,210 government middle, high, and higher secondary schools across Tamil Nadu'
 sortOrder: 13
+roleGuide:
+  teacher:
+    step5:
+      ta: 'வானவில் மன்றம் மாவட்ட வாரியாக நடைபெறுகிறது. உங்கள் மாவட்ட அறிவியல் கல்வி அலுவலரை (DEO அல்லது SCERT) தொடர்பு கொள்ளுங்கள். மாணவர்கள் ஒரு அறிவியல் தலைப்பில் 5 நிமிட விளக்கம் தர வேண்டும்.'
+      en: 'Vaanavil Mandram is organised district-wise. Contact your District Education Officer (DEO) or SCERT for registration. Students present a 5-minute science explanation in Tamil.'
+    contact:
+      ta: 'SCERT தமிழ்நாடு: 044-28278872 | மாவட்ட DEO அலுவலகம்'
+      en: 'SCERT Tamil Nadu: 044-28278872 | District DEO office'
+  principal:
+    step5:
+      ta: 'SCERT அல்லது DEO அலுவலகத்திலிருந்து வானவில் மன்றம் சுற்றறிக்கையை கவனிக்க ஒரு ஆசிரியரை நியமிக்கவும். தமிழ் வழி பள்ளிகளுக்கு சிறந்த வாய்ப்பு.'
+      en: 'Designate a teacher to watch for the Vaanavil Mandram circular from SCERT or DEO. An excellent opportunity for Tamil-medium schools.'
+  parent:
+    step5:
+      ta: '"என் குழந்தை வானவில் மன்றத்தில் பங்கேற்கலாமா?" என்று ஆசிரியரிடம் கேளுங்கள். தமிழில் அறிவியல் பேச ஆர்வமுள்ள மாணவர்களுக்கு இது சரியான வேலை. கட்டணம் இல்லை.'
+      en: "Ask the teacher: 'Can my child participate in Vaanavil Mandram?' Perfect for students who enjoy explaining science in Tamil. No fee."
 ---
 
 <!-- lang:ta -->

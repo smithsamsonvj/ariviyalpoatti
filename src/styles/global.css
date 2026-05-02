@@ -234,6 +234,57 @@ span a,
   top: 16px;
 }
 
+/* --- View Transitions: directional slide between competition pages --- */
+
+@keyframes vt-slide-out-left {
+  to {
+    transform: translateX(-30%);
+    opacity: 0;
+  }
+}
+@keyframes vt-slide-in-right {
+  from {
+    transform: translateX(30%);
+    opacity: 0;
+  }
+}
+@keyframes vt-slide-out-right {
+  to {
+    transform: translateX(30%);
+    opacity: 0;
+  }
+}
+@keyframes vt-slide-in-left {
+  from {
+    transform: translateX(-30%);
+    opacity: 0;
+  }
+}
+
+/* Default direction: forward (swipe left → next) */
+::view-transition-old(main-content) {
+  animation: vt-slide-out-left 0.32s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+::view-transition-new(main-content) {
+  animation: vt-slide-in-right 0.32s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* Backward direction: swipe right → prev */
+:root[data-swipe-dir='backward'] ::view-transition-old(main-content) {
+  animation: vt-slide-out-right 0.32s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+:root[data-swipe-dir='backward'] ::view-transition-new(main-content) {
+  animation: vt-slide-in-left 0.32s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* No animation for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(main-content),
+  ::view-transition-new(main-content) {
+    animation: none;
+  }
+}
+
 /* --- Utility --- */
 .container {
   width: 100%;

@@ -1,6 +1,7 @@
 ---
 import TopBar from '../components/TopBar.astro'
 import Footer from '../components/Footer.astro'
+import { ClientRouter } from 'astro:transitions'
 import '../styles/global.css'
 
 interface Props {
@@ -30,10 +31,10 @@ const {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      id="gfonts-link"
       rel="preload"
       as="style"
       href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap"
-      onload="this.onload=null;this.rel='stylesheet'"
     />
     <noscript>
       <link
@@ -44,18 +45,39 @@ const {
 
     <title>{title}</title>
 
-    <!-- Prevent flash of wrong language -->
+    <ClientRouter />
+
+    <!-- Prevent flash of wrong language + preserve it across view transitions -->
     <script is:inline>
       ;(function () {
         var saved = localStorage.getItem('lang') || 'ta'
         document.documentElement.dataset.lang = saved
         document.documentElement.lang = saved
+
+        document.addEventListener('astro:before-swap', function (e) {
+          var lang = document.documentElement.dataset.lang || localStorage.getItem('lang') || 'ta'
+          e.newDocument.documentElement.dataset.lang = lang
+          e.newDocument.documentElement.lang = lang
+        })
+
+        var fl = document.getElementById('gfonts-link')
+        if (fl) {
+          fl.addEventListener('load', function () {
+            fl.rel = 'stylesheet'
+          })
+          if (fl.complete || document.readyState === 'complete') fl.rel = 'stylesheet'
+        }
       })()
     </script>
 
     {
       import.meta.env.PROD && (
-        <script defer data-domain="ariviyalpoatti.in" src="https://plausible.io/js/script.js" />
+        <script
+          is:inline
+          defer
+          data-domain="ariviyalpoatti.in"
+          src="https://plausible.io/js/script.js"
+        />
       )
     }
   </head>
@@ -67,7 +89,7 @@ const {
 
     <TopBar currentRoute={currentRoute} />
 
-    <main id="main-content">
+    <main id="main-content" transition:name="main-content" transition:animate="none">
       <slot />
     </main>
 

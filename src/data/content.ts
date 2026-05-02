@@ -72,6 +72,18 @@ export function monthToAcademicIndex(calendarMonth: number): number {
   return calendarMonth >= 5 ? calendarMonth - 5 : calendarMonth + 7
 }
 
+// Derive academic year string (e.g. "2025-26") from an ISO date.
+// Academic year runs Jun–May; months ≥ 5 (June) start the new year.
+export function getAcademicYear(iso: string): string {
+  const d = new Date(iso)
+  const startYear = d.getMonth() >= 5 ? d.getFullYear() : d.getFullYear() - 1
+  return `${startYear}-${String(startYear + 1).slice(2)}`
+}
+
+export function currentAcademicYear(): string {
+  return getAcademicYear(new Date().toISOString())
+}
+
 // ─── All UI strings ───
 export const COPY = {
   brand: {
@@ -152,81 +164,145 @@ export const COPY = {
   startHere: {
     title: { ta: 'உங்கள் வழி', en: 'Your path' },
     intro: {
-      ta: 'ஒரு பாத்திரத்தைத் தேர்ந்தெடுங்கள். அடுத்த படி சொல்கிறோம்.',
-      en: 'Pick a role. We\u2019ll tell you the next step.',
+      ta: 'ஒரு பாத்திரத்தைத் தேர்ந்தெடுங்கள். ஒவ்வொரு போட்டிக்கும் என்ன செய்வது என்று சொல்கிறோம்.',
+      en: "Pick a role. We'll show you exactly what to do for each competition.",
+    },
+    step5Note: {
+      ta: 'படி 5 ஒவ்வொரு போட்டிக்கும் வேறுபடும். குறிப்பிட்ட நடவடிக்கைகளை காண எந்த போட்டி பக்கத்தையும் பார்க்கவும்.',
+      en: 'Step 5 is specific to each competition. Visit any competition page to see exactly what to do.',
     },
     teacher: [
       {
-        ta: 'உங்கள் பள்ளியில் INSPIRE நோடல் ஆசிரியர் அல்லது SCERT தொடர்பாளர் இருக்கிறாரா எனப் பார்க்கவும்.',
-        en: 'Check whether your school has an INSPIRE nodal teacher or SCERT contact.',
+        ta: 'உங்கள் வகுப்பு, பாடம் மற்றும் பள்ளி வளங்களுக்கு ஏற்ற ஒரே ஒரு போட்டியை தேர்ந்தெடுங்கள்.',
+        en: 'Pick ONE competition that fits your class, subject, and school resources.',
+        why: {
+          ta: '12 போட்டிகளும் வேறு தகுதி, கட்டணம் மற்றும் நேர அட்டவணையை கொண்டுள்ளன. பல போட்டிகளில் பரவுவது ஆற்றலை வீணடிக்கும். ஒரு கவனமான முயற்சி மூன்று பாதி மனமான முயற்சிகளை விட சிறந்தது.',
+          en: 'All 12 competitions have different eligibility, cost, and timing. Spreading across multiple wastes energy. One focused attempt wins more than three half-hearted ones.',
+        },
       },
       {
-        ta: 'ஒரே ஒரு போட்டியைத் தேர்ந்தெடுங்கள் \u2014 INSPIRE\u2013MANAK எளிதாகத் தொடங்கலாம், முற்றிலும் இலவசம்.',
-        en: 'Pick one competition to start. INSPIRE\u2013MANAK is the easiest on-ramp \u2014 zero fee, zero infrastructure.',
+        ta: 'அந்த போட்டிக்கான வாயிற்காவலரை கண்டுபிடியுங்கள் — ஒவ்வொன்றும் வேறு சேனலைப் பயன்படுத்துகிறது.',
+        en: 'Find the gatekeeper for THAT competition — each uses a different channel.',
+        why: {
+          ta: 'INSPIRE: E-MIAS போர்ட்டலில் நேரடியாக உள்நுழையவும். RBVP: DEO அக்டோபரில் சுற்றறிக்கை அனுப்புவார். NCSC: மாவட்ட TNSCST ஒருங்கிணைப்பாளரை தொடர்பு கொள்ளுங்கள். ATL Marathon: innovation.gov.in-ல் விண்ணப்பிக்கவும்.',
+          en: 'INSPIRE: log into E-MIAS portal directly. RBVP: DEO sends circulars — watch for it in October. NCSC: contact your district TNSCST coordinator. ATL Marathon: apply on innovation.gov.in. No single nodal teacher covers all competitions.',
+        },
       },
       {
-        ta: 'உங்கள் வகுப்பில் இருந்து 5 மாணவர்களை நாமினேட் செய்யுங்கள் \u2014 ஆண்டுக்கு 10 லட்சம் யோசனைகள் இலக்கு.',
-        en: 'Nominate 5 students from your class \u2014 the national target is 10 lakh ideas a year.',
+        ta: 'மாணவர்களை அடையாளம் காணுங்கள் — வழக்கமான முதல் வரிசை மாணவர்களை மட்டுமே பார்க்காதீர்கள்.',
+        en: 'Identify students — look beyond the usual top rankers.',
+        why: {
+          ta: 'INSPIRE புதுமை மற்றும் அசல் யோசனைகளை வெகுமதிக்கிறது, மதிப்பெண்களை மட்டுமல்ல. RBVP கிராமப்புற தொடர்பை கவனம் செலுத்துகிறது. WRO கைகளால் செய்பவர்களை விரும்புகிறது.',
+          en: 'INSPIRE rewards curiosity and original ideas, not just marks. RBVP focuses on rural relevance. WRO needs hands-on makers. Different competitions favor different student types.',
+        },
       },
       {
-        ta: 'இந்த பக்கத்தை WhatsApp-ல் சக ஆசிரியர்களுக்கு அனுப்புங்கள்.',
-        en: 'Share this page with fellow teachers on WhatsApp.',
+        ta: 'நவம்பர்–ஜனவரி 12ல் 7 போட்டிகள் மோதும் நேரம் — இப்போதே கேலெண்டரில் குறியுங்கள்.',
+        en: 'Mark the calendar — November–January is when 7 of 12 competitions collide.',
+        why: {
+          ta: 'INSPIRE செப்டம்பரில் மூடும், RBVP நவம்பரில், NCSC டிசம்பரில். ஒரு நாள் தவறினாலும் ஒரு முழு ஆண்டு காத்திருக்க வேண்டும். இப்போதே நேரத்தை ஒதுக்குங்கள்.',
+          en: 'INSPIRE closes in September, RBVP in November, NCSC in December. Missing a portal deadline by one day means waiting a full year. Block time now.',
+        },
       },
       {
-        ta: 'நவம்பர்\u2013ஜனவரி நெரிசலான காலம் \u2014 உங்கள் மாணவர்கள் ஒரு வாரம் முன்னதாக தயாராக உதவுங்கள்.',
-        en: 'November\u2013January is the crowded window \u2014 help your students prepare a week ahead.',
+        ta: 'விண்ணப்பிக்கவும் — சரியான படிகள் நீங்கள் தேர்ந்தெடுத்த போட்டியை பொறுத்தது.',
+        en: 'Apply — the exact steps depend on which competition you picked.',
+        why: {
+          ta: 'உங்கள் குறிப்பிட்ட படி 5-ஐ காண போட்டி பக்கத்தை பார்க்கவும் — போர்ட்டல் இணைப்பு, சரிபார்ப்பு பட்டியல் மற்றும் ஒருங்கிணைப்பாளர் தொடர்பு.',
+          en: 'See the competition page for your specific Step 5 — portal link, checklist, and coordinator contact.',
+        },
       },
     ],
     principal: [
       {
-        ta: 'உங்கள் பள்ளியின் கடந்த ஆண்டு பங்கேற்பை மதிப்பிடுங்கள் \u2014 INSPIRE, RBVP, NCSC எவற்றிலாவது பதிவு செய்யப்பட்டதா?',
-        en: 'Review last year\u2019s record \u2014 did your school register for INSPIRE, RBVP, or NCSC?',
+        ta: 'பங்கேற்பை நேர்மையாக மதிப்பிடுங்கள் — இலவச போட்டிகளில் (INSPIRE, RBVP, NCSC) தொடங்குங்கள்.',
+        en: 'Audit participation honestly — start with the free ones (INSPIRE, RBVP, NCSC).',
+        why: {
+          ta: 'மூன்று அரசு நிதியுதவி போட்டிகள் உங்கள் பள்ளிக்கு பூஜ்யம் ரூபாய் செலவாகும். அவற்றில் நீங்கள் இல்லாவிட்டால், அதுதான் முதலில் நிரப்ப வேண்டிய இடைவெளி.',
+          en: "Three government-funded competitions cost your school zero rupees and zero infrastructure. If you're not in any of them, that's the gap to close first.",
+        },
       },
       {
-        ta: 'ஒரு ஆசிரியரை அறிவியல் போட்டிகளுக்கான ஒருங்கிணைப்பாளராக நியமிக்கவும். ஒரு நபர், ஒரு பொறுப்பு.',
-        en: 'Appoint one teacher as Science Competitions Coordinator. One person, one mandate.',
+        ta: 'ஒரே ஒரு ஆசிரியரை ஒருங்கிணைப்பாளராக நியமிக்கவும் — பொறுப்பை பிரிப்பது என்னவும் நடக்காமல் போகும்.',
+        en: 'Appoint ONE coordinator — split responsibility means nothing moves.',
+        why: {
+          ta: 'பொறுப்பை "பகிரும்" பல ஆசிரியர்கள் — பள்ளி ஒவ்வொரு காலக்கெடுவையும் தவறவிடுவதற்கான மிகவும் பொதுவான காரணம். ஒரு பெயர், ஒரு பொறுப்பு.',
+          en: 'Multiple teachers "sharing" responsibility is the most common reason a school misses every deadline. One name, one accountability.',
+        },
       },
       {
-        ta: 'ATL ஆய்வகம் இருந்தால், ATL Marathon-ல் குழுவை பதிவு செய்யுங்கள் \u2014 அரசு ஆதரவு உள்ளது.',
-        en: 'If you have an Atal Tinkering Lab, register a team for the ATL Marathon \u2014 it is fully government-backed.',
+        ta: 'போட்டிகளை பள்ளி வளங்களுடன் பொருத்துங்கள்: ATL ஆய்வகம் → ATL Marathon; CBSE → CBSE Expo; எந்த பள்ளியும் → INSPIRE/RBVP/NCSC.',
+        en: 'Map competitions to school resources: ATL lab → ATL Marathon; CBSE → CBSE Expo; any school → INSPIRE/RBVP/NCSC.',
+        why: {
+          ta: 'இல்லாத உள்கட்டமைப்பு தேவைப்படும் போட்டிகளில் நுழைய முயற்சிப்பது ஒருங்கிணைப்பாளரின் நேரத்தை வீணடிக்கும். சரியான பள்ளிக்கு சரியான போட்டி.',
+          en: "Trying to enter competitions that require infrastructure you don't have wastes the coordinator's time. Right competition for the right school.",
+        },
       },
       {
-        ta: 'நவம்பர்\u2013ஜனவரி போட்டிகள் மோதக்கூடும். பள்ளி கேலெண்டரில் முன்கூட்டியே குறிக்கவும்.',
-        en: 'November\u2013January collision zone is real. Pencil dates into the school calendar early.',
+        ta: 'நவம்பருக்கு முன்பே பள்ளி கேலெண்டரில் காலக்கெடுக்களை பூட்டுங்கள்.',
+        en: 'Lock deadlines in the school calendar before November.',
+        why: {
+          ta: 'நவம்பர்–ஜனவரியில் 7 போட்டி சாளரங்கள் மேலோடுகின்றன. பள்ளி கேலெண்டரில் இல்லாவிட்டால், நடக்காது.',
+          en: "November–January has 7 competition windows overlapping. If it's not in the school calendar, it won't happen.",
+        },
       },
       {
-        ta: 'வெற்றி பெறும் மாணவர்களை பள்ளியின் முன்வெளியில் கௌரவியுங்கள் \u2014 அடுத்த ஆண்டு பல மடங்கு மாணவர்கள் முயற்சி செய்வார்கள்.',
-        en: 'Celebrate winners publicly at school \u2014 the next year sees many more students try.',
+        ta: 'இந்த போட்டிக்கான உங்கள் நடவடிக்கை — ஒப்புதல், நிதி வெளியீடு அல்லது ஒருங்கிணைப்பு.',
+        en: 'Your action for this competition — approval, budget release, or coordination.',
+        why: {
+          ta: 'உங்கள் குறிப்பிட்ட படி 5-ஐ காண போட்டி பக்கத்தை பார்க்கவும்.',
+          en: 'See the competition page for your specific Step 5.',
+        },
       },
     ],
     parent: [
       {
-        ta: 'உங்கள் குழந்தையின் வகுப்பிற்கு பொருத்தமான போட்டிகளை வடிகட்டுங்கள் \u2014 1ம் வகுப்பில் கூட Olympiads உள்ளன.',
-        en: 'Filter by class \u2014 there are Olympiads even for Class 1 students.',
+        ta: 'முதலில் கட்டணத்தை சரிபார்க்கவும் — INSPIRE/RBVP/NCSC/ATL: ₹0; SOF ~₹125; WRO ₹6K–18K; FLL ₹30K+.',
+        en: 'Check the cost first — INSPIRE/RBVP/NCSC/ATL: ₹0; SOF ~₹125; WRO ₹6K–18K; FLL ₹30K+.',
+        why: {
+          ta: 'கட்டணம் பெரும்பாலான குடும்பங்களுக்கு முதல் தடை. ஒருங்கிணைப்பாளரிடம் பேசுவதற்கு முன் எந்த போட்டிகள் உண்மையிலேயே இலவசம் என்று தெரிந்துகொள்ளுங்கள்.',
+          en: 'Cost is the #1 barrier for most families. Know which competitions are genuinely free before you talk to the school coordinator.',
+        },
       },
       {
-        ta: 'பள்ளி ஒருங்கிணைப்பாளரிடம் சமர்ப்பிக்க ஒரு குறிப்பை எழுதிக் கொள்ளுங்கள். பள்ளி வழியாகத்தான் பதிவு நடக்கிறது.',
-        en: 'Write a short note for the school coordinator \u2014 most registrations happen only through the school.',
+        ta: 'உங்கள் குழந்தையின் வகுப்பிற்கு போட்டிகளை கண்டுபிடியுங்கள் — Olympiads வகுப்பு 1 முதல் தொடங்கும்; IRIS வகுப்பு 6 முதல்.',
+        en: "Find competitions for your child's class — Olympiads start from Class 1; IRIS from Class 6.",
+        why: {
+          ta: 'வெவ்வேறு போட்டிகளுக்கு வகுப்பின்படி கடுமையான தகுதி வெட்டுக்கள் உள்ளன. முதலில் வடிகட்டுவது உங்கள் குழந்தை தகுதியற்றதை தேடுவதில் இருந்து காக்கும்.',
+          en: "Different competitions have hard eligibility cut-offs by class. Filtering first saves you from chasing something your child isn't eligible for.",
+        },
       },
       {
-        ta: 'செலவு தடை உள்ளதா என்று சரிபார்க்கவும் \u2014 INSPIRE, RBVP, NCSC முற்றிலும் இலவசம். WRO, FLL விலை அதிகம்.',
-        en: 'Check the fee \u2014 INSPIRE, RBVP, NCSC are free. WRO and FLL carry real cost barriers.',
+        ta: 'பள்ளி வழியாக செல்லுங்கள் — பெரும்பாலான பதிவுகள் பள்ளி ஒருங்கிணைப்பாளர் மூலம் மட்டுமே நடக்கும்.',
+        en: 'Go through the school — most registrations happen only via the school coordinator.',
+        why: {
+          ta: 'INSPIRE, RBVP, NCSC மற்றும் ATL Marathon பள்ளி வழியாக சமர்ப்பிக்கப்படுகின்றன. தனிப்பட்ட பெற்றோர் பதிவு இல்லை. பள்ளிதான் ஒரே வழி.',
+          en: 'INSPIRE, RBVP, NCSC, and ATL Marathon are school-submitted. Individual parent registration does not exist for these. The school is the only path in.',
+        },
       },
       {
-        ta: 'முந்தைய ஆண்டு கேள்வித்தாள்களை இலவசமாக பயிற்சி செய்யுங்கள்.',
-        en: 'Practice with past-year papers \u2014 they are free online.',
+        ta: 'இலவச பொருட்களுடன் தயாரிக்கவும் — HBCSE முந்தைய ஆண்டு கேள்விகள் மற்றும் NCERT வளங்கள் இணையத்தில் உள்ளன.',
+        en: 'Prepare with free materials — HBCSE past papers and NCERT resources are online.',
+        why: {
+          ta: 'Olympiad-களுக்கான பயிற்சி வகுப்புகள் பணம் செலவாகும் மற்றும் தேவையில்லை. HBCSE இலவசமாக முந்தைய Olympiad கேள்விகளை வெளியிடுகிறது. SOF மாதிரி கேள்விகளும் அவர்கள் இணையதளத்தில் உள்ளன.',
+          en: "Coaching classes for Olympiads cost money and aren't necessary. HBCSE publishes past Olympiad papers for free. SOF sample papers are also on their website.",
+        },
       },
       {
-        ta: 'ஒரு வெற்றியும், ஒரு தோல்வியும் \u2014 இரண்டும் மதிப்புள்ளவை என்பதை சொல்லுங்கள். போட்டியின் முயற்சி முக்கியம்.',
-        en: 'Remind them: a win and a loss both matter. The attempt is what counts.',
+        ta: 'இந்த போட்டிக்கு உங்கள் கோரிக்கை — ஒருங்கிணைப்பாளரிடம் என்ன சொல்வது.',
+        en: 'Your ask for this competition — what to say to the coordinator.',
+        why: {
+          ta: 'உங்கள் குறிப்பிட்ட படி 5-ஐ காண போட்டி பக்கத்தை பார்க்கவும்.',
+          en: 'See the competition page for your specific Step 5.',
+        },
       },
     ],
   },
   dates: {
     title: { ta: 'முக்கிய தேதிகள்', en: 'Key Dates' },
     sub: {
-      ta: '2025\u201326 கல்வியாண்டு \u00b7 12 போட்டிகளின் வருடாந்திர காலண்டர். WhatsApp-ல் பகிரலாம்.',
-      en: '2025\u201326 academic year \u00b7 annual calendar of all 12 competitions. Share on WhatsApp.',
+      ta: '12 போட்டிகளின் வருடாந்திர காலண்டர். விண்ணப்பிக்கும் முன் சரிபார்க்கவும்.',
+      en: 'Annual calendar of all 12 competitions. Always verify before you apply.',
     },
     shareWhatsapp: { ta: 'WhatsApp-ல் பகிர்', en: 'Share on WhatsApp' },
     statusOpen: { ta: 'பதிவு திறந்துள்ளது', en: 'Registration open' },

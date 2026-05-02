@@ -122,6 +122,22 @@ tn:
         - "St. Joseph's HSS"
         - 'Little Flower Matric HSS'
 sortOrder: 8
+roleGuide:
+  teacher:
+    step5:
+      ta: 'sofworld.org-ல் பதிவு செய்யுங்கள். கட்டணம் ~₹125/மாணவர். SOF தேசிய அளவிலான ஆன்லைன் Olympiad. வகுப்பு 1-12 தகுதியுடையவர்கள். பள்ளி நேரடியாக பதிவு செய்யலாம்.'
+      en: 'Register at sofworld.org. Fee: ~₹125/student. SOF is a national-level online Olympiad. Classes 1–12 eligible. School can register directly.'
+    contact:
+      ta: 'SOF: sofworld.org | 0124-4951200'
+      en: 'SOF: sofworld.org | 0124-4951200'
+  principal:
+    step5:
+      ta: 'sofworld.org-ல் பள்ளியை பதிவு செய்யுங்கள். ~₹125/மாணவர் கட்டணம். SOF பள்ளி மட்டத்தில் பதிவு செய்வதை ஆதரிக்கிறது. வகுப்பு 1–12 அனைத்து வாரியங்களும் தகுதி.'
+      en: 'Register the school at sofworld.org. ~₹125/student fee. SOF supports school-level registration. All boards, Classes 1–12 eligible.'
+  parent:
+    step5:
+      ta: '"என் குழந்தை SOF NSO-க்கு பதிவு செய்யலாமா?" என்று ஆசிரியரிடம் கேளுங்கள். கட்டணம் ~₹125. வகுப்பு 1 முதல் தகுதி. பள்ளி வழியாக பதிவு.'
+      en: "Ask the teacher: 'Can my child register for SOF NSO?' Fee: ~₹125. Eligible from Class 1. Registration through school."
 ---
 
 <!-- lang:ta -->
