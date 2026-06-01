@@ -16,6 +16,16 @@ See `RUNBOOK.md` → "Content Cadence" for the workflow this log supports.
 
 ---
 
+## 2026-06-01 · monthly · atl-marathon, cbse-expo, fll, ico, inspire-manak, iris, ncsc, nse-ino, rbvp, teri-green, vaanavil-mandram, wro
+
+Checked 12 in-scope competitions (mode: monthly). 5 matched — `last_verified` bumped. 2 proposed change(s) — see https://github.com/smithsamsonvj/ariviyalpoatti/pull/10. 5 fetch failure(s) — issues opened.
+
+**Outcome:**
+
+- Direct commits: a48aa0c
+- PR opened: https://github.com/smithsamsonvj/ariviyalpoatti/pull/10
+- Issues opened: https://github.com/smithsamsonvj/ariviyalpoatti/issues/11, https://github.com/smithsamsonvj/ariviyalpoatti/issues/12, https://github.com/smithsamsonvj/ariviyalpoatti/issues/13, https://github.com/smithsamsonvj/ariviyalpoatti/issues/14, https://github.com/smithsamsonvj/ariviyalpoatti/issues/15
+
 ## 2026-05-01 · weekly · all
 
 Checked 13 in-scope competitions (mode: weekly). 11 matched — `last_verified` bumped. 0 proposed change(s). 2 fetch failure(s) — issues opened.
