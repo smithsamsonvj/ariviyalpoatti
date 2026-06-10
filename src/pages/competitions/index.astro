@@ -60,7 +60,9 @@ const defaultYear = currentAcademicYear()
             >
               <span class="ta">{COPY.categories[cat as keyof typeof COPY.categories].ta}</span>
               <span class="en">{COPY.categories[cat as keyof typeof COPY.categories].en}</span>
-              <span class="comp-page__filter-count">{count}</span>
+              <span class="comp-page__filter-count" data-count={cat}>
+                {count}
+              </span>
             </button>
           )
         })
@@ -82,6 +84,12 @@ const defaultYear = currentAcademicYear()
       }
     </div>
 
+    <!-- Results summary -->
+    <p class="comp-page__summary" data-comp-summary aria-live="polite" aria-atomic="true">
+      <span class="ta" data-summary-ta></span>
+      <span class="en" data-summary-en></span>
+    </p>
+
     <!-- Competition grid -->
     <div class="comp-page__grid" data-comp-grid>
       {
@@ -100,6 +108,10 @@ const defaultYear = currentAcademicYear()
           />
         ))
       }
+      <div class="comp-page__empty" data-comp-empty hidden>
+        <span class="ta">இந்த வடிகட்டிகளுக்கு போட்டிகள் இல்லை</span>
+        <span class="en">No competitions match this filter combination</span>
+      </div>
     </div>
 
     <!-- State programme section -->
@@ -306,33 +318,119 @@ const defaultYear = currentAcademicYear()
     height: 1px;
     background: var(--sage);
   }
+
+  /* Year pill: outline-active, visually distinct from filled category active */
+  .comp-page__filter--year.comp-page__filter--active,
+  .comp-page__filter--year.comp-page__filter--active:hover {
+    background: transparent;
+    color: var(--teal);
+    border-color: var(--teal);
+    font-weight: 700;
+  }
+
+  /* Dimmed chip when year-scoped count is zero (clickable — shows empty state) */
+  .comp-page__filter--zero {
+    opacity: 0.45;
+  }
+
+  /* Results summary line */
+  .comp-page__summary {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    color: var(--muted);
+    margin: -12px 0 16px;
+    min-height: 1.4em;
+  }
+
+  :global([data-lang='ta']) .comp-page__summary {
+    font-family: var(--font-ta);
+  }
+
+  /* Empty state spanning full grid width */
+  .comp-page__empty {
+    grid-column: 1 / -1;
+    padding: 48px 0;
+    text-align: center;
+    font-family: var(--font-ui);
+    font-size: 14px;
+    color: var(--muted);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  :global([data-lang='ta']) .comp-page__empty {
+    font-family: var(--font-ta);
+  }
+
+  /* display:flex above would override [hidden]'s display:none without this */
+  .comp-page__empty[hidden] {
+    display: none;
+  }
 </style>
 
 <script>
   function initFilters() {
     const filterBar = document.querySelector('[data-default-year]')
-    const catBtns = document.querySelectorAll('[data-filter]')
-    const yearBtns = document.querySelectorAll('[data-year-filter]')
-    const grid = document.querySelector('[data-comp-grid]')
+    const catBtns = document.querySelectorAll('[data-filter]') as NodeListOf<HTMLElement>
+    const yearBtns = document.querySelectorAll('[data-year-filter]') as NodeListOf<HTMLElement>
+    const grid = document.querySelector('[data-comp-grid]') as HTMLElement | null
+    const summaryTa = document.querySelector('[data-summary-ta]') as HTMLElement | null
+    const summaryEn = document.querySelector('[data-summary-en]') as HTMLElement | null
+    const emptyState = document.querySelector('[data-comp-empty]') as HTMLElement | null
     if (!grid) return
 
     const cards = Array.from(grid.querySelectorAll('[data-category]')) as HTMLElement[]
-
     const defaultYear = (filterBar as HTMLElement)?.dataset.defaultYear ?? ''
     let activeCat = 'all'
     let activeYear = defaultYear
 
+    function updateCounts() {
+      catBtns.forEach((btn) => {
+        const cat = btn.dataset.filter ?? 'all'
+        const countSpan = btn.querySelector('[data-count]') as HTMLElement | null
+        if (!countSpan) return
+        const n =
+          cat === 'all'
+            ? cards.filter((c) => !activeYear || c.dataset.year === activeYear).length
+            : cards.filter(
+                (c) => c.dataset.category === cat && (!activeYear || c.dataset.year === activeYear),
+              ).length
+        countSpan.textContent = String(n)
+        btn.classList.toggle('comp-page__filter--zero', n === 0)
+      })
+    }
+
     function applyFilters() {
+      let visible = 0
+      const total = cards.filter((c) => !activeYear || c.dataset.year === activeYear).length
       cards.forEach((card) => {
         const catMatch = activeCat === 'all' || card.dataset.category === activeCat
         const yearMatch = !activeYear || card.dataset.year === activeYear
-        card.style.display = catMatch && yearMatch ? '' : 'none'
+        const show = catMatch && yearMatch
+        card.style.display = show ? '' : 'none'
+        if (show) visible++
       })
+
+      if (emptyState) {
+        if (visible === 0) emptyState.removeAttribute('hidden')
+        else emptyState.setAttribute('hidden', '')
+      }
+
+      if (summaryTa && summaryEn) {
+        if (activeCat === 'all') {
+          summaryTa.textContent = ''
+          summaryEn.textContent = ''
+        } else {
+          summaryTa.textContent = `${visible} / ${total} போட்டிகள் காட்டப்படுகின்றன`
+          summaryEn.textContent = `Showing ${visible} of ${total} competition${total !== 1 ? 's' : ''}`
+        }
+      }
     }
 
     catBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
-        activeCat = (btn as HTMLElement).dataset.filter ?? 'all'
+        activeCat = btn.dataset.filter ?? 'all'
         catBtns.forEach((f) => f.classList.remove('comp-page__filter--active'))
         btn.classList.add('comp-page__filter--active')
         applyFilters()
@@ -341,13 +439,15 @@ const defaultYear = currentAcademicYear()
 
     yearBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
-        activeYear = (btn as HTMLElement).dataset.yearFilter ?? ''
+        activeYear = btn.dataset.yearFilter ?? ''
         yearBtns.forEach((f) => f.classList.remove('comp-page__filter--active'))
         btn.classList.add('comp-page__filter--active')
+        updateCounts()
         applyFilters()
       })
     })
 
+    updateCounts()
     applyFilters()
   }
 
