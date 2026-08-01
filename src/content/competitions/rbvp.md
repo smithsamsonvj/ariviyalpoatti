@@ -23,7 +23,7 @@ deadlineLabel:
 annualTiming:
   ta: 'செப்–அக்: மாவட்டம் | அக்–நவ: மாநிலம் | நவ–பிப்: தேசியம்'
   en: 'Sep–Oct: District | Oct–Nov: State | Nov–Feb: National exhibition'
-last_verified: '2026-07-01'
+last_verified: '2026-08-01'
 
 summary:
   ta: 'ராஷ்ட்ரிய பால் வைக்ஞானிக் பிரதர்ஷனி. NCERT நடத்தும் இந்தியாவின் தொன்மையான தொடர் பள்ளி அறிவியல் கண்காட்சி (1971 முதல்). அனைத்து வாரியங்களுக்கும் திறந்தது.'
