@@ -16,14 +16,14 @@ fee:
 schoolType:
   ta: 'அரசு மற்றும் தனியார் (2019 முதல் அரசு சேர்ப்பு முன்முயற்சி)'
   en: 'Both (government-school inclusion push since 2019)'
-deadline: '2026-10-15'
+deadline: '2026-10-03'
 deadlineLabel:
   ta: 'விண்ணப்ப முடிவு'
   en: 'Application close'
 annualTiming:
   ta: 'செப்–அக்: விண்ணப்பம் | நவ–டிச: திரையிடல் | ஜன–பிப்: தேசிய விழா | மே: ISEF'
   en: 'Sep–Oct: Applications | Nov–Dec: Screening | Jan–Feb: National fair | May: ISEF USA'
-last_verified: '2026-08-01'
+last_verified: '2026-09-01'
 
 summary:
   ta: 'இந்தியாவின் ISEF நுழைவாயில். EXSTEMPLAR + DST + Broadcom Foundation. உண்மையான ஆராய்ச்சி அல்லது புதுமை பொறியியல் திட்டங்கள் மட்டுமே — பாடப்புத்தக சோதனைகள் அல்ல.'
