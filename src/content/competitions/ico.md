@@ -16,14 +16,14 @@ fee:
 schoolType:
   ta: 'அரசு மற்றும் தனியார்'
   en: 'Both (predominantly private/urban)'
-deadline: '2026-11-15'
+deadline: '2027-02-06'
 deadlineLabel:
   ta: 'ZIO (மண்டல சுற்று)'
   en: 'ZIO (zonal round)'
 annualTiming:
   ta: 'அக்–நவ: ZIO | ஜன: IOQI | மே–ஜூன்: IOITC | ஜூலை: IOI'
   en: 'Oct–Nov: ZIO | Jan: IOQI | May–Jun: IOITC | Jul: IOI international'
-last_verified: '2026-08-01'
+last_verified: '2026-11-01'
 
 summary:
   ta: 'IARCS நடத்தும் அல்காரிதம் சிந்தனை மற்றும் போட்டி நிரலாக்க ஒலிம்பியாட். எந்த நிரலாக்க மொழியையும் பயன்படுத்தலாம். IOI-க்கு (சர்வதேச தகவல் ஒலிம்பியாட்) நேரடி பாதை.'
